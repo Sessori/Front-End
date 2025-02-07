@@ -1,0 +1,39 @@
+.landing-page {
+    display: flex; /* Garante que os elementos filhos fiquem lado a lado */
+    height: 100vh; /* Altura total da tela */
+    overflow: hidden; /* Evita barra de rolagem desnecessária */
+  }
+  
+  .landing-content {
+    flex: 1; /* O conteúdo principal ocupa o espaço restante */
+    padding: 20px; /* Espaçamento interno */
+    background-color: #f2f2f2; /* Cor de fundo do conteúdo principal */
+  }
+  
+  header {
+    background-color: #e6e6e6; /* Cor de fundo do cabeçalho */
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  main {
+    padding: 20px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #12656F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #0e5059; /* Cor ao passar o mouse */
+  }
+  

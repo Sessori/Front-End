@@ -1,0 +1,15 @@
+{
+  "short_name": "Sessori",
+  "name": "Sessori - Reserva de Espaços Educacionais",
+  "icons": [
+    {
+      "src": "/icones/logo.svg",
+      "sizes": "192x192",
+      "type": "image/svg"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#12656F",
+  "background_color": "#ffffff"
+}

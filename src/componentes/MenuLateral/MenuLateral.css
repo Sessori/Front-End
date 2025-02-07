@@ -1,0 +1,108 @@
+/* Estilo básico do menu lateral */
+.menu-lateral {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Garante que o conteúdo seja distribuído */
+    height: 100%; /* Altura total da tela */
+    background-color: #12656F; /* Cor de fundo */
+    color: #E6E6E6; /* Cor do texto */
+    padding: 10px;
+    transition: width 0.3s; /* Animação para expandir/recolher */
+    overflow: hidden; /* Esconde o conteúdo que não cabe */
+  }
+  
+  /* Menu fechado */
+  .menu-lateral.fechado {
+    width: 50px;
+  }
+  
+  /* Menu aberto */
+  .menu-lateral.aberto {
+    width: 200px;
+  }
+  
+  /* Botão para expandir/recolher o menu */
+  .botao-toggle {
+    background-color: #12656F;
+    color: #E6E6E6;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilo dos itens do menu */
+  .menu-lateral ul {
+    list-style: none;
+    padding: 0;
+
+  }
+  
+  .menu-lateral ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaço entre o ícone e o texto */
+    padding: 10px 15px; /* Espaço interno */
+    margin-bottom: 12px; /* Espaçamento entre itens */
+    cursor: pointer;
+    transition: background-color 0.3s, padding-left 0.3s, color 0.3s;
+  }
+  
+  .menu-lateral ul li.ativo {
+    background-color: #E6E6E6; /* Cor de fundo para o item selecionado */
+    border-radius: 20px;
+    color: #12656F; /* Cor do texto do item selecionado */
+    padding-left: 10px; /* Para manter a transição */
+  }
+  
+  .menu-lateral ul li.ativo img {
+    filter: brightness(0) saturate(100%) invert(28%) sepia(77%) saturate(544%) hue-rotate(155deg) brightness(91%) contrast(91%);
+  }
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .logo-img {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Ícones do menu */
+.logo {
+  transition: width 0.3s, height 0.3s; /* Animação suave ao mudar o tamanho */
+}
+
+/* Menu fechado - ícones menores */
+.menu-lateral.fechado .logo-img {
+  width: 50px;
+  height: 50px;
+}
+
+/* Menu aberto - ícones maiores */
+.menu-lateral.aberto .logo-img {
+  width: 80px;
+  height: 80px;
+}
+
+.menu-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.user-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: bold;
+}
