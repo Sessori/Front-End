@@ -1,0 +1,100 @@
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-image: url('/public/icones/Icon-login/logfig.svg'); /* Caminho da imagem */
+  background-size: 100% 100%;
+  background-position: center; /* Centraliza a imagem */
+  background-repeat: no-repeat; /* Evita repetição da imagem */
+  position: relative; /* Necessário para posicionar os elementos à frente */
+  z-index: 0; /* Coloca a imagem no plano de fundo */
+}
+
+/* Estilize os elementos para ficarem acima da imagem */
+.login-form, .login-illustration {
+  position: relative; /* Garante que esses elementos fiquem no topo */
+  z-index: 1; /* Garante que os elementos fiquem à frente do fundo */
+}
+
+/* Coluna da esquerda: Formulário */
+.login-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: #E6E6E6;
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.login-logo img {
+  width: 50px;
+  height: 50px;
+}
+
+h2 {
+  color: #12656F;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.forgot-password {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+  text-align: right;
+  width: 100%;
+}
+
+.social-login {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botões sociais */
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Coluna da direita: Ilustração */
+.login-illustration {
+  flex: 1;
+  background-color: #E6E6E6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.login-illustration img {
+  width: 100%;
+}
+
+.login-illustration p {
+  font-size: 18px;
+  color: #12656F;
+  text-align: center;
+  margin-top: 20px;
+}

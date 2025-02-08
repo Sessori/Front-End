@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import Input from "../Input/Input";
-import Button from "../Button/Button";
+import Input from "../../componentes/Input/Input";
+import Button from "../../componentes/Button/Button";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,13 +11,13 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-  
+
     console.log("Email digitado:", email);
     console.log("Senha digitada:", password);
-  
+
     if (email === "admin@sessori.com" && password === "Admin123!") {
-      localStorage.setItem("token", "userToken"); // Salva o token no localStorage
-      navigate("/"); // Redireciona para a landing page
+      localStorage.setItem("token", "userToken");
+      navigate("/");
     } else {
       alert("Credenciais inválidas!");
     }
@@ -25,8 +25,13 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      {/* Coluna da esquerda: Formulário */}
       <div className="login-form">
-        <h2>BEM VINDO!</h2>
+        <div className="login-logo">
+          <img src="/icones/logo.svg" alt="Sessori Logo" className="logo" />
+      
+        </div>
+        <h2>Bem vindo ao Sessori !</h2>
         <form onSubmit={handleLogin}>
           <Input
             type="email"
@@ -42,6 +47,17 @@ const Login = () => {
           />
           <Button label="ENTRAR" />
         </form>
+        <p className="forgot-password">Esqueceu a senha?</p>
+        <div className="social-login">
+          <p>Ou entrar através</p>
+          <Button label="Entrar com o Google" icon="/icones/Icon-login/GoogleLogo.svg" />
+          <Button label="Entrar com Microsoft" icon="/icones/Icon-login/MicrosoftLogo.svg" />
+        </div>
+      </div>
+
+      {/* Coluna da direita: Ilustração */}
+      <div className="login-illustration">
+        
       </div>
     </div>
   );

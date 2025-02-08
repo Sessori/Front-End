@@ -1,9 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./LandingPage.css";
-import MenuLateral from "../MenuLateral/MenuLateral";
+import "./Home.css";
 
-const LandingPage = () => {
+const Home = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -12,13 +11,9 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="landing-page">
-      <div className= "landing-menu">
-      {/* Menu Lateral */}
-      <MenuLateral />
-      </div>
+    <div className="Home">
       {/* Conteúdo Principal */}
-      <div className="landing-content">
+      <div className="Home-content">
         <header>
           <h1>Bem-vindo ao Sessori!</h1>
         </header>
@@ -31,4 +26,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default Home;
