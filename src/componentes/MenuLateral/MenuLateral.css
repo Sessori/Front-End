@@ -111,3 +111,16 @@
   font-size: 14px;
   font-weight: bold;
 }
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+}

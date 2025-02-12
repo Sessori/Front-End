@@ -4,20 +4,25 @@ import "./MenuLateral.css";
 
 const MenuLateral = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [ativo, setAtivo] = useState(null); // Estado para armazenar o item ativo
-  const navigate = useNavigate(); // React Router para navegação
+  const [ativo, setAtivo] = useState(null); 
+  const navigate = useNavigate(); 
 
   const handleMouseEnter = () => {
-    setIsOpen(true); // Abre o menu ao passar o mouse
+    setIsOpen(true);
   };
 
   const handleMouseLeave = () => {
-    setIsOpen(false); // Fecha o menu ao sair com o mouse
+    setIsOpen(false);
   };
 
   const handleItemClick = (index, route) => {
-    setAtivo(index); // Define o item clicado como ativo
-    navigate(route); // Navega para a rota correspondente
+    setAtivo(index);
+    navigate(route);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove o token da autenticação
+    navigate("/login"); // Redireciona para a página de login
   };
 
   const menuItems = [
@@ -35,21 +40,19 @@ const MenuLateral = () => {
   return (
     <div
       className={`menu-lateral ${isOpen ? "aberto" : "fechado"}`}
-      onMouseEnter={handleMouseEnter} // Abre o menu ao passar o mouse
-      onMouseLeave={handleMouseLeave} // Fecha o menu ao sair o mouse
+      onMouseEnter={handleMouseEnter} 
+      onMouseLeave={handleMouseLeave} 
     >
-      {/* Logo */}
       <div className="logo">
         <img src="/icones/logo.svg" alt="Logo" className="logo-img" />
       </div>
 
-      {/* Itens do Menu */}
       <ul className="menu-itens">
         {menuItems.map((item, index) => (
           <li
             key={index}
             className={ativo === index ? "ativo" : ""}
-            onClick={() => handleItemClick(index, item.route)} // Navega ao clicar
+            onClick={() => handleItemClick(index, item.route)}
           >
             <img src={item.icon} alt={item.name} className="menu-icon" />
             <span>{item.name}</span>
@@ -57,12 +60,11 @@ const MenuLateral = () => {
         ))}
       </ul>
 
-      {/* Rodapé */}
       <div className="menu-rodape">
         <ul>
           {rodapeItems.map((item, index) => (
             <li
-              key={index + menuItems.length} // Evita conflito de keys
+              key={index + menuItems.length} 
               className={ativo === index + menuItems.length ? "ativo" : ""}
               onClick={() => handleItemClick(index + menuItems.length, item.route)}
             >
@@ -71,6 +73,12 @@ const MenuLateral = () => {
             </li>
           ))}
         </ul>
+
+        {/* Botão de Logout no Rodapé */}
+        <button className="logout-btn" onClick={handleLogout}>
+          <img src="/icones/logout.svg" alt="Sair" className="menu-icon" />
+          <span>Sair</span>
+        </button>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Paginas/Login/Login";
 import LandingPage from "./Paginas/Home/Home";
@@ -10,17 +10,25 @@ import Configuracoes from "./Paginas/Configuracoes/Configuracoes";
 import Suporte from "./Paginas/Suporte/Suporte";
 
 const App = () => {
-  const isAuthenticated = !!localStorage.getItem("token"); // Simula autenticação
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
+
+  useEffect(() => {
+    const checkAuth = () => {
+      setIsAuthenticated(!!localStorage.getItem("token"));
+    };
+
+    window.addEventListener("storage", checkAuth);
+    return () => window.removeEventListener("storage", checkAuth);
+  }, []);
 
   return (
     <Router>
       {isAuthenticated ? (
         <div style={{ display: "flex" }}>
-          {/* Menu lateral aparece em todas as páginas autenticadas */}
-          <MenuLateral />
+          <MenuLateral setIsAuthenticated={setIsAuthenticated} />
           <div style={{ flex: 1, padding: "20px" }}>
             <Routes>
-              <Route path="/" element={<LandingPage />} /> {/* Página inicial */}
+              <Route path="/" element={<LandingPage />} />
               <Route path="/usuarios" element={<Usuarios />} />
               <Route path="/espacos" element={<Espacos />} />
               <Route path="/solicitacoes" element={<Solicitacoes />} />
@@ -32,7 +40,7 @@ const App = () => {
         </div>
       ) : (
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       )}
@@ -41,4 +49,3 @@ const App = () => {
 };
 
 export default App;
-
