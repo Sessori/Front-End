@@ -1,19 +1,125 @@
 .cadastro-modal {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Fundo escuro */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .cadastro-card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.cadastro-card {
+  background-color: #E6E6E6;
+  padding: 2rem;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 70rem;
+  height: 85%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.cadastro-form {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 50px;
+}
+
+.foto-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  margin-bottom: 20px;
+}
+
+.form-left{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+.form-right {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.foto-placeholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: #666;
+  cursor: pointer;
+}
+
+.foto-preview {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.radio-container{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.radio-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid #456650;
+  border-radius: 12px;
+  padding: 10px;
+  width: 18rem;
+  height: 1rem;
+}
+
+.radio-group label {
+  font-size: 0.9rem;
+  color: #456650;
+  font-weight: lighter;
+}
+
+.radio-group input[type="radio"] {
+  accent-color: #456650;
+  transform: scale(1.2);
+}
+
+/* Posicionamento dos botões */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
