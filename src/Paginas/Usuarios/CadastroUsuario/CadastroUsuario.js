@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Input from "../../../componentes/Input/Input";
-import Button from "../../../componentes/Button/Button";
+import Button from "../../../componentes/Buttons/ButtonGeneric/ButtonGeneric";
 import RadioGroup from "../../../componentes/RadioGroup/RadioGroup";
 import "./CadastroUsuario.css";
 

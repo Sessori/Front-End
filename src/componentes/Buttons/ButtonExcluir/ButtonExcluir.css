@@ -1,0 +1,19 @@
+.btn-excluir {
+    width: 9rem;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: lighter;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.btn-excluir-primary {
+    background-color: #FF6670; /* Cor parecida com a da imagem */
+    color: #FFFFFF;
+}
+
+.btn-excluir-primary:hover {
+    background-color: #FF6670; /* Tom mais escuro no hover */
+}

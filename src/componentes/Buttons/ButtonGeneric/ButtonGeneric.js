@@ -1,7 +1,7 @@
 import React from "react";
-import "./Button.css";
+import "./ButtonGeneric.css";
 
-const Button = ({ label, icon }) => {
+const ButtonGeneric = ({ label, icon }) => {
   return (
     <button className="button">
       {icon && <img src={icon} alt={label} className="button-icon" />}
@@ -10,5 +10,5 @@ const Button = ({ label, icon }) => {
   );
 };
 
-export default Button;
+export default ButtonGeneric;
 

@@ -1,0 +1,19 @@
+.btn-incluir {
+    width: 9rem;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: lighter;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.btn-incluir-primary {
+    background-color: #20B3C7; /* Cor parecida com a da imagem */
+    color: #FFFFFF;
+}
+
+.btn-incluir-primary:hover {
+    background-color: #20B3C7; /* Tom mais escuro no hover */
+}

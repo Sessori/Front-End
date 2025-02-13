@@ -1,29 +1,27 @@
-import React, { useState } from "react";
-import Button from "../../componentes/Button/Button";
-import CadastroUsuario from "./CadastroUsuario/CadastroUsuario"; // Certifique-se que o caminho está correto
+import React, { useState, useEffect } from "react";
+import { supabase } from "../../Services/Supabase";
+import ButtonIncluir from "../../componentes/Buttons/ButtonInserir/ButtonIncluir";
+import ButtonExcluir from "../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
+import CadastroUsuario from "./CadastroUsuario/CadastroUsuario";
+import UsuarioRow from "../../componentes/UsuarioRow/UsuarioRow";
 import "./Usuarios.css";
 
 const Usuarios = () => {
-  const [showCadastro, setShowCadastro] = useState(false); // Estado para abrir/fechar modal
-  const [activeMenu, setActiveMenu] = useState(null); // Novo estado para controlar qual menu está aberto
+  const [usuarios, setUsuarios] = useState([]);
+  const [showCadastro, setShowCadastro] = useState(false);
 
-  const handleMenuClick = (userId, event) => {
-    event.stopPropagation(); // Previne que o clique propague
-    setActiveMenu(activeMenu === userId ? null : userId);
-  };
-
-  // Fecha o menu quando clicar fora
-  React.useEffect(() => {
-    const closeMenu = () => setActiveMenu(null);
-    document.addEventListener('click', closeMenu);
-    return () => document.removeEventListener('click', closeMenu);
+  //Função para buscar usuários do Supabase
+  useEffect(() => {
+    async function fetchUsuarios() {
+      const { data, error } = await supabase.from("usuarios").select("*");
+      if (error) {
+        console.error("Erro ao buscar usuários:", error);
+      } else {
+        setUsuarios(data);
+      }
+    }
+    fetchUsuarios();
   }, []);
-
-  const usuarios = [
-    { id: 1, nome: "Scarlett Johansson", email: "scarlett@gmail.com", dataCadastro: "17/06/2024", tipo: "Administrador", ativo: "SIM" },
-    { id: 2, nome: "Leonardo DiCaprio", email: "leonardo@gmail.com", dataCadastro: "24/11/2024", tipo: "Professor (a)", ativo: "SIM" },
-    { id: 3, nome: "Christian Bale", email: "christian@gmail.com", dataCadastro: "28/03/2024", tipo: "Professor (a)", ativo: "SIM" },
-  ];
 
   return (
     <div className="usuarios-container">
@@ -31,17 +29,8 @@ const Usuarios = () => {
       <div className="usuarios-header">
         <input type="text" placeholder="Pesquisar" className="search-bar" />
         <div className="usuarios-actions">
-          <Button 
-            label="INCLUIR" 
-            onClick={() => {
-              console.log('Botão clicado');
-              console.log('Estado anterior:', showCadastro);
-              setShowCadastro(true);
-              console.log('Novo estado:', true);
-            }} 
-            color="primary" 
-          />
-          <Button label="EXCLUIR" onClick={() => alert("Excluir selecionados")} color="danger" />
+        <ButtonIncluir label="INCLUIR" onClick={() => setShowCadastro(true)} />
+        <ButtonExcluir label="EXCLUIR" onClick={() => alert("Excluir selecionados")} />
         </div>
       </div>
 
@@ -60,26 +49,7 @@ const Usuarios = () => {
         </thead>
         <tbody>
           {usuarios.map((user) => (
-            <tr key={user.id}>
-              <td><input type="checkbox" /></td>
-              <td>{user.nome}</td>
-              <td>{user.email}</td>
-              <td>{user.dataCadastro}</td>
-              <td>{user.tipo}</td>
-              <td>{user.ativo}</td>
-              <td className="menu-cell">
-                <div className="menu-container">
-                  <button className="menu-button" onClick={(e) => handleMenuClick(user.id, e)}>⋮</button>
-                  {activeMenu === user.id && (
-                    <div className="dropdown-menu">
-                      <button onClick={() => alert('Editar')}>Editar</button>
-                      <button onClick={() => alert('Excluir')}>Excluir</button>
-                      <button onClick={() => alert('Desativar')}>Desativar</button>
-                    </div>
-                  )}
-                </div>
-              </td>
-            </tr>
+            <UsuarioRow key={user.id} usuario={user} />
           ))}
         </tbody>
       </table>
@@ -90,8 +60,7 @@ const Usuarios = () => {
           <CadastroUsuario 
             onClose={() => setShowCadastro(false)}
             onSave={(userData) => {
-              // Aqui você pode adicionar a lógica para salvar o usuário
-              console.log('Novo usuário:', userData);
+              console.log("Novo usuário cadastrado:", userData);
               setShowCadastro(false);
             }}
           />

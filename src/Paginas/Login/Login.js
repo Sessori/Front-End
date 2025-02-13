@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Input from "../../componentes/Input/Input";
-import Button from "../../componentes/Button/Button";
+import ButtonGeneric from "../../componentes/Buttons/ButtonGeneric/ButtonGeneric";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -45,13 +45,13 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button label="ENTRAR" />
+          <ButtonGeneric label="ENTRAR" />
         </form>
         <p className="forgot-password">Esqueceu a senha?</p>
         <div className="social-login">
           <p>Ou entrar através</p>
-          <Button label="Entrar com o Google" icon="/icones/Icon-login/GoogleLogo.svg" />
-          <Button label="Entrar com Microsoft" icon="/icones/Icon-login/MicrosoftLogo.svg" />
+          <ButtonGeneric label="Entrar com o Google" icon="/icones/Icon-login/GoogleLogo.svg" />
+          <ButtonGeneric label="Entrar com Microsoft" icon="/icones/Icon-login/MicrosoftLogo.svg" />
         </div>
       </div>
 
