@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from "../../Services/Supabase";
+import supabase from '../../Services/Supabase';
 import ButtonIncluir from "../../componentes/Buttons/ButtonInserir/ButtonIncluir";
 import ButtonExcluir from "../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
 import CadastroUsuario from "./CadastroUsuario/CadastroUsuario";
