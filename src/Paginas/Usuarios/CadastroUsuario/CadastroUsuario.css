@@ -87,35 +87,6 @@ input[type="file"] {
   gap: 10px;
   margin-top: 20px;
 }
-
-.radio-container{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.radio-group {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 2px solid #456650;
-  border-radius: 12px;
-  padding: 10px;
-  width: 18rem;
-  height: 1rem;
-}
-
-.radio-group label {
-  font-size: 0.9rem;
-  color: #456650;
-  font-weight: lighter;
-}
-
-.radio-group input[type="radio"] {
-  accent-color: #456650;
-  transform: scale(1.2);
-}
-
 /* Posicionamento dos botões */
 .form-actions {
   display: flex;

@@ -1,0 +1,10 @@
+.HeaderSuperior{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 17rem 1fr 1fr;
+  align-items: center;
+  height: 7rem; 
+  padding: 0 1rem;       
+  background-color: #B2E1FF;
+  position: fixed;
+}

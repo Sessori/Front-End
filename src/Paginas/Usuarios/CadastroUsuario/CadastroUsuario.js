@@ -72,9 +72,9 @@ const CadastroUsuario = ({ onClose }) => {
           {/* Direita: RadioGroup + Botões */}
           <div className="form-right">
             <div className="radio-container">
-              <RadioGroup label="Administrador" options={["SIM", "NÃO"]} value={formData.administrador} onChange={(value) => handleChange("administrador", value)} />
-              <RadioGroup label="Pode realizar reservas fixas?" options={["SIM", "NÃO"]} value={formData.reservasFixas} onChange={(value) => handleChange("reservasFixas", value)} />
-              <RadioGroup label="Ativo" options={["SIM", "NÃO"]} value={formData.ativo} onChange={(value) => handleChange("ativo", value)} />
+            <RadioGroup label="Administrador" options={["SIM", "NÃO"]} value={formData.administrador} onChange={(value) => handleChange("administrador", value)} />
+            <RadioGroup label="Pode realizar reservas fixas?" options={["SIM", "NÃO"]} value={formData.reservasFixas} onChange={(value) => handleChange("reservasFixas", value)} />
+            <RadioGroup label="Ativo" options={["SIM", "NÃO"]} value={formData.ativo} onChange={(value) => handleChange("ativo", value)} />
             </div>
 
             {/* Botões abaixo dos RadioGroups */}
@@ -83,7 +83,7 @@ const CadastroUsuario = ({ onClose }) => {
               <ButtonExcluir />
             </div>
           </div>
-        </div> {/* 🔹 Fechando a <div> no lugar do <form> */}
+        </div>
       </div>
     </div>
   );

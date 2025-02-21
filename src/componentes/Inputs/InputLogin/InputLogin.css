@@ -1,0 +1,11 @@
+.input-container input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 16px;
+    border: 1px solid #8C8989;
+    background-color: #FFFFFF;
+    color: #646E7A;
+  }
+  

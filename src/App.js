@@ -1,52 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Login from "./Paginas/Login/Login";
 import LandingPage from "./Paginas/Home/Home";
-import MenuLateral from "./componentes/MenuLateral/MenuLateral";
+import MenuProf from "./componentes/Menus/MenuProf/MenuProf";
 import Usuarios from "./Paginas/Usuarios/Usuarios";
 import Espacos from "./Paginas/Espacos/Espacos";
 import Solicitacoes from "./Paginas/Solicitacoes/Solicitacoes";
 import Configuracoes from "./Paginas/Configuracoes/Configuracoes";
 import Suporte from "./Paginas/Suporte/Suporte";
 
-const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
-
-  useEffect(() => {
-    const checkAuth = () => {
-      setIsAuthenticated(!!localStorage.getItem("token"));
-    };
-
-    window.addEventListener("storage", checkAuth);
-    return () => window.removeEventListener("storage", checkAuth);
-  }, []);
+const Layout = ({ children }) => {
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login"; // Verifica se está na página de login
 
   return (
+    <div style={{ display: "flex" }}>
+      {/* Renderiza o menu apenas se NÃO estiver na página de login */}
+      {!isLoginPage && <MenuProf />}
+      <div style={{ flex: 1, padding: "20px" }}>{children}</div>
+    </div>
+  );
+};
+
+const App = () => {
+  return (
     <Router>
-      {isAuthenticated ? (
-        <div style={{ display: "flex" }}>
-          <MenuLateral setIsAuthenticated={setIsAuthenticated} />
-          <div style={{ flex: 1, padding: "20px" }}>
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/usuarios" element={<Usuarios />} />
-              <Route path="/espacos" element={<Espacos />} />
-              <Route path="/solicitacoes" element={<Solicitacoes />} />
-              <Route path="/configuracoes" element={<Configuracoes />} />
-              <Route path="/suporte" element={<Suporte />} />
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-          </div>
-        </div>
-      ) : (
+      <Layout>
         <Routes>
-          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-          <Route path="*" element={<Navigate to="/login" />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/usuarios" element={<Usuarios />} />
+          <Route path="/espacos" element={<Espacos />} />
+          <Route path="/solicitacoes" element={<Solicitacoes />} />
+          <Route path="/configuracoes" element={<Configuracoes />} />
+          <Route path="/suporte" element={<Suporte />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      )}
+      </Layout>
     </Router>
   );
 };
 
 export default App;
-

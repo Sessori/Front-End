@@ -1,26 +1,27 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import Input from "../../componentes/Input/Input";
-import ButtonEntrar from "../../componentes/Buttons/ButtonEntrar/ButtonEntrar"; // Importando o novo botão
+import ButtonEntrar from "../../componentes/Buttons/ButtonEntrar/ButtonEntrar";
+import ButtonGW from "../../componentes/Buttons/ButtonGW/ButtonsGW";
+import InputLogin from "../../componentes/Inputs/InputLogin/InputLogin";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
     console.log("Email digitado:", email);
     console.log("Senha digitada:", password);
+  };
 
-    if (email === "admin@sessori.com" && password === "Admin123!") {
-      localStorage.setItem("token", "userToken");
-      navigate("/");
-    } else {
-      alert("Credenciais inválidas!");
-    }
+  const handleGoogleLogin = () => {
+    alert("Login com Google em desenvolvimento!");
+  };
+
+  const handleMicrosoftLogin = () => {
+    alert("Login com Microsoft em desenvolvimento!");
   };
 
   return (
@@ -30,28 +31,39 @@ const Login = () => {
         <div className="login-logo">
           <img src="/icones/logo.svg" alt="Sessori Logo" className="logo" />
         </div>
-        <h2>Bem vindo ao Sessori !</h2>
+        <h2>Bem-vindo ao Sessori!</h2>
         <form onSubmit={handleLogin}>
-          <Input
+          <InputLogin
             type="email"
             placeholder="E-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Input
+          <InputLogin
             type="password"
             placeholder="Senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {/* Substituindo ButtonGeneric por ButtonEntrar */}
-          <ButtonEntrar onClick={handleLogin} />
+
+          <ButtonEntrar></ButtonEntrar>
+  
         </form>
         <p className="forgot-password">Esqueceu a senha?</p>
+
+        {/* Seção de login social corrigida */}
         <div className="social-login">
           <p>Ou entrar através</p>
-          <ButtonEntrar onClick={() => alert("Login com Google em desenvolvimento!")} label="Entrar com o Google" />
-          <ButtonEntrar onClick={() => alert("Login com Microsoft em desenvolvimento!")} label="Entrar com Microsoft" />
+          <ButtonGW
+            icon="/icones/Icon-login/Googlelogo.svg"
+            text="Entrar com o Google"
+            onClick={handleGoogleLogin}
+          />
+          <ButtonGW
+            icon="/icones/Icon-login/MicrosoftLogo.svg"
+            text="Entrar com Microsoft"
+            onClick={handleMicrosoftLogin}
+          />
         </div>
       </div>
 

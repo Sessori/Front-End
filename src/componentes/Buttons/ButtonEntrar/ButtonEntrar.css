@@ -1,0 +1,14 @@
+.Btt-Entrar{
+   background-color: #4da91b;
+   display: flex;
+   align-items: center;
+   width: 100%;
+   max-width: 400px;
+   padding: 12px;
+   border-radius: 10px;
+   cursor: pointer;
+   font-size: 16px;
+   font-weight: 500;
+   color: #FFFFFF;
+   transition: all 0.2s ease-in-out;
+}

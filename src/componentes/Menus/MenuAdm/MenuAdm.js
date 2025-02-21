@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./MenuLateral.css";
+import "./MenuAdm.css";
 
-const MenuLateral = () => {
+const MenuAdm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [ativo, setAtivo] = useState(null); 
   const navigate = useNavigate(); 
@@ -84,4 +84,4 @@ const MenuLateral = () => {
   );
 };
 
-export default MenuLateral;
+export default MenuAdm;

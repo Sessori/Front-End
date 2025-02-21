@@ -1,7 +1,7 @@
 import React from "react";
-import "./Input.css";
+import "./InputLogin.css";
 
-const Input = ({ type, placeholder, value, onChange }) => {
+const InputLogin = ({ type, placeholder, value, onChange }) => {
   return (
     <div className="input-container">
       <input
@@ -14,4 +14,4 @@ const Input = ({ type, placeholder, value, onChange }) => {
   );
 };
 
-export default Input;
+export default InputLogin;
