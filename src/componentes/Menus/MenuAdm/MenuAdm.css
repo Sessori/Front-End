@@ -8,12 +8,41 @@
   color: #E6E6E6; /* Cor do texto */
   padding: 10px;
   transition: width 0.3s ease; /* Animação para expandir/recolher */
-  overflow: hidden; /* Esconde o conteúdo que não cabe */
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500; /* Peso médio da fonte */
 }
 
 /* Menu fechado */
 .menu-lateral.fechado {
-  width: 50px;
+  display: flex;
+  align-items: center;  /* Centraliza verticalmente */
+  padding: 10px;
+  position: relative;
+  width: 5rem;
+}
+
+.menu-lateral.fechado .menu-icon {
+  width: 25px;
+  height: 25px;
+  margin: 0 auto; /* Centraliza */
+  display: block;
+}
+
+.menu-lateral.fechado ul li.ativo {
+  background-color: #E6E6E6; /* Cor de fundo para o item selecionado */
+  border-radius: 50%; /* Deixa o fundo circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px; /* Define um tamanho fixo para garantir que seja um círculo */
+  height: 50px;
+}
+
+.menu-lateral.fechado ul li.ativo .menu-icon {
+  width: 24px; /* Garante que o ícone não fique maior dentro do círculo */
+  height: 24px;
+  margin: 0;
 }
 
 /* Menu aberto */
@@ -88,39 +117,26 @@
   height: 80px;
 }
 
-/* Botão de toggle */
-.botao-toggle {
-  background-color: #12656F;
-  color: #E6E6E6;
-  border: none;
-  cursor: pointer;
-  padding: 5px 10px;
-  margin-bottom: 10px;
-}
-
-/* Foto do usuário */
-.user-photo {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* Nome do usuário */
-.user-name {
-  font-size: 14px;
-  font-weight: bold;
-}
-
+/* Estilo do botão de logout */
 .logout-btn {
-  background: none;
-  border: none;
-  color: #ffffff;
-  font-size: 16px;
+  background-color: #E6E6E6;
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
   padding: 10px;
   cursor: pointer;
-  width: 100%;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+/* Ajuste quando o menu está fechado */
+.menu-lateral.fechado .logout-btn span {
+  display: none;
+}
+
+/* Ajuste quando o menu está aberto */
+.menu-lateral.aberto .logout-btn span {
+  display: inline-block;
+  margin-left: 10px;
 }

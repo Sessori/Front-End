@@ -1,0 +1,52 @@
+.user-switch-container {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .user-switch-button {
+    background-color: #4a7c59;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .user-switch-menu {
+    position: absolute;
+    top: 0;
+    left: -160px; /* Escondido */
+    background-color: white;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 0 8px 8px 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    transition: left 0.3s ease-in-out;
+  }
+  
+  .user-switch-menu.visible {
+    left: 40px; /* Desliza para dentro */
+  }
+  
+  .user-switch-menu button {
+    background: none;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .user-switch-menu button:hover {
+    background-color: #e3f2e3;
+  }
+  

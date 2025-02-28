@@ -74,12 +74,10 @@ const MenuProf = () => {
         </ul>
 
         {/* Botão de Logout no Rodapé */}
-        <div className = "logout-brn">
         <button className="logout-btn" onClick={handleLogout}>
-          <img src="/icones/sair.svg" alt="Sair" className="menu-icon" />
-          <span>Sair</span>
+        <img src="/icones/sair.svg" alt="Sair" className="menu-icon" />
+        {isOpen && <span>Sair</span>}
         </button>
-        </div>
       </div>
     </div>
   );

@@ -15,8 +15,36 @@
   
   /* Menu fechado */
   .menu-lateral.fechado {
-    width: 50px;
+    display: flex;
+    align-items: center;  /* Centraliza verticalmente */
+    padding: 10px;
+    position: relative;
+    width: 5rem;
   }
+
+  .menu-lateral.fechado .menu-icon {
+    width: 25px;
+    height: 25px;
+    margin: 0 auto; /* Centraliza */
+    display: block;
+}
+
+.menu-lateral.fechado ul li.ativo {
+  background-color: #E6E6E6; /* Cor de fundo para o item selecionado */
+  border-radius: 50%; /* Deixa o fundo circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px; /* Define um tamanho fixo para garantir que seja um círculo */
+  height: 50px;
+}
+
+.menu-lateral.fechado ul li.ativo .menu-icon {
+  width: 24px; /* Garante que o ícone não fique maior dentro do círculo */
+  height: 24px;
+  margin: 0;
+}
+
   
   /* Menu aberto */
   .menu-lateral.aberto {
@@ -90,23 +118,27 @@
     height: 80px;
   }
 
-  .logout-btn-fundo {
-    width: 100%; /* Garante que o botão ocupa toda a largura */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px 0; /* Ajuste para melhor espaçamento */
-    border: none;
-    cursor: pointer;
-  }  
+/* Estilo do botão de logout */
+.logout-btn {
+  background-color: #E6E6E6;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
 
-  .logout-btn {
-    background-color: #E6E6E6;
-    width: 100%; /* Faz o botão ocupar toda a largura */
-    height: 20px; /* Opcional: Se precisar ocupar toda a altura do rodapé */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 0;
-    cursor: pointer;
-  }
+/* Ajuste quando o menu está fechado */
+.menu-lateral.fechado .logout-btn span {
+  display: none;
+}
+
+/* Ajuste quando o menu está aberto */
+.menu-lateral.aberto .logout-btn span {
+  display: inline-block;
+  margin-left: 10px;
+}
+
