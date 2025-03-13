@@ -1,0 +1,128 @@
+.filtro-lateral {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 3.125rem; /* Quando fechado */
+  height: 100vh;
+  background: #ffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s ease-in-out;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.filtro-lateral.aberto {
+  width: 13.75rem; /* Quando aberto */
+  padding: 10px;
+}
+
+/* Botão lateral vertical */
+.botao-filtro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #f5f5f5;
+  padding: 10px;
+  border-radius: 8px 0 0 8px;
+  cursor: pointer;
+}
+
+.mais {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.texto-vertical {
+  writing-mode: vertical-rl; /* Mantém o texto na vertical */
+  text-orientation: mixed;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #f02323;
+  white-space: nowrap; /* Evita quebra de linha */
+  text-align: center;
+  position: absolute;
+  left: 50%; /* Centraliza dentro do botão */
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(180deg); /* Ajusta a posição */
+}
+
+/* Estilização dos filtros */
+.conteudo-filtro {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+}
+
+.filtro {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-button {
+  width: 100%;
+  padding: 8px;
+  background: white;
+  border: 1px solid #ccc;
+  color: #000;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-button:hover {
+  background: #e0e0e0;
+}
+
+/* Estilização das opções abertas */
+.opcoes {
+  display: flex;
+  flex-direction: column;
+  background: #d4f5d4;
+  padding: 5px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.opcoes p {
+  padding: 8px;
+  margin: 0;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.opcoes p:last-child {
+  border-bottom: none;
+}
+
+.opcoes p:hover {
+  background: #a2e6a2;
+}
+
+/* Opções Extras */
+.opcoes-extra {
+  margin-top: 10px;
+}
+
+.opcoes-extra p {
+  font-size: 12px;
+  color: #555;
+  cursor: pointer;
+}
+
+.opcoes-extra p:hover {
+  color: #000;
+  font-weight: bold;
+}

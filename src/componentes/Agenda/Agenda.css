@@ -1,6 +1,7 @@
 .agenda-container {
   width: 100%;
-  max-width: 22rem;
+  max-width: 20rem;
+  height: 20rem;
   border-radius: 10px;
   background-color: #C8E4D3;
   text-align: center;
