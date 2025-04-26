@@ -10,6 +10,7 @@ import {
   isBefore
 } from "date-fns";
 import "./Agenda.css";
+import { ptBR } from "date-fns/locale";
 
 const Agenda = () => {
   const today = new Date(); // Data de hoje
@@ -48,7 +49,7 @@ const Agenda = () => {
           <img src="/icones/back.svg" alt="Mês anterior" className="agenda-icon" />
         </button>
         
-        <h2>{format(currentDate, "MMMM yyyy")}</h2>
+        <h2>{format(currentDate, "MMMM", { locale: ptBR })}</h2>
 
         <button onClick={handleNextMonth} className="agenda-nav-btn">
           <img src="/icones/next.svg" alt="Próximo mês" className="agenda-icon" />

@@ -1,6 +1,7 @@
 .agendar-container {
   display: flex;
   height: 100vh;
+  gap: 20px;
 }
 
 /* Sidebar */
@@ -14,12 +15,12 @@
 /* Conteúdo principal */
 .salas-container {
   flex: 1;
-  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .salas-container h2 {
   font-size: 22px;
   margin-bottom: 15px;
 }
-
-/* Remove os estilos de .sala-card daqui, pois agora está no SalaCard.css */

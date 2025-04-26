@@ -21,8 +21,8 @@
 }
 
 .login-logo img {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
 }
 
 h2 {
@@ -42,7 +42,7 @@ form {
 .forgot-password {
   margin-top: 10px;
   font-size: 14px;
-  color: #666;
+  color: #8C8989;
   text-align: right;
   width: 100%;
 }
@@ -50,6 +50,7 @@ form {
 .social-login {
   margin-top: 30px;
   width: 100%;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;

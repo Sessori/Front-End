@@ -47,13 +47,12 @@ const Login = () => {
           />
 
           <ButtonEntrar></ButtonEntrar>
-  
+          <p className="forgot-password">Esqueceu a senha?</p>
         </form>
-        <p className="forgot-password">Esqueceu a senha?</p>
 
-        {/* Seção de login social corrigida */}
+        {/* Seção de login social */}
         <div className="social-login">
-          <p>Ou entrar através</p>
+          <p>ou entrar através</p>
           <ButtonGW
             icon="/icones/Icon-login/Googlelogo.svg"
             text="Entrar com o Google"

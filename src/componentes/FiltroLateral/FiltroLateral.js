@@ -4,7 +4,6 @@ import "./FiltroLateral.css";
 const FiltroLateral = () => {
   const [aberto, setAberto] = useState(false);
   const [selecionados, setSelecionados] = useState({
-    periodo: "",
     tipo: "",
     capacidade: "",
     aulas: "",
@@ -12,14 +11,11 @@ const FiltroLateral = () => {
   });
 
   const [opcoesVisiveis, setOpcoesVisiveis] = useState({
-    periodo: false,
     tipo: false,
     capacidade: false,
     aulas: false,
-    cursor: false,
   });
 
-  // Abre/fecha o dropdown ao clicar
   const toggleOpcoes = (filtro) => {
     setOpcoesVisiveis((prev) => ({
       ...prev,
@@ -27,7 +23,6 @@ const FiltroLateral = () => {
     }));
   };
 
-  // Seleciona uma opção e fecha o dropdown
   const selecionarOpcao = (filtro, valor) => {
     setSelecionados((prev) => ({
       ...prev,
@@ -35,15 +30,21 @@ const FiltroLateral = () => {
     }));
     setOpcoesVisiveis((prev) => ({
       ...prev,
-      [filtro]: false, // Fecha o dropdown
+      [filtro]: false,
     }));
   };
 
-  // Fecha o dropdown quando o mouse sai da área das opções
   const fecharDropdown = (filtro) => {
     setOpcoesVisiveis((prev) => ({
       ...prev,
       [filtro]: false,
+    }));
+  };
+
+  const removerFiltro = (chave) => {
+    setSelecionados((prev) => ({
+      ...prev,
+      [chave]: "",
     }));
   };
 
@@ -53,33 +54,29 @@ const FiltroLateral = () => {
       onMouseEnter={() => setAberto(true)}
       onMouseLeave={() => setAberto(false)}
     >
-      {/* Botão lateral para abrir os filtros */}
       <div className="botao-filtro">
-        <span className="mais">+</span>
-        <p className="texto-vertical">F I L T R O S</p>
+        <div className="texto-vertical">
+          <span>+</span>
+          <span>F</span>
+          <span>I</span>
+          <span>L</span>
+          <span>T</span>
+          <span>R</span>
+          <span>O</span>
+          <span>S</span>
+        </div>
       </div>
 
-      {/* Conteúdo dos filtros */}
       {aberto && (
         <div className="conteudo-filtro">
-          {/* Filtro de Período */}
+          {/* Filtro Tipo */}
           <div className="filtro">
-            <button onClick={() => toggleOpcoes("periodo")} className="dropdown-button">
-              {selecionados.periodo || "Período"}
-            </button>
-            {opcoesVisiveis.periodo && (
-              <div className="opcoes" onMouseLeave={() => fecharDropdown("periodo")}>
-                <p onClick={() => selecionarOpcao("periodo", "MANHÃ")}>MANHÃ</p>
-                <p onClick={() => selecionarOpcao("periodo", "TARDE")}>TARDE</p>
-                <p onClick={() => selecionarOpcao("periodo", "NOITE")}>NOITE</p>
-              </div>
-            )}
-          </div>
-
-          {/* Filtro de Tipo */}
-          <div className="filtro">
-            <button onClick={() => toggleOpcoes("tipo")} className="dropdown-button">
-              {selecionados.tipo || "Tipo"}
+            <button
+              onClick={() => toggleOpcoes("tipo")}
+              className={`dropdown-button ${opcoesVisiveis.tipo ? "dropdown-open" : ""}`}
+            >
+              <span>{selecionados.tipo || "Tipo"}</span>
+              <img src="/icones/dropdown.svg" alt="Abrir" className="dropdown-icon" />
             </button>
             {opcoesVisiveis.tipo && (
               <div className="opcoes" onMouseLeave={() => fecharDropdown("tipo")}>
@@ -90,10 +87,14 @@ const FiltroLateral = () => {
             )}
           </div>
 
-          {/* Filtro de Capacidade Mínima */}
+          {/* Filtro Capacidade */}
           <div className="filtro">
-            <button onClick={() => toggleOpcoes("capacidade")} className="dropdown-button">
-              {selecionados.capacidade || "Capacidade Min."}
+            <button
+              onClick={() => toggleOpcoes("capacidade")}
+              className={`dropdown-button ${opcoesVisiveis.capacidade ? "dropdown-open" : ""}`}
+            >
+              <span>{selecionados.capacidade || "Capacidade Máx."}</span>
+              <img src="/icones/dropdown.svg" alt="Abrir" className="dropdown-icon" />
             </button>
             {opcoesVisiveis.capacidade && (
               <div className="opcoes" onMouseLeave={() => fecharDropdown("capacidade")}>
@@ -104,10 +105,14 @@ const FiltroLateral = () => {
             )}
           </div>
 
-          {/* Filtro de Aulas Disponíveis */}
+          {/* Filtro Aulas */}
           <div className="filtro">
-            <button onClick={() => toggleOpcoes("aulas")} className="dropdown-button">
-              {selecionados.aulas || "Aulas Disponíveis"}
+            <button
+              onClick={() => toggleOpcoes("aulas")}
+              className={`dropdown-button ${opcoesVisiveis.aulas ? "dropdown-open" : ""}`}
+            >
+              <span>{selecionados.aulas || "Aulas Disponíveis"}</span>
+              <img src="/icones/dropdown.svg" alt="Abrir" className="dropdown-icon" />
             </button>
             {opcoesVisiveis.aulas && (
               <div className="opcoes" onMouseLeave={() => fecharDropdown("aulas")}>
@@ -118,25 +123,29 @@ const FiltroLateral = () => {
             )}
           </div>
 
-          {/* Filtro de Cursor */}
+          {/* Campo de Pesquisa Ferramenta */}
           <div className="filtro">
-            <button onClick={() => toggleOpcoes("cursor")} className="dropdown-button">
-              {selecionados.cursor || "Cursor"}
-            </button>
-            {opcoesVisiveis.cursor && (
-              <div className="opcoes" onMouseLeave={() => fecharDropdown("cursor")}>
-                <p onClick={() => selecionarOpcao("cursor", "CURSOR")}>CURSOR</p>
-              </div>
-            )}
+            <div className="search-input-wrapper">
+              <input type="text" placeholder="Ferramenta" className="search-input" />
+              <img src="/icones/pesquisar.svg" alt="Buscar" className="search-icon" />
+            </div>
           </div>
 
-          {/* Opções Extras conforme seu código anterior */}
-          <div className="opcoes-extra">
-            <p>+ SALAS</p>
-            <p>+ 40 PESSOAS</p>
-            <p>+ 2 AULAS</p>
-            <p>+ CURSOR</p>
-          </div>
+          <div className="linha-separadora"></div>
+
+          {/* Filtros Selecionados */}
+          {(selecionados.tipo || selecionados.capacidade || selecionados.aulas || selecionados.cursor) && (
+            <div className="filtros-selecionados">
+              {Object.entries(selecionados).map(([chave, valor]) => (
+                valor && (
+                  <div key={chave} className="filtro-tag">
+                    {valor}
+                    <span className="filtro-remove" onClick={() => removerFiltro(chave)}>×</span>
+                  </div>
+                )
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

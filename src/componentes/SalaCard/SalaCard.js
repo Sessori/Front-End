@@ -4,9 +4,7 @@ import "./SalaCard.css"; // Importa o CSS
 const SalaCard = ({ nome, capacidade, localizacao, dataReserva, horario }) => {
   return (
     <div className="sala-card">
-      {/* Barra lateral verde e título */}
       <div className="sala-header">
-        <span className="barra-lateral"></span>
         <h3>{nome}</h3>
       </div>
 
