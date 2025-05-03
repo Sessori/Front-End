@@ -1,43 +1,84 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './CadastroEspacos.css';
+import InputCadastro from "../../../componentes/Inputs/InputCadastro/InputCadastro";
+import RadioGroup from "../../../componentes/RadioGroup/RadioGroup";
+import ButtonSalvar from "../../../componentes/Buttons/ButtonSalvar/ButtonSalvar";
+import ButtonExcluir from "../../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
 
 const CadastroEspacoModal = ({ onClose }) => {
+  const [formData, setFormData] = useState({
+    codigo: "",
+    nome: "",
+    andar: 1,
+    comporta: "",
+    reservasFixas: "SIM",
+    ativo: "SIM"
+  });
+
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleOutsideClick = (e) => {
+    if (e.target.classList.contains("modal-overlay")) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="modal-overlay" onClick={handleOutsideClick}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="header">
           <h2>Cadastro de Espaço</h2>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
         <div className="form-grid">
-          <input type="text" placeholder="Código" />
-          <input type="text" placeholder="Nome" />
-          
-          <div className="form-group">
-            <label>Disponível para reservas fixas</label>
-            <div>
-              <label><input type="radio" name="fixa" defaultChecked /> Sim</label>
-              <label><input type="radio" name="fixa" /> Não</label>
+          <div className="form-left">
+            <InputCadastro
+              label="Código"
+              value={formData.codigo}
+              onChange={(e) => handleChange("codigo", e.target.value)}
+            />
+            <InputCadastro
+              label="Nome"
+              value={formData.nome}
+              onChange={(e) => handleChange("nome", e.target.value)}
+            />
+            <InputCadastro
+              label="Andar"
+              type="number"
+              value={formData.andar}
+              onChange={(e) => handleChange("andar", e.target.value)}
+            />
+            <InputCadastro
+              label="Comporta"
+              type="number"
+              value={formData.comporta}
+              onChange={(e) => handleChange("comporta", e.target.value)}
+            />
+          </div>
+
+          <div className="form-right">
+            <div className="radio-container">
+              <RadioGroup
+                label="Disponível para reservas fixas"
+                options={["SIM", "NÃO"]}
+                value={formData.reservasFixas}
+                onChange={(value) => handleChange("reservasFixas", value)}
+              />
+              <RadioGroup
+                label="Ativo"
+                options={["SIM", "NÃO"]}
+                value={formData.ativo}
+                onChange={(value) => handleChange("ativo", value)}
+              />
             </div>
-          </div>
 
-          <div className="form-group">
-            <label>Ativo</label>
-            <div>
-              <label><input type="radio" name="ativo" defaultChecked /> Sim</label>
-              <label><input type="radio" name="ativo" /> Não</label>
+            <div className="form-actions">
+              <ButtonSalvar onClick={() => console.log("Salvar espaço", formData)} />
+              <ButtonExcluir onClick={() => console.log("Excluir espaço")} />
             </div>
-          </div>
-
-          <div>
-            <label>Andar</label>
-            <input type="number" defaultValue={1} />
-          </div>
-
-          <div>
-            <label>Comporta</label>
-            <input type="number" placeholder="Qtd" />
           </div>
         </div>
 
@@ -78,11 +119,6 @@ const CadastroEspacoModal = ({ onClose }) => {
               </ul>
             </div>
           </div>
-        </div>
-
-        <div className="footer">
-          <button className="btn-salvar">Salvar</button>
-          <button className="btn-excluir">Excluir</button>
         </div>
       </div>
     </div>

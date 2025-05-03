@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,18 +33,44 @@
     cursor: pointer;
   }
   
+  /* NOVO: estrutura dividida em duas colunas (inputs x radios) */
   .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
     margin-top: 20px;
   }
   
-  .form-group label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 6px;
+  .form-left {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
+  
+  .form-right {
+    flex: 1;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  /* Alinhamento das seções */
+  .radio-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+  
+  /* RECURSOS */
   
   .recursos {
     margin-top: 30px;
@@ -58,11 +84,22 @@
     gap: 40px;
   }
   
+  .recursos-fisicos,
+  .recursos-softwares {
+    flex: 1;
+  }
+  
   .recurso {
     display: flex;
     align-items: center;
     gap: 10px;
     margin: 8px 0;
+  }
+  
+  .icone {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
   }
   
   .software-search {
@@ -81,6 +118,7 @@
     list-style: none;
     padding: 0;
     color: #2c4638;
+    margin-top: 8px;
   }
   
   .footer {
@@ -88,21 +126,5 @@
     justify-content: flex-end;
     margin-top: 30px;
     gap: 20px;
-  }
-  
-  .btn-salvar {
-    background-color: #4e785a;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-  }
-  
-  .btn-excluir {
-    background-color: #e97070;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
   }
   
