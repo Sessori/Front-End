@@ -1,3 +1,30 @@
+.usuarios-container {
+  padding: 20px;
+}
+
+.usuarios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.search-bar {
+  height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+  border: 1px solid #E6E6E6;
+  border-radius: 6px;
+  width: 300px;
+  background-color: #ffffff;
+}
+
+.usuarios-actions {
+  display: flex;
+  gap: 10px;
+}
+
 .usuarios-table {
   width: 100%;
   border-collapse: collapse;

@@ -12,11 +12,11 @@
 
 .cadastro-card {
   background-color: #E6E6E6;
-  padding: 2rem;
-  border-radius: 5px;
-  width: 80%;
-  max-width: 70rem;
-  height: 85%;
+  padding: 2.5rem;
+  border-radius: 8px;
+  width: 90%;      
+  max-width: 90rem;  
+  height: 90%; 
   display: flex;
   flex-direction: column;
   position: relative;
@@ -45,10 +45,15 @@
   flex-direction: column;
   align-items: left;
 }
+
 .form-right {
   width: 50%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 100%;
+  padding-top: 20px;
 }
 
 .foto-placeholder {
@@ -83,14 +88,20 @@ input[type="file"] {
 
 .form-actions {
   display: flex;
-  justify-content: flex-end;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: auto;
 }
+
 /* Posicionamento dos botões */
 .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 20px;
+}
+
+.radio-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }

@@ -1,0 +1,17 @@
+.btn-salvar {
+    width: 9rem;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: lighter;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s ease;
+    background-color: #6FA57F;
+    color: white;
+  }
+  
+  .btn-salvar:hover {
+    background-color: #5B8D6A;
+  }
+  

@@ -29,8 +29,8 @@ const Usuarios = () => {
       <div className="usuarios-header">
         <input type="text" placeholder="Pesquisar" className="search-bar" />
         <div className="usuarios-actions">
-        <ButtonIncluir label="INCLUIR" onClick={() => setShowCadastro(true)} />
-        <ButtonExcluir label="EXCLUIR" onClick={() => alert("Excluir selecionados")} />
+          <ButtonIncluir label="INCLUIR" onClick={() => setShowCadastro(true)} />
+          <ButtonExcluir label="EXCLUIR" onClick={() => alert("Excluir selecionados")} />
         </div>
       </div>
 

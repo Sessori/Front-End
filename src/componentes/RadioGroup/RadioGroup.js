@@ -3,14 +3,13 @@ import "./RadioGroup.css";
 
 const RadioGroup = ({ label, options, value, onChange }) => {
   return (
-    <div className="radio-group">
-      <input type="text" className="radio-input" value={label} readOnly />
-      <div className="radio-options">
+    <div className="radio-group-vertical">
+      <span className="radio-label-vertical">{label}</span>
+      <div className="radio-options-vertical">
         {options.map((option) => (
-          <label key={option} className="radio-option">
+          <label key={option} className="radio-option-vertical">
             <input
               type="radio"
-              name={label}
               value={option}
               checked={value === option}
               onChange={() => onChange(option)}

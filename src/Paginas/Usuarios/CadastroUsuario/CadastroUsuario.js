@@ -80,7 +80,7 @@ const CadastroUsuario = ({ onClose }) => {
             {/* Botões abaixo dos RadioGroups */}
             <div className="form-actions">
               <ButtonSalvar />
-              <ButtonExcluir />
+              <ButtonExcluir onClick={() => console.log("Excluir")} />
             </div>
           </div>
         </div>

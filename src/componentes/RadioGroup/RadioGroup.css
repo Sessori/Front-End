@@ -1,66 +1,57 @@
-.radio-group {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 8px;
-    border-radius: 10px;
-  }
-  
-  .radio-input {
-    border: 1px solid #456650;
-    border-radius: 30px;
-    padding: 8px 12px;
-    font-size: 14px;
-    color: #456650;
-    background-color: transparent;
-    outline: none;
-    width: 250px;
-    text-align: center;
-    height: 10px;
-  }
-  
-  .radio-options {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .radio-option {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    color: #456650;
-    gap: 5px;
-    cursor: pointer;
-  }
-  
-  .radio-option input {
-    display: none;
-  }
-  
-  .custom-radio {
-    width: 16px;
-    height: 16px;
-    border: 2px solid #456650;
-    border-radius: 50%;
-    display: inline-block;
-    position: relative;
-  }
-  
-  .radio-option input:checked + .custom-radio {
-    background-color: #456650;
-    border-color: #456650;
-  }
-  
-  .radio-option input:checked + .custom-radio::after {
-    content: "";
-    width: 6px;
-    height: 6px;
-    background-color: white;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
+.radio-group-vertical {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.radio-label-vertical {
+  font-weight: bold;
+  font-size: 13px;
+  color: #456650;
+  margin-bottom: 6px;
+  text-transform: uppercase; /* 🔹 tudo em maiúsculas */
+}
+
+.radio-options-vertical {
+  display: flex;
+  gap: 20px;
+}
+
+.radio-option-vertical {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #456650;
+  cursor: pointer;
+}
+
+.radio-option-vertical input {
+  display: none;
+}
+
+.custom-radio {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #456650;
+  border-radius: 50%;
+  position: relative;
+}
+
+.radio-option-vertical input:checked + .custom-radio {
+  background-color: #456650;
+  border-color: #456650;
+}
+
+.radio-option-vertical input:checked + .custom-radio::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
