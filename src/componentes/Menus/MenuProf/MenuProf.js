@@ -26,14 +26,14 @@ const MenuProf = () => {
   };
 
   const menuItems = [
-    { name: "Home", icon: "/icones/home.svg", route: "/" },
-    { name: "Agendar", icon: "/icones/agendar.svg", route: "/agendar" },
-    { name: "Solicitar Recurso", icon: "/icones/recurso.svg", route: "/recurso" },
-    { name: "Notificar Alunos", icon: "/icones/notificar.svg", route: "/notificar" },
+    { name: "Home", icon: "/icones/Icon-menu/home.svg", route: "/" },
+    { name: "Agendar", icon: "/icones/Icon-menu/agendar.svg", route: "/agendar" },
+    { name: "Solicitar Recurso", icon: "/icones/Icon-menu/recurso.svg", route: "/recurso" },
+    { name: "Notificar Alunos", icon: "/icones/Icon-menu/notificar.svg", route: "/notificar" },
   ];
 
   const rodapeItems = [
-    { name: "Suporte", icon: "/icones/suporte.svg", route: "/suporte" },
+    { name: "Suporte", icon: "/icones/Icon-menu/suporte.svg", route: "/suporte" },
   ];
 
   return (
@@ -75,7 +75,7 @@ const MenuProf = () => {
 
         {/* Botão de Logout no Rodapé */}
         <button className="logout-btn" onClick={handleLogout}>
-        <img src="/icones/sair.svg" alt="Sair" className="menu-icon" />
+        <img src="/icones/Icon-menu/sair.svg" alt="Sair" className="menu-icon" />
         {isOpen && <span>Sair</span>}
         </button>
       </div>

@@ -1,0 +1,40 @@
+.aulas-container {
+    padding: 20px;
+  }
+  
+  .aulas-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .search-bar {
+    width: 250px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .aulas-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .aulas-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .aulas-table th, .aulas-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .editar-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  

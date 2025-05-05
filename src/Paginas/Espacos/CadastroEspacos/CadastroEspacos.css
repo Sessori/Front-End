@@ -13,11 +13,12 @@
   
   .modal-content {
     background-color: #eeeeee;
-    padding: 30px;
-    width: 90%;
-    max-width: 1000px;
+    padding: 30px;     
+    width: 80vw;  
+    height: 100vh;
     border-radius: 10px;
     position: relative;
+    box-sizing: border-box;
   }
   
   .header {
@@ -33,7 +34,6 @@
     cursor: pointer;
   }
   
-  /* NOVO: estrutura dividida em duas colunas (inputs x radios) */
   .form-grid {
     display: flex;
     flex-wrap: wrap;
@@ -67,6 +67,21 @@
   .form-actions {
     display: flex;
     justify-content: flex-end;
+    gap: 16px;
+  }
+
+  .form-grid {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  
+  .form-left, .form-right {
+    flex: 1 1 45%;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
     gap: 16px;
   }
   

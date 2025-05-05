@@ -12,6 +12,7 @@ import Espacos from "./Paginas/Espacos/Espacos";
 import Solicitacoes from "./Paginas/Solicitacoes/Solicitacoes";
 import Configuracoes from "./Paginas/Configuracoes/Configuracoes";
 import Suporte from "./Paginas/Suporte/Suporte";
+import Aulas from "./Paginas/Aulas/Aulas";
 
 // Páginas do Professor
 import Agendar from "./Paginas/Agendar/Agendar";
@@ -61,6 +62,7 @@ const App = () => {
             <>
               <Route path="/usuarios" element={<Usuarios />} />
               <Route path="/espacos" element={<Espacos />} />
+              <Route path="/aulas" element={<Aulas/>} />
               <Route path="/solicitacoes" element={<Solicitacoes />} />
               <Route path="/configuracoes" element={<Configuracoes />} />
               <Route path="/suporte" element={<Suporte />} />

@@ -2,21 +2,21 @@
 .menu-lateral {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Garante que o conteúdo seja distribuído */
-    height: 100vh; /* Altura total da tela */
-    background-color: #12656F; /* Cor de fundo */
-    color: #E6E6E6; /* Cor do texto */
+    justify-content: space-between; 
+    height: 100vh; 
+    background-color: #12656F; 
+    color: #E6E6E6;
     padding: 10px;
-    transition: width 0.3s ease; /* Animação para expandir/recolher */
+    transition: width 0.3s ease; 
     overflow: hidden;
     font-family: 'Roboto', sans-serif;
-    font-weight: 500; /* Peso médio da fonte */
+    font-weight: 500; 
   }
   
   /* Menu fechado */
   .menu-lateral.fechado {
     display: flex;
-    align-items: center;  /* Centraliza verticalmente */
+    align-items: center;  
     padding: 10px;
     position: relative;
     width: 5rem;
@@ -25,22 +25,23 @@
   .menu-lateral.fechado .menu-icon {
     width: 25px;
     height: 25px;
-    margin: 0 auto; /* Centraliza */
+    margin: 0 auto; 
     display: block;
+    color: #FFFFFF;
 }
 
 .menu-lateral.fechado ul li.ativo {
-  background-color: #E6E6E6; /* Cor de fundo para o item selecionado */
-  border-radius: 50%; /* Deixa o fundo circular */
+  background-color: #E6E6E6;
+  border-radius: 50%; 
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px; /* Define um tamanho fixo para garantir que seja um círculo */
+  width: 50px; 
   height: 50px;
 }
 
 .menu-lateral.fechado ul li.ativo .menu-icon {
-  width: 24px; /* Garante que o ícone não fique maior dentro do círculo */
+  width: 24px; 
   height: 24px;
   margin: 0;
 }
@@ -55,6 +56,7 @@
   .menu-icon {
     width: 24px;
     height: 24px;
+    color: #FFFFFF;
   }
   
   /* Texto dos itens do menu - escondido no menu fechado */

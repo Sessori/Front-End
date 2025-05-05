@@ -21,20 +21,21 @@ const MenuAdm = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove o token da autenticação
-    navigate("/login"); // Redireciona para a página de login
+    localStorage.removeItem("token"); 
+    navigate("/login");
   };
 
   const menuItems = [
-    { name: "Home", icon: "/icones/home.svg", route: "/" },
-    { name: "Usuários", icon: "/icones/user.svg", route: "/usuarios" },
-    { name: "Espaços", icon: "/icones/espacos.svg", route: "/espacos" },
-    { name: "Solicitações", icon: "/icones/solicitacoes.svg", route: "/solicitacoes" },
+    { name: "Home", icon: "/icones/Icon-menu/home.svg", route: "/" },
+    { name: "Usuários", icon: "/icones/Icon-menu/user.svg", route: "/usuarios" },
+    { name: "Espaços", icon: "/icones/Icon-menu/espacos.svg", route: "/espacos" },
+    { name: "Aulas", icon: "/icones/Icon-menu/aulas.svg", route: "/aulas" },
+    { name: "Solicitações", icon: "/icones/Icon-menu/solicitacoes.svg", route: "/solicitacoes" },
   ];
 
   const rodapeItems = [
-    { name: "Configurações", icon: "/icones/config.svg", route: "/configuracoes" },
-    { name: "Suporte", icon: "/icones/suporte.svg", route: "/suporte" },
+    { name: "Configurações", icon: "/icones/Icon-menu/config.svg", route: "/configuracoes" },
+    { name: "Suporte", icon: "/icones/Icon-menu/suporte.svg", route: "/suporte" },
   ];
 
   return (
@@ -76,7 +77,7 @@ const MenuAdm = () => {
 
         {/* Botão de Logout no Rodapé */}
         <button className="logout-btn" onClick={handleLogout}>
-          <img src="/icones/logout.svg" alt="Sair" className="menu-icon" />
+          <img src="/icones/Icon-menu/sair.svg" alt="Sair" className="menu-icon" />
           <span>Sair</span>
         </button>
       </div>

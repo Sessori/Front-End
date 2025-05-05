@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './CadastroEspacos.css';
 import InputCadastro from "../../../componentes/Inputs/InputCadastro/InputCadastro";
+import NumeroCompacto from "../../../componentes/Inputs/NumeroCompacto/NumeroCompacto";
 import RadioGroup from "../../../componentes/RadioGroup/RadioGroup";
 import ButtonSalvar from "../../../componentes/Buttons/ButtonSalvar/ButtonSalvar";
 import ButtonExcluir from "../../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
@@ -12,7 +13,10 @@ const CadastroEspacoModal = ({ onClose }) => {
     andar: 1,
     comporta: "",
     reservasFixas: "SIM",
-    ativo: "SIM"
+    ativo: "SIM",
+    tv: 0,
+    quadro: 1,
+    computador: 20
   });
 
   const handleChange = (field, value) => {
@@ -45,17 +49,15 @@ const CadastroEspacoModal = ({ onClose }) => {
               value={formData.nome}
               onChange={(e) => handleChange("nome", e.target.value)}
             />
-            <InputCadastro
-              label="Andar"
-              type="number"
+            <NumeroCompacto
               value={formData.andar}
               onChange={(e) => handleChange("andar", e.target.value)}
+              label="ANDAR"
             />
-            <InputCadastro
-              label="Comporta"
-              type="number"
+            <NumeroCompacto
               value={formData.comporta}
               onChange={(e) => handleChange("comporta", e.target.value)}
+              label="COMPORTA"
             />
           </div>
 
@@ -89,17 +91,26 @@ const CadastroEspacoModal = ({ onClose }) => {
               <h4>Físicos</h4>
               <div className="recurso">
                 <img src="/icones/Icon-Espacos/TV.svg" alt="TV" className="icone" />
-                <input type="number" placeholder="Qtd" />
+                <NumeroCompacto
+                  value={formData.tv}
+                  onChange={(e) => handleChange("tv", e.target.value)}
+                />
                 <span>Televisores</span>
               </div>
               <div className="recurso">
                 <img src="/icones/Icon-Espacos/QuadroNegro.svg" alt="Quadro" className="icone" />
-                <input type="number" defaultValue={1} />
+                <NumeroCompacto
+                  value={formData.quadro}
+                  onChange={(e) => handleChange("quadro", e.target.value)}
+                />
                 <span>Quadros</span>
               </div>
               <div className="recurso">
                 <img src="/icones/Icon-Espacos/Computador.svg" alt="Computador" className="icone" />
-                <input type="number" defaultValue={20} />
+                <NumeroCompacto
+                  value={formData.computador}
+                  onChange={(e) => handleChange("computador", e.target.value)}
+                />
                 <span>Computadores</span>
               </div>
             </div>

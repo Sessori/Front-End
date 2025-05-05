@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./FiltroLateral.css";
+import SelectPadrao from "../../componentes/SelectPadrao/SelectPadrao";
 
 const FiltroLateral = () => {
   const [aberto, setAberto] = useState(false);
@@ -10,42 +11,12 @@ const FiltroLateral = () => {
     cursor: "",
   });
 
-  const [opcoesVisiveis, setOpcoesVisiveis] = useState({
-    tipo: false,
-    capacidade: false,
-    aulas: false,
-  });
-
-  const toggleOpcoes = (filtro) => {
-    setOpcoesVisiveis((prev) => ({
-      ...prev,
-      [filtro]: !prev[filtro],
-    }));
-  };
-
-  const selecionarOpcao = (filtro, valor) => {
-    setSelecionados((prev) => ({
-      ...prev,
-      [filtro]: valor,
-    }));
-    setOpcoesVisiveis((prev) => ({
-      ...prev,
-      [filtro]: false,
-    }));
-  };
-
-  const fecharDropdown = (filtro) => {
-    setOpcoesVisiveis((prev) => ({
-      ...prev,
-      [filtro]: false,
-    }));
+  const handleChange = (filtro, valor) => {
+    setSelecionados((prev) => ({ ...prev, [filtro]: valor }));
   };
 
   const removerFiltro = (chave) => {
-    setSelecionados((prev) => ({
-      ...prev,
-      [chave]: "",
-    }));
+    setSelecionados((prev) => ({ ...prev, [chave]: "" }));
   };
 
   return (
@@ -69,61 +40,33 @@ const FiltroLateral = () => {
 
       {aberto && (
         <div className="conteudo-filtro">
-          {/* Filtro Tipo */}
           <div className="filtro">
-            <button
-              onClick={() => toggleOpcoes("tipo")}
-              className={`dropdown-button ${opcoesVisiveis.tipo ? "dropdown-open" : ""}`}
-            >
-              <span>{selecionados.tipo || "Tipo"}</span>
-              <img src="/icones/dropdown.svg" alt="Abrir" className="dropdown-icon" />
-            </button>
-            {opcoesVisiveis.tipo && (
-              <div className="opcoes" onMouseLeave={() => fecharDropdown("tipo")}>
-                <p onClick={() => selecionarOpcao("tipo", "SALAS")}>SALAS</p>
-                <p onClick={() => selecionarOpcao("tipo", "LABORATÓRIOS")}>LABORATÓRIOS</p>
-                <p onClick={() => selecionarOpcao("tipo", "AUDITÓRIOS")}>AUDITÓRIOS</p>
-              </div>
-            )}
+            <SelectPadrao
+              label="Tipo"
+              value={selecionados.tipo}
+              options={["SALAS", "LABORATÓRIOS", "AUDITÓRIOS"]}
+              onChange={(val) => handleChange("tipo", val)}
+            />
           </div>
 
-          {/* Filtro Capacidade */}
           <div className="filtro">
-            <button
-              onClick={() => toggleOpcoes("capacidade")}
-              className={`dropdown-button ${opcoesVisiveis.capacidade ? "dropdown-open" : ""}`}
-            >
-              <span>{selecionados.capacidade || "Capacidade Máx."}</span>
-              <img src="/icones/dropdown.svg" alt="Abrir" className="dropdown-icon" />
-            </button>
-            {opcoesVisiveis.capacidade && (
-              <div className="opcoes" onMouseLeave={() => fecharDropdown("capacidade")}>
-                <p onClick={() => selecionarOpcao("capacidade", "30 PESSOAS")}>30 PESSOAS</p>
-                <p onClick={() => selecionarOpcao("capacidade", "40 PESSOAS")}>40 PESSOAS</p>
-                <p onClick={() => selecionarOpcao("capacidade", "100 PESSOAS")}>100 PESSOAS</p>
-              </div>
-            )}
+            <SelectPadrao
+              label="Capacidade Máx."
+              value={selecionados.capacidade}
+              options={["30 PESSOAS", "40 PESSOAS", "100 PESSOAS"]}
+              onChange={(val) => handleChange("capacidade", val)}
+            />
           </div>
 
-          {/* Filtro Aulas */}
           <div className="filtro">
-            <button
-              onClick={() => toggleOpcoes("aulas")}
-              className={`dropdown-button ${opcoesVisiveis.aulas ? "dropdown-open" : ""}`}
-            >
-              <span>{selecionados.aulas || "Aulas Disponíveis"}</span>
-              <img src="/icones/dropdown.svg" alt="Abrir" className="dropdown-icon" />
-            </button>
-            {opcoesVisiveis.aulas && (
-              <div className="opcoes" onMouseLeave={() => fecharDropdown("aulas")}>
-                <p onClick={() => selecionarOpcao("aulas", "1 AULA")}>1 AULA</p>
-                <p onClick={() => selecionarOpcao("aulas", "2 AULAS")}>2 AULAS</p>
-                <p onClick={() => selecionarOpcao("aulas", "4 AULAS")}>4 AULAS</p>
-              </div>
-            )}
+            <SelectPadrao
+              label="Aulas Disponíveis"
+              value={selecionados.aulas}
+              options={["1 AULA", "2 AULAS", "4 AULAS"]}
+              onChange={(val) => handleChange("aulas", val)}
+            />
           </div>
 
-          {/* Campo de Pesquisa Ferramenta */}
           <div className="filtro">
             <div className="search-input-wrapper">
               <input type="text" placeholder="Ferramenta" className="search-input" />
@@ -133,7 +76,6 @@ const FiltroLateral = () => {
 
           <div className="linha-separadora"></div>
 
-          {/* Filtros Selecionados */}
           {(selecionados.tipo || selecionados.capacidade || selecionados.aulas || selecionados.cursor) && (
             <div className="filtros-selecionados">
               {Object.entries(selecionados).map(([chave, valor]) => (
