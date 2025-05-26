@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './CadastroEspacos.css';
-import InputCadastro from "../../../componentes/Inputs/InputCadastro/InputCadastro";
-import NumeroCompacto from "../../../componentes/Inputs/NumeroCompacto/NumeroCompacto";
-import RadioGroup from "../../../componentes/RadioGroup/RadioGroup";
-import ButtonSalvar from "../../../componentes/Buttons/ButtonSalvar/ButtonSalvar";
-import ButtonExcluir from "../../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
+import InputCadastro from "../../../../componentes/Inputs/InputCadastro/InputCadastro";
+import NumeroCompacto from "../../../../componentes/Inputs/NumeroCompacto/NumeroCompacto";
+import RadioGroup from "../../../../componentes/RadioGroup/RadioGroup";
+import ButtonSalvar from "../../../../componentes/Buttons/ButtonSalvar/ButtonSalvar";
+import ButtonExcluir from "../../../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
 
 const CadastroEspacoModal = ({ onClose }) => {
   const [formData, setFormData] = useState({

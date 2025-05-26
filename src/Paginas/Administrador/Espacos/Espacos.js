@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import supabase from '../../Services/Supabase';
-import ButtonIncluir from "../../componentes/Buttons/ButtonInserir/ButtonIncluir";
-import ButtonExcluir from "../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
-import EspacoRow from "../../componentes/EspacoRow/EspacoRow";
+import { supabase } from '../../../Services/supabaseClient';
+import ButtonIncluir from "../../../componentes/Buttons/ButtonInserir/ButtonIncluir";
+import ButtonExcluir from "../../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
+import EspacoRow from "../../../componentes/EspacoRow/EspacoRow";
 import CadastroEspacoModal from "./CadastroEspacos/CadastroEspacos";
 import "./Espacos.css";
 

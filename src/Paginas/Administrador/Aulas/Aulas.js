@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import supabase from "../../Services/Supabase";
-import ButtonIncluir from "../../componentes/Buttons/ButtonInserir/ButtonIncluir";
-import ButtonExcluir from "../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
-import AulaRow from "../../componentes/AulaRow/AulaRow";
+import { supabase } from '../../../Services/supabaseClient';
+import ButtonIncluir from "../../../componentes/Buttons/ButtonInserir/ButtonIncluir";
+import ButtonExcluir from "../../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
+import AulaRow from "../../../componentes/AulaRow/AulaRow";
 import CadastroAula from "./CadastroAula/CadastroAula";
 import "./Aulas.css";
 

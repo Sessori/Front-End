@@ -38,6 +38,23 @@
   margin-bottom: 20px;
 }
 
+.botao-remover-foto {
+  width: 10rem;
+  margin-top: 8px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.3s ease;
+}
+
+.botao-remover-foto:hover {
+  background-color: #ff7875;
+}
+
 .form-left{
   width: 50%;
   display: flex;

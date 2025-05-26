@@ -57,22 +57,16 @@ form {
   gap: 10px;
 }
 
-/* Botões sociais */
-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-/* Coluna da direita: Container da ilustração */
+/* Coluna da direita: Ilustração */
 .login-illustration {
   flex: 1;
-  background: url("/public/imagens/imgfundo.svg") no-repeat center;
-  background-size: contain;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
 }
 
 .login-illustration img {
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  background-size: contain;
 }

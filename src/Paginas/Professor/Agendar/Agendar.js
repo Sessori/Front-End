@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Agenda from "../../componentes/Agenda/Agenda";
-import HorarioSeletor from "../../componentes/HorarioSeletor/HorarioSeletor";
-import SalaCard from "../../componentes/SalaCard/SalaCard";
-import FiltroLateral from "../../componentes/FiltroLateral/FiltroLateral"; // Importa o novo componente
+import Agenda from "../../../componentes/Agenda/Agenda";
+import HorarioSeletor from "../../../componentes/HorarioSeletor/HorarioSeletor";
+import SalaCard from "../../../componentes/SalaCard/SalaCard";
+import FiltroLateral from "../../../componentes/FiltroLateral/FiltroLateral"; // Importa o novo componente
 import "./Agendar.css";
 
 const salasDisponiveis = [

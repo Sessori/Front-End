@@ -21,9 +21,14 @@ const InputLogin = ({ type, placeholder, value, onChange }) => {
           type="button"
           className="toggle-password-button"
           onClick={togglePasswordVisibility}
+          aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
         >
           <img
-            src={showPassword ? "/icones/eye.svg" : "/icones/eye-off.svg"}
+            src={
+              showPassword
+                ? "/icones/icon-login/eye.svg"
+                : "/icones/icon-login/eyeoff.svg"
+            }
             alt={showPassword ? "Ocultar senha" : "Mostrar senha"}
           />
         </button>

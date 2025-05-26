@@ -10,10 +10,9 @@
 }
 
 .btn-excluir-primary {
-    background-color: #FF6670; /* Cor parecida com a da imagem */
-    color: #FFFFFF;
+    background-color: #FF6670;
 }
 
 .btn-excluir-primary:hover {
-    background-color: #FF6670; /* Tom mais escuro no hover */
+    background-color: #FF6670;
 }

@@ -6,12 +6,13 @@
 
 .input-container input {
   width: 100%;
-  padding: 12px 40px 12px 12px; /* padding direito para o botão */
+  padding: 12px 40px 12px 12px; /* espaço para o ícone à direita */
   border-radius: 10px;
   font-size: 16px;
   border: 1px solid #8C8989;
   background-color: #FFFFFF;
   color: #646E7A;
+  box-sizing: border-box; /* importante para não estourar o layout */
 }
 
 .toggle-password-button {
@@ -19,13 +20,21 @@
   top: 50%;
   right: 12px;
   transform: translateY(-50%);
-  background: none;
+  background: none !important;
   border: none;
   cursor: pointer;
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-password-button:hover {
+  background: none !important;
 }
 
 .toggle-password-button img {
   width: 24px;
   height: 24px;
+  object-fit: contain;
 }
