@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputCadastro from "../../../../componentes/Inputs/InputCadastro/InputCadastro";
 import RadioGroup from "../../../../componentes/RadioGroup/RadioGroup";
 import ButtonSalvar from "../../../../componentes/Buttons/ButtonSalvar/ButtonSalvar";
@@ -6,9 +6,9 @@ import ButtonExcluir from "../../../../componentes/Buttons/ButtonExcluir/ButtonE
 import "./CadastroUsuario.css";
 
 import { supabase } from '../../../../Services/supabaseClient';
-import { criarUsuario } from '../../../../Services/usuarioService';
+import { criarUsuario, atualizarUsuario, excluirUsuario } from '../../../../Services/usuarioService';
 
-const CadastroUsuario = ({ onClose }) => {
+const CadastroUsuario = ({ onClose, usuarioSelecionado }) => {
   const [formData, setFormData] = useState({
     codigo: "",
     nome: "",
@@ -24,26 +24,27 @@ const CadastroUsuario = ({ onClose }) => {
 
   const [previewFoto, setPreviewFoto] = useState(null);
   const [loadingFoto, setLoadingFoto] = useState(false);
+  const [fotoFile, setFotoFile] = useState(null);
+
+  useEffect(() => {
+    if (usuarioSelecionado) {
+      setFormData({
+        codigo: usuarioSelecionado.codigo,
+        nome: usuarioSelecionado.nome,
+        sobrenome: usuarioSelecionado.sobrenome,
+        email: usuarioSelecionado.email,
+        senha: "",
+        administrador: usuarioSelecionado.administrador ? "SIM" : "NÃO",
+        reservasFixas: usuarioSelecionado.realizar_reservas_fixas ? "SIM" : "NÃO",
+        ativo: usuarioSelecionado.ativo ? "SIM" : "NÃO",
+        foto: usuarioSelecionado.foto,
+        fotoPath: usuarioSelecionado.fotoPath || null
+      });
+    }
+  }, [usuarioSelecionado]);
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const uploadUserPhoto = async (file, userId) => {
-    const fileExt = file.name.split('.').pop();
-    const filePath = `fotos-perfil/${userId}.${fileExt}`;
-
-    const { error } = await supabase.storage
-      .from('fotos-perfil')
-      .upload(filePath, file, { upsert: true });
-
-    if (error) throw error;
-
-    const { data } = supabase.storage
-      .from('fotos-perfil')
-      .getPublicUrl(filePath);
-
-    return { publicUrl: data.publicUrl, filePath };
   };
 
   const handleFotoChange = async (e) => {
@@ -55,45 +56,68 @@ const CadastroUsuario = ({ onClose }) => {
       };
       reader.readAsDataURL(file);
 
-      setLoadingFoto(true);
-      try {
-        const identificador = formData.codigo || formData.email || Date.now();
-        const { publicUrl, filePath } = await uploadUserPhoto(file, identificador);
-        setFormData((prev) => ({
-          ...prev,
-          foto: publicUrl,
-          fotoPath: filePath
-        }));
-      } catch (error) {
-        console.error("Erro ao enviar imagem:", error);
-      }
-      setLoadingFoto(false);
+      setFotoFile(file);
     }
   };
 
   const handleRemoverFoto = async () => {
-    if (formData.fotoPath) {
-      try {
-        await supabase.storage
-          .from('fotos-perfil')
-          .remove([formData.fotoPath]);
-        console.log("Foto removida com sucesso.");
-      } catch (error) {
-        console.error("Erro ao remover a foto:", error);
-      }
+    if (!formData.fotoPath) {
+      setFormData(prev => ({ ...prev, foto: null, fotoPath: null }));
+      setPreviewFoto(null);
+      setFotoFile(null);
+      return;
     }
+
+    const { error } = await supabase.storage
+      .from('fotos-perfil')
+      .remove([formData.fotoPath]);
+
+    if (error) {
+      console.error("Erro ao remover foto:", error);
+      alert("Erro ao remover foto.");
+      return;
+    }
+
+    setFormData(prev => ({ ...prev, foto: null, fotoPath: null }));
     setPreviewFoto(null);
-    setFormData((prev) => ({ ...prev, foto: null, fotoPath: null }));
+    setFotoFile(null);
+    alert("Foto removida com sucesso.");
   };
 
   const handleSalvar = async () => {
-    const res = await criarUsuario(formData);
+    const dados = {
+      ...formData,
+      fotoFile
+    };
+
+    let res;
+    if (usuarioSelecionado) {
+      res = await atualizarUsuario(formData.codigo, dados);
+    } else {
+      res = await criarUsuario(dados);
+    }
 
     if (res.success) {
-      alert("Usuário criado com sucesso!");
-      onClose();  // Fecha o modal
+      alert("Usuário salvo com sucesso!");
+      onClose();
     } else {
       alert("Erro: " + res.error);
+    }
+  };
+
+  const handleExcluir = async () => {
+    if (!usuarioSelecionado) return;
+
+    const confirm = window.confirm("Tem certeza que deseja excluir este usuário?");
+    if (!confirm) return;
+
+    const res = await excluirUsuario(formData.codigo);
+
+    if (res.success) {
+      alert("Usuário excluído com sucesso!");
+      onClose();
+    } else {
+      alert("Erro ao excluir: " + res.error);
     }
   };
 
@@ -106,7 +130,7 @@ const CadastroUsuario = ({ onClose }) => {
   return (
     <div className="cadastro-modal" onClick={handleOutsideClick}>
       <div className="cadastro-card" onClick={(e) => e.stopPropagation()}>
-        <h2>Cadastro de Usuário</h2>
+        <h2>{usuarioSelecionado ? "Editar Usuário" : "Cadastro de Usuário"}</h2>
 
         <div className="cadastro-form">
           <div className="form-left">
@@ -147,7 +171,7 @@ const CadastroUsuario = ({ onClose }) => {
             <InputCadastro
               label="Código"
               value={formData.codigo}
-              onChange={(e) => handleChange("codigo", e.target.value)}
+              disabled
             />
             <InputCadastro
               label="Nome"
@@ -165,12 +189,14 @@ const CadastroUsuario = ({ onClose }) => {
               value={formData.email}
               onChange={(e) => handleChange("email", e.target.value)}
             />
-            <InputCadastro
-              label="Senha"
-              type="password"
-              value={formData.senha}
-              onChange={(e) => handleChange("senha", e.target.value)}
-            />
+            {!usuarioSelecionado && (
+              <InputCadastro
+                label="Senha"
+                type="password"
+                value={formData.senha}
+                onChange={(e) => handleChange("senha", e.target.value)}
+              />
+            )}
           </div>
 
           <div className="form-right">
@@ -197,7 +223,7 @@ const CadastroUsuario = ({ onClose }) => {
 
             <div className="form-actions">
               <ButtonSalvar onClick={handleSalvar} />
-              <ButtonExcluir onClick={() => console.log("Excluir")} />
+              {usuarioSelecionado && <ButtonExcluir onClick={handleExcluir} />}
             </div>
           </div>
         </div>

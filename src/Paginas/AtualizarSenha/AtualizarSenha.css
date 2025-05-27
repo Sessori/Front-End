@@ -1,0 +1,42 @@
+.atualizar-senha-container {
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.atualizar-senha-container h2 {
+  margin-bottom: 20px;
+  color: #12656F;
+}
+
+.input-senha {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.atualizar-senha-container button {
+  background-color: #12656F;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.atualizar-senha-container button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mensagem {
+  margin-top: 15px;
+  color: #333;
+  font-size: 14px;
+}

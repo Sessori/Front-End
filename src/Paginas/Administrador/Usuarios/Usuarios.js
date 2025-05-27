@@ -1,27 +1,59 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from '../../../Services/supabaseClient';
 import ButtonIncluir from "../../../componentes/Buttons/ButtonInserir/ButtonIncluir";
-import ButtonExcluir from "../../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
 import CadastroUsuario from "./CadastroUsuario/CadastroUsuario";
 import UsuarioRow from "../../../componentes/UsuarioRow/UsuarioRow";
 import "./Usuarios.css";
 
+import { excluirUsuario } from '../../../Services/usuarioService';
+
 const Usuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [showCadastro, setShowCadastro] = useState(false);
+  const [usuarioSelecionado, setUsuarioSelecionado] = useState(null);
 
-  //Função para buscar usuários do Supabase
-  useEffect(() => {
-    async function fetchUsuarios() {
-      const { data, error } = await supabase.from("usuarios").select("*");
-      if (error) {
-        console.error("Erro ao buscar usuários:", error);
-      } else {
-        setUsuarios(data);
-      }
+  // Função para buscar usuários do Supabase
+  const fetchUsuarios = async () => {
+    const { data, error } = await supabase.from("usuario").select("*");
+    if (error) {
+      console.error("Erro ao buscar usuários:", error);
+    } else {
+      setUsuarios(data);
     }
+  };
+
+  useEffect(() => {
     fetchUsuarios();
   }, []);
+
+  const handleIncluir = () => {
+    setUsuarioSelecionado(null);
+    setShowCadastro(true);
+  };
+
+  const handleEditar = (usuario) => {
+    setUsuarioSelecionado(usuario);
+    setShowCadastro(true);
+  };
+
+  const handleExcluir = async (usuario) => {
+    const confirm = window.confirm(`Tem certeza que deseja excluir ${usuario.nome}?`);
+    if (!confirm) return;
+
+    const res = await excluirUsuario(usuario.id);
+
+    if (res.success) {
+      alert("Usuário excluído com sucesso!");
+      fetchUsuarios(); // Atualiza a lista
+    } else {
+      alert("Erro ao excluir: " + res.error);
+    }
+  };
+
+  const handleSave = () => {
+    fetchUsuarios(); // Atualiza lista após criar/editar
+    setShowCadastro(false);
+  };
 
   return (
     <div className="usuarios-container">
@@ -29,8 +61,7 @@ const Usuarios = () => {
       <div className="usuarios-header">
         <input type="text" placeholder="Pesquisar" className="search-bar" />
         <div className="usuarios-actions">
-          <ButtonIncluir label="INCLUIR" onClick={() => setShowCadastro(true)} />
-          <ButtonExcluir label="EXCLUIR" onClick={() => alert("Excluir selecionados")} />
+          <ButtonIncluir label="INCLUIR" onClick={handleIncluir} />
         </div>
       </div>
 
@@ -49,20 +80,23 @@ const Usuarios = () => {
         </thead>
         <tbody>
           {usuarios.map((user) => (
-            <UsuarioRow key={user.id} usuario={user} />
+            <UsuarioRow
+              key={user.id}
+              usuario={user}
+              onEdit={handleEditar}
+              onDelete={handleExcluir}
+            />
           ))}
         </tbody>
       </table>
 
-      {/* Modal de Cadastro de Usuário */}
+      {/* Modal de Cadastro/Edição de Usuário */}
       {showCadastro && (
         <div className="modal-overlay">
-          <CadastroUsuario 
+          <CadastroUsuario
             onClose={() => setShowCadastro(false)}
-            onSave={(userData) => {
-              console.log("Novo usuário cadastrado:", userData);
-              setShowCadastro(false);
-            }}
+            onSave={handleSave}
+            usuarioSelecionado={usuarioSelecionado}
           />
         </div>
       )}

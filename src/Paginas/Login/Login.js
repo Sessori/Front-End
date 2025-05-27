@@ -32,7 +32,7 @@ const Login = () => {
     setUser(user);
 
     const { data: userData, error: dbError } = await supabase
-      .from('Usuario')
+      .from('usuario')
       .select('administrador')
       .eq('email', email)
       .single();
@@ -49,6 +49,24 @@ const Login = () => {
       navigate("/usuarios");  // ou sua home de admin
     } else {
       navigate("/agendar");   // ou sua home de professor
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      alert("Informe seu e-mail para redefinir a senha.");
+      return;
+    }
+
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'http://localhost:3000/AtualizarSenha'
+    });
+
+    if (error) {
+      console.error('Erro ao enviar e-mail de redefinição:', error);
+      alert("Erro ao enviar e-mail de redefinição: " + error.message);
+    } else {
+      alert("E-mail de redefinição enviado com sucesso! Verifique sua caixa de entrada.");
     }
   };
 
@@ -81,7 +99,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <ButtonEntrar />
-          <p className="forgot-password">Esqueceu a senha?</p>
+          <p className="forgot-password" onClick={handleForgotPassword}>Esqueceu a senha?</p>
         </form>
 
         <div className="social-login">

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AuthProvider, useAuth } from './auth/authContext';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import Login from "./Paginas/Login/Login";
 import LandingPage from "./Paginas/Home/Home";
@@ -21,12 +21,15 @@ import Aulas from "./Paginas/Administrador/Aulas/Aulas";
 // Páginas do Professor
 import Agendar from "./Paginas/Professor/Agendar/Agendar";
 
+// Página de atualização de senha
+import AtualizarSenha from "./Paginas/AtualizarSenha/AtualizarSenha";
+
 import PrivateRoute from "./auth/privateRoute";
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const { perfil } = useAuth();
-  const isLoginPage = location.pathname === "/login";
+  const isLoginPage = location.pathname === "/login" || location.pathname === "/atualizar-senha";
 
   return (
     <div style={{ display: "flex" }}>
@@ -39,82 +42,105 @@ const Layout = ({ children }) => {
   );
 };
 
+const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/atualizar-senha" element={<AtualizarSenha />} />
+
+      {/* Rotas protegidas para administrador */}
+      <Route
+        path="/usuarios"
+        element={
+          <PrivateRoute requiredPerfil="administrador">
+            <Usuarios />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/espacos"
+        element={
+          <PrivateRoute requiredPerfil="administrador">
+            <Espacos />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/aulas"
+        element={
+          <PrivateRoute requiredPerfil="administrador">
+            <Aulas />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/solicitacoes"
+        element={
+          <PrivateRoute requiredPerfil="administrador">
+            <Solicitacoes />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/configuracoes"
+        element={
+          <PrivateRoute requiredPerfil="administrador">
+            <Configuracoes />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/suporte"
+        element={
+          <PrivateRoute requiredPerfil="administrador">
+            <Suporte />
+          </PrivateRoute>
+        }
+      />
+
+      {/* Rotas protegidas para professor */}
+      <Route
+        path="/agendar"
+        element={
+          <PrivateRoute requiredPerfil="professor">
+            <Agendar />
+          </PrivateRoute>
+        }
+      />
+
+      {/* Redirecionamento padrão */}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
+  );
+};
+
 const App = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    const type = hashParams.get('type');
+
+    if (type === 'recovery' && location.pathname !== '/atualizar-senha') {
+      navigate('/atualizar-senha' + window.location.hash);
+    }
+  }, [location, navigate]);
+
   return (
     <AuthProvider>
-      <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
-
-            {/* Rotas protegidas para administrador */}
-            <Route
-              path="/usuarios"
-              element={
-                <PrivateRoute requiredPerfil="administrador">
-                  <Usuarios />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/espacos"
-              element={
-                <PrivateRoute requiredPerfil="administrador">
-                  <Espacos />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/aulas"
-              element={
-                <PrivateRoute requiredPerfil="administrador">
-                  <Aulas />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/solicitacoes"
-              element={
-                <PrivateRoute requiredPerfil="administrador">
-                  <Solicitacoes />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/configuracoes"
-              element={
-                <PrivateRoute requiredPerfil="administrador">
-                  <Configuracoes />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/suporte"
-              element={
-                <PrivateRoute requiredPerfil="administrador">
-                  <Suporte />
-                </PrivateRoute>
-              }
-            />
-
-            {/* Rotas protegidas para professor */}
-            <Route
-              path="/agendar"
-              element={
-                <PrivateRoute requiredPerfil="professor">
-                  <Agendar />
-                </PrivateRoute>
-              }
-            />
-
-            {/* Redirecionamento padrão */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </Layout>
-      </Router>
+      <Layout>
+        <AppRoutes />
+      </Layout>
     </AuthProvider>
   );
 };
 
-export default App;
+const AppWrapper = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default AppWrapper;
