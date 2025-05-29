@@ -8,7 +8,7 @@ import "./CadastroUsuario.css";
 import { supabase } from '../../../../Services/supabaseClient';
 import { criarUsuario, atualizarUsuario, excluirUsuario } from '../../../../Services/usuarioService';
 
-const CadastroUsuario = ({ onClose, usuarioSelecionado }) => {
+const CadastroUsuario = ({ onClose, onSave, usuarioSelecionado }) => {
   const [formData, setFormData] = useState({
     codigo: "",
     nome: "",
@@ -50,9 +50,12 @@ const CadastroUsuario = ({ onClose, usuarioSelecionado }) => {
   const handleFotoChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
+      setLoadingFoto(true);
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewFoto(reader.result);
+        setLoadingFoto(false);
       };
       reader.readAsDataURL(file);
 
@@ -90,6 +93,15 @@ const CadastroUsuario = ({ onClose, usuarioSelecionado }) => {
       fotoFile
     };
 
+    if (usuarioSelecionado) {
+      console.log("🔄 Atualizando usuário:");
+      console.log("Código do usuário:", formData.codigo);
+      console.log("Dados enviados:", dados);
+    } else {
+      console.log("🆕 Criando novo usuário:");
+      console.log("Dados enviados:", dados);
+    }
+
     let res;
     if (usuarioSelecionado) {
       res = await atualizarUsuario(formData.codigo, dados);
@@ -99,9 +111,11 @@ const CadastroUsuario = ({ onClose, usuarioSelecionado }) => {
 
     if (res.success) {
       alert("Usuário salvo com sucesso!");
+      if (typeof onSave === 'function') onSave();
       onClose();
     } else {
       alert("Erro: " + res.error);
+      console.error("❌ Erro ao salvar:", res.error);
     }
   };
 
@@ -222,7 +236,7 @@ const CadastroUsuario = ({ onClose, usuarioSelecionado }) => {
             </div>
 
             <div className="form-actions">
-              <ButtonSalvar onClick={handleSalvar} />
+              <ButtonSalvar onClick={handleSalvar} disabled={loadingFoto} />
               {usuarioSelecionado && <ButtonExcluir onClick={handleExcluir} />}
             </div>
           </div>

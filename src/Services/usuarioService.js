@@ -2,24 +2,43 @@ import { supabase } from "./supabaseClient";
 
 // Função para upload da foto
 export const uploadUserPhoto = async (file, identificador) => {
-  const fileExt = file.name.split('.').pop();
-  const filePath = `fotos-perfil/${identificador}.${fileExt}`;
+  try {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${identificador.replace(/[^a-zA-Z0-9]/g, "_")}.${fileExt}`;
+    const filePath = `usuarios/${fileName}`; // <- só 'usuarios/', não repita 'fotos-perfil'
 
-  const { error: uploadError } = await supabase.storage
-    .from('fotos-perfil')
-    .upload(filePath, file, { upsert: true });
+    const { error: uploadError } = await supabase.storage
+      .from('fotos-perfil')
+      .upload(filePath, file, {
+        upsert: true,
+        contentType: file.type
+      });
 
-  if (uploadError) throw uploadError;
+    if (uploadError) throw uploadError;
 
-  const { data } = supabase.storage
-    .from('fotos-perfil')
-    .getPublicUrl(filePath);
+    const { data, error: publicUrlError } = supabase.storage
+      .from('fotos-perfil')
+      .getPublicUrl(filePath);
 
-  return { publicUrl: data.publicUrl, filePath };
+    if (publicUrlError) throw publicUrlError;
+
+    return {
+      success: true,
+      publicUrl: data.publicUrl,
+      filePath
+    };
+  } catch (error) {
+    console.error("Erro ao enviar imagem:", error.message || error);
+    return {
+      success: false,
+      error: error.message || "Erro desconhecido ao enviar imagem."
+    };
+  }
 };
 
+
 export const criarUsuario = async (dados) => {
-  // 1. Criação no Auth
+  // 1. Criar usuário no Auth
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email: dados.email,
     password: dados.senha
@@ -29,24 +48,22 @@ export const criarUsuario = async (dados) => {
     return { success: false, error: authError.message };
   }
 
-  // 2. Upload da foto, se houver
+  // 2. Upload da imagem (se houver)
   let publicUrl = null;
   let filePath = null;
 
   if (dados.fotoFile) {
-    try {
-      const upload = await uploadUserPhoto(dados.fotoFile, dados.email);
-      publicUrl = upload.publicUrl;
-      filePath = upload.filePath;
-    } catch (uploadError) {
-      console.error("Erro ao fazer upload da foto:", uploadError);
-      return { success: false, error: uploadError.message };
+    const upload = await uploadUserPhoto(dados.fotoFile, dados.email);
+    if (!upload.success) {
+      return { success: false, error: upload.error };
     }
+    publicUrl = upload.publicUrl;
+    filePath = upload.filePath;
   }
 
-  // 3. Inserção na tabela usuario
+  // 3. Inserir na tabela usuario
   const { error: dbError } = await supabase
-    .from('usuario')
+    .from("usuario")
     .insert([{
       nome: dados.nome,
       sobrenome: dados.sobrenome,
@@ -69,20 +86,17 @@ export const atualizarUsuario = async (codigo, dados) => {
   let publicUrl = dados.foto;
   let filePath = dados.fotoPath;
 
-  // Se houver nova foto, faz o upload
   if (dados.fotoFile) {
-    try {
-      const upload = await uploadUserPhoto(dados.fotoFile, dados.email);
-      publicUrl = upload.publicUrl;
-      filePath = upload.filePath;
-    } catch (uploadError) {
-      console.error("Erro ao fazer upload da nova foto:", uploadError);
-      return { success: false, error: uploadError.message };
+    const upload = await uploadUserPhoto(dados.fotoFile, dados.email);
+    if (!upload.success) {
+      return { success: false, error: upload.error };
     }
+    publicUrl = upload.publicUrl;
+    filePath = upload.filePath;
   }
 
   const { error } = await supabase
-    .from('usuario')
+    .from("usuario")
     .update({
       nome: dados.nome,
       sobrenome: dados.sobrenome,
@@ -93,7 +107,7 @@ export const atualizarUsuario = async (codigo, dados) => {
       foto: publicUrl,
       fotopath: filePath
     })
-    .eq('codigo', codigo); 
+    .eq("codigo", codigo);
 
   if (error) {
     return { success: false, error: error.message };
@@ -102,15 +116,45 @@ export const atualizarUsuario = async (codigo, dados) => {
   return { success: true };
 };
 
+
 export const excluirUsuario = async (codigo) => {
-  const { error } = await supabase
-    .from('usuario')
-    .delete()
-    .eq('codigo', codigo);  
+  try {
+    // 1. Buscar o caminho da foto (fotoPath)
+    const { data: usuario, error: fetchError } = await supabase
+      .from("usuario")
+      .select("fotopath")
+      .eq("codigo", codigo)
+      .single();
 
-  if (error) {
-    return { success: false, error: error.message };
+    if (fetchError) {
+      return { success: false, error: "Erro ao buscar usuário: " + fetchError.message };
+    }
+
+    // 2. Remover imagem do Storage, se existir
+    if (usuario.fotopath) {
+      const { error: storageError } = await supabase
+        .storage
+        .from("fotos-perfil")
+        .remove([usuario.fotopath]);
+
+      if (storageError) {
+        console.warn("⚠️ Imagem não pôde ser removida:", storageError.message);
+        // continua mesmo assim
+      }
+    }
+
+    // 3. Remover o registro do banco
+    const { error: deleteError } = await supabase
+      .from("usuario")
+      .delete()
+      .eq("codigo", codigo);
+
+    if (deleteError) {
+      return { success: false, error: "Erro ao excluir usuário: " + deleteError.message };
+    }
+
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message || "Erro inesperado ao excluir usuário." };
   }
-
-  return { success: true };
 };

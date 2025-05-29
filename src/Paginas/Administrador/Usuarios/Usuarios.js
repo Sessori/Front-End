@@ -1,20 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { supabase } from '../../../Services/supabaseClient';
 import ButtonIncluir from "../../../componentes/Buttons/ButtonInserir/ButtonIncluir";
 import CadastroUsuario from "./CadastroUsuario/CadastroUsuario";
-import UsuarioRow from "../../../componentes/UsuarioRow/UsuarioRow";
+import EditItem from "../../../componentes/EditItem/EditItem";
+import CampoBusca from "../../../componentes/Inputs/CampoBusca/CampoBusca";
 import "./Usuarios.css";
 
 import { excluirUsuario } from '../../../Services/usuarioService';
+import debounce from 'lodash.debounce';
 
 const Usuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [showCadastro, setShowCadastro] = useState(false);
   const [usuarioSelecionado, setUsuarioSelecionado] = useState(null);
+  const [busca, setBusca] = useState("");
 
-  // Função para buscar usuários do Supabase
-  const fetchUsuarios = async () => {
-    const { data, error } = await supabase.from("usuario").select("*");
+  const fetchUsuarios = async (filtro = "") => {
+    const { data, error } = await supabase
+      .from("usuario")
+      .select("*")
+      .or(
+        `nome.ilike.%${filtro}%,email.ilike.%${filtro}%`
+      );
+
     if (error) {
       console.error("Erro ao buscar usuários:", error);
     } else {
@@ -23,8 +31,21 @@ const Usuarios = () => {
   };
 
   useEffect(() => {
-    fetchUsuarios();
+    fetchUsuarios(); // inicial
   }, []);
+
+  //Debounced search
+  const debouncedSearch = useCallback(
+    debounce((valor) => {
+      fetchUsuarios(valor);
+    }, 500),
+    []
+  );
+
+  const handleBuscaChange = (valor) => {
+    setBusca(valor);
+    debouncedSearch(valor);
+  };
 
   const handleIncluir = () => {
     setUsuarioSelecionado(null);
@@ -40,32 +61,34 @@ const Usuarios = () => {
     const confirm = window.confirm(`Tem certeza que deseja excluir ${usuario.nome}?`);
     if (!confirm) return;
 
-    const res = await excluirUsuario(usuario.id);
+    const res = await excluirUsuario(usuario.codigo);
 
     if (res.success) {
       alert("Usuário excluído com sucesso!");
-      fetchUsuarios(); // Atualiza a lista
+      fetchUsuarios();
     } else {
       alert("Erro ao excluir: " + res.error);
     }
   };
 
   const handleSave = () => {
-    fetchUsuarios(); // Atualiza lista após criar/editar
+    fetchUsuarios();
     setShowCadastro(false);
   };
 
   return (
     <div className="usuarios-container">
-      {/* Barra de Pesquisa e Botões */}
       <div className="usuarios-header">
-        <input type="text" placeholder="Pesquisar" className="search-bar" />
+        <CampoBusca
+          valor={busca}
+          onChange={handleBuscaChange}
+          placeholder="Pesquisar por nome, e-mail ou código"
+        />
         <div className="usuarios-actions">
           <ButtonIncluir label="INCLUIR" onClick={handleIncluir} />
         </div>
       </div>
 
-      {/* Tabela de Usuários */}
       <table className="usuarios-table">
         <thead>
           <tr>
@@ -79,18 +102,17 @@ const Usuarios = () => {
           </tr>
         </thead>
         <tbody>
-          {usuarios.map((user) => (
-            <UsuarioRow
-              key={user.id}
-              usuario={user}
-              onEdit={handleEditar}
-              onDelete={handleExcluir}
-            />
-          ))}
+        {usuarios.map((user) => (
+          <EditItem
+            key={user.codigo}
+            dados={user}
+            onEdit={handleEditar}
+            onDelete={handleExcluir}
+          />
+        ))}
         </tbody>
       </table>
 
-      {/* Modal de Cadastro/Edição de Usuário */}
       {showCadastro && (
         <div className="modal-overlay">
           <CadastroUsuario
