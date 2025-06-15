@@ -46,9 +46,9 @@ const Login = () => {
     setPerfil(perfil);
 
     if (perfil === 'administrador') {
-      navigate("/usuarios");  // ou sua home de admin
+      navigate("/usuarios"); 
     } else {
-      navigate("/agendar");   // ou sua home de professor
+      navigate("/agendar"); 
     }
   };
 
@@ -103,7 +103,7 @@ const Login = () => {
         </form>
 
         <div className="social-login">
-          <p>ou entrar através</p>
+          <p>Ou entrar através</p>
           <ButtonGW
             icon="/icones/Icon-login/googleLogo.svg"
             text="Entrar com o Google"

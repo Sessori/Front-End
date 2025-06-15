@@ -1,0 +1,13 @@
+.select-padrao-container {
+  margin-bottom: 16px;
+}
+
+.select-padrao-label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.select-padrao {
+  font-size: 14px;
+}
