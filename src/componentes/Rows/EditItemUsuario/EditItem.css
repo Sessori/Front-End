@@ -1,0 +1,56 @@
+.menu-cell {
+  position: relative;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #0f5c5c;
+  padding: 4px;
+  outline: none;
+}
+
+/* Remove o hover padrão */
+.menu-button:hover,
+.menu-button:focus {
+  background: none;
+  box-shadow: none;
+}
+
+.menu-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 10;
+  width: 140px;
+  margin-top: 6px;
+}
+
+.dropdown-menu button {
+  width: 100%;
+  padding: 12px;
+  background-color: white;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: #0f5c5c;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+/* Hover refinado */
+.dropdown-menu button:hover {
+  background-color: #d5eed5;
+}

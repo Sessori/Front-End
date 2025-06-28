@@ -4,8 +4,9 @@ import { supabase } from '../../../Services/supabaseClient';
 // Componentes reutilizáveis
 import ButtonIncluir from "../../../componentes/Buttons/ButtonInserir/ButtonIncluir";
 import CadastroAula from "./CadastroAula/CadastroAula";
-import EditItem from "../../../componentes/EditItem/EditItem";
+import EditItemAulas from "../../../componentes/Rows/EditItemAulas/EditItemAulas";
 import CampoBusca from "../../../componentes/Inputs/CampoBusca/CampoBusca";
+
 
 import "./Aulas.css";
 
@@ -31,10 +32,10 @@ const Aulas = () => {
   /**
    * Busca as aulas no Supabase com filtro por nome ou período
    */
-  const fetchAulas = async (filtro = "") => {
+  const fetchAulas = async (filtro = "") => { 
     const { data, error } = await supabase
       .from("aula")
-      .select("*, usuario:usuario_codigo (nome, sobrenome)")
+      .select("codigo, nome, periodo, usuario_codigo, qtd_alunos, ativo, usuario:usuario_codigo (nome, sobrenome)")
       .or(`nome.ilike.%${filtro}%,periodo.ilike.%${filtro}%`);
 
     if (error) {
@@ -73,6 +74,7 @@ const Aulas = () => {
 
   // Abre o modal para editar a aula selecionada
   const handleEditar = (aula) => {
+    console.log("Editando aula:", aula); // Veja se vem com usuario_codigo
     setAulaSelecionada(aula);
     setShowCadastro(true);
   };
@@ -116,7 +118,7 @@ const Aulas = () => {
       <table className="aulas-table">
         <thead>
           <tr>
-            <th>NOME</th>
+            <th>AULA</th>
             <th>PERÍODO</th>
             <th>PROFESSOR</th>
             <th>QTD ALUNOS</th>
@@ -126,19 +128,20 @@ const Aulas = () => {
         </thead>
         <tbody>
           {aulas.map((aula) => (
-          <EditItem
-            key={aula.codigo}
-            dados={{
-              nome: aula.nome,
-              periodo: aula.periodo,
-              professor_nome: aula.usuario ? `${aula.usuario.nome} ${aula.usuario.sobrenome}` : "-",
-              qtd_alunos: aula.qtd_alunos,
-              ativo: aula.ativo ? "SIM" : "NÃO",
-              codigo: aula.codigo
-            }}
-            onEdit={handleEditar}
-            onDelete={handleExcluir}
-          />
+            <EditItemAulas
+              key={aula.codigo}
+              dados={{
+                codigo: aula.codigo,
+                nome: aula.nome,
+                periodo: aula.periodo,
+                usuario_codigo: aula.usuario_codigo,
+                professor_nome: aula.usuario ? `${aula.usuario.nome} ${aula.usuario.sobrenome}` : "-",
+                qtd_alunos: aula.qtd_alunos,
+                ativo: aula.ativo ? "SIM" : "NÃO"
+              }}
+              onEdit={handleEditar}
+              onDelete={handleExcluir}
+            />
           ))}
         </tbody>
       </table>

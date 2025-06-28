@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { supabase } from '../../../Services/supabaseClient';
 import ButtonIncluir from "../../../componentes/Buttons/ButtonInserir/ButtonIncluir";
 import CadastroUsuario from "./CadastroUsuario/CadastroUsuario";
-import EditItem from "../../../componentes/EditItem/EditItem";
+import EditItem from "../../../componentes/Rows/EditItemUsuario/EditItem";
 import CampoBusca from "../../../componentes/Inputs/CampoBusca/CampoBusca";
 import "./Usuarios.css";
 

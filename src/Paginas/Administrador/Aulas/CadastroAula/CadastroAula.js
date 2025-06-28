@@ -9,46 +9,53 @@ import ButtonExcluir from "../../../../componentes/Buttons/ButtonExcluir/ButtonE
 import SelectPadrao from "../../../../componentes/SelectPadrao/SelectPadrao";
 import { supabase } from '../../../../Services/supabaseClient';
 
-/**
- * Componente para cadastro ou edição de aulas.
- */
 const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
-  const {
-    codigo = "",
-    nome = "",
-    periodo = "MANHÃ",
-    usuario_codigo = "",
-    qtd_alunos = 0,
-    ativo = true
-  } = aulaSelecionada || {};
-
   const [formData, setFormData] = useState({
-    codigo,
-    nome,
-    periodo,
-    professor: usuario_codigo,
-    qtdAlunos: qtd_alunos,
-    ativo: ativo ? "SIM" : "NÃO"
+    codigo: "",
+    nome: "",
+    periodo: "MANHÃ",
+    professor: "",
+    qtdAlunos: 0,
+    ativo: "SIM"
   });
 
   const [professores, setProfessores] = useState([]);
 
-  // Busca todos os usuários que não são administradores
   useEffect(() => {
-  async function fetchProfessores() {
-    const { data, error } = await supabase
-      .from("usuario")
-      .select("codigo, nome, sobrenome")
-      .eq("administrador", false)
-      .order("nome", { ascending: true });
+    if (aulaSelecionada) {
+      setFormData({
+        codigo: aulaSelecionada.codigo || "",
+        nome: aulaSelecionada.nome || "",
+        periodo: aulaSelecionada.periodo || "MANHÃ",
+        professor: aulaSelecionada.usuario_codigo ? String(aulaSelecionada.usuario_codigo) : "",
+        qtdAlunos: aulaSelecionada.qtd_alunos || 0,
+        ativo: aulaSelecionada.ativo === true || aulaSelecionada.ativo === "SIM" ? "SIM" : "NÃO"
+      });
+    } else {
+      setFormData({
+        codigo: "",
+        nome: "",
+        periodo: "MANHÃ",
+        professor: "",
+        qtdAlunos: 0,
+        ativo: "SIM"
+      });
+    }
+  }, [aulaSelecionada]);
 
-    console.log("Professores retornados:", data, error); // 🔍 log
+  useEffect(() => {
+    async function fetchProfessores() {
+      const { data, error } = await supabase
+        .from("usuario")
+        .select("codigo, nome, sobrenome")
+        .eq("administrador", false)
+        .order("nome", { ascending: true });
 
-    if (!error && data) setProfessores(data);
-    else console.error("Erro ao buscar professores:", error);
-  }
+      if (!error && data) setProfessores(data);
+      else console.error("Erro ao buscar professores:", error);
+    }
 
-  fetchProfessores();
+    fetchProfessores();
   }, []);
 
   const handleChange = (field, value) => {
@@ -59,10 +66,15 @@ const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
     const aula = {
       nome: formData.nome,
       periodo: formData.periodo,
-      usuario_codigo: formData.professor,
-      qtd_alunos: formData.qtdAlunos,
+      usuario_codigo: formData.professor ? parseInt(formData.professor) : null,
+      qtd_alunos: formData.qtdAlunos ? parseInt(formData.qtdAlunos) : null,
       ativo: formData.ativo === "SIM"
     };
+
+    if (!aula.usuario_codigo) {
+      alert("Selecione um professor antes de salvar.");
+      return;
+    }
 
     const { error } = formData.codigo
       ? await supabase.from("aula").update(aula).eq("codigo", formData.codigo)
@@ -80,7 +92,7 @@ const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
   const handleExcluir = async () => {
     if (!formData.codigo) return;
 
-    const { error } = await supabase.from("Aula").delete().eq("codigo", formData.codigo);
+    const { error } = await supabase.from("aula").delete().eq("codigo", formData.codigo);
     if (error) alert("Erro ao excluir aula: " + error.message);
     else {
       onSave && onSave();
@@ -110,11 +122,8 @@ const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
             <SelectPadrao
               label="Professor"
               value={formData.professor}
-              options={professores.map(p => ({ label: `${p.nome} ${p.sobrenome}`, value: p.codigo }))}
-              onChange={(valor) => {
-                console.log("Professor selecionado:", valor);
-                handleChange("professor", valor);
-              }}
+              options={professores.map(p => ({ label: `${p.nome} ${p.sobrenome}`, value: String(p.codigo) }))}
+              onChange={(valor) => handleChange("professor", valor)}
               placeholder="Selecione o professor"
             />
             <NumeroCompacto value={formData.qtdAlunos} onChange={(e) => handleChange("qtdAlunos", e.target.value)} label="Quantidade Matriculados" />
