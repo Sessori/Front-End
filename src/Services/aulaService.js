@@ -3,7 +3,7 @@ import { supabase } from './supabaseClient';
 // Buscar todas as aulas (com filtro opcional)
 export const buscarAulas = async (filtro = "") => {
   const { data, error } = await supabase
-    .from("Aula")
+    .from("aula")
     .select("*")
     .or(`nome.ilike.%${filtro}%,periodo.ilike.%${filtro}%`);
 
@@ -16,7 +16,7 @@ export const buscarAulas = async (filtro = "") => {
 
 // Inserir nova aula
 export const inserirAula = async (aula) => {
-  const { error } = await supabase.from('Aula').insert([aula]);
+  const { error } = await supabase.from('aula').insert([aula]);
 
   if (error) {
     console.error("Erro ao inserir aula:", error);
@@ -27,7 +27,7 @@ export const inserirAula = async (aula) => {
 
 // Atualizar aula existente
 export const atualizarAula = async (codigo, aula) => {
-  const { error } = await supabase.from('Aula').update(aula).eq('codigo', codigo);
+  const { error } = await supabase.from('aula').update(aula).eq('codigo', codigo);
 
   if (error) {
     console.error("Erro ao atualizar aula:", error);
@@ -38,7 +38,7 @@ export const atualizarAula = async (codigo, aula) => {
 
 // Excluir aula
 export const excluirAula = async (codigo) => {
-  const { error } = await supabase.from('Aula').delete().eq('codigo', codigo);
+  const { error } = await supabase.from('aula').delete().eq('codigo', codigo);
 
   if (error) {
     console.error("Erro ao excluir aula:", error);

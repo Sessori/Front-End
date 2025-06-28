@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './CadastroAula.css';
+
 import NumeroCompacto from '../../../../componentes/Inputs/NumeroCompacto/NumeroCompacto';
 import InputCadastro from "../../../../componentes/Inputs/InputCadastro/InputCadastro";
 import RadioGroup from "../../../../componentes/RadioGroup/RadioGroup";
@@ -8,6 +9,9 @@ import ButtonExcluir from "../../../../componentes/Buttons/ButtonExcluir/ButtonE
 import SelectPadrao from "../../../../componentes/SelectPadrao/SelectPadrao";
 import { supabase } from '../../../../Services/supabaseClient';
 
+/**
+ * Componente para cadastro ou edição de aulas.
+ */
 const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
   const {
     codigo = "",
@@ -29,22 +33,26 @@ const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
 
   const [professores, setProfessores] = useState([]);
 
+  // Busca todos os usuários que não são administradores
   useEffect(() => {
-    async function fetchProfessores() {
-      const { data, error } = await supabase
-        .from("Usuario")
-        .select("codigo, nome")
-        .eq("tipo", "Professor");
+  async function fetchProfessores() {
+    const { data, error } = await supabase
+      .from("usuario")
+      .select("codigo, nome, sobrenome")
+      .eq("administrador", false)
+      .order("nome", { ascending: true });
 
-      if (!error) setProfessores(data);
-      else console.error("Erro ao buscar professores:", error);
-    }
+    console.log("Professores retornados:", data, error); // 🔍 log
 
-    fetchProfessores();
+    if (!error && data) setProfessores(data);
+    else console.error("Erro ao buscar professores:", error);
+  }
+
+  fetchProfessores();
   }, []);
 
   const handleChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSalvar = async () => {
@@ -56,15 +64,13 @@ const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
       ativo: formData.ativo === "SIM"
     };
 
-    if (formData.codigo) {
-      const { error } = await supabase
-        .from("Aula")
-        .update(aula)
-        .eq("codigo", formData.codigo);
-      if (error) alert("Erro ao atualizar aula: " + error.message);
-    } else {
-      const { error } = await supabase.from("Aula").insert(aula);
-      if (error) alert("Erro ao criar aula: " + error.message);
+    const { error } = formData.codigo
+      ? await supabase.from("aula").update(aula).eq("codigo", formData.codigo)
+      : await supabase.from("aula").insert(aula);
+
+    if (error) {
+      alert("Erro ao salvar aula: " + error.message);
+      return;
     }
 
     onSave && onSave();
@@ -72,12 +78,14 @@ const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
   };
 
   const handleExcluir = async () => {
-    if (formData.codigo) {
-      const { error } = await supabase.from("Aula").delete().eq("codigo", formData.codigo);
-      if (error) alert("Erro ao excluir aula: " + error.message);
+    if (!formData.codigo) return;
+
+    const { error } = await supabase.from("Aula").delete().eq("codigo", formData.codigo);
+    if (error) alert("Erro ao excluir aula: " + error.message);
+    else {
+      onSave && onSave();
+      onClose();
     }
-    onSave && onSave();
-    onClose();
   };
 
   const handleOutsideClick = (e) => {
@@ -96,49 +104,25 @@ const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
 
         <div className="form-grid">
           <div className="form-left">
-            <InputCadastro
-              label="Código"
-              value={formData.codigo}
-              onChange={() => {}}
-              disabled
-            />
-            <InputCadastro
-              label="Nome da Disciplina"
-              value={formData.nome}
-              onChange={(e) => handleChange("nome", e.target.value)}
-            />
-            <SelectPadrao
-              label="Período"
-              value={formData.periodo}
-              options={["MANHÃ", "TARDE", "NOITE"]}
-              onChange={(valor) => handleChange("periodo", valor)}
-            />
+            <InputCadastro label="Código" value={formData.codigo} visualOnly />
+            <InputCadastro label="Nome da Disciplina" value={formData.nome} onChange={(e) => handleChange("nome", e.target.value)} />
+            <SelectPadrao label="Período" value={formData.periodo} options={["MANHÃ", "TARDE", "NOITE"].map(p => ({ label: p, value: p }))} onChange={(valor) => handleChange("periodo", valor)} />
             <SelectPadrao
               label="Professor"
               value={formData.professor}
-              options={professores.map((p) => ({
-                label: p.nome,
-                value: p.codigo
-              }))}
-              onChange={(valor) => handleChange("professor", valor)}
+              options={professores.map(p => ({ label: `${p.nome} ${p.sobrenome}`, value: p.codigo }))}
+              onChange={(valor) => {
+                console.log("Professor selecionado:", valor);
+                handleChange("professor", valor);
+              }}
               placeholder="Selecione o professor"
             />
-
-            <NumeroCompacto
-              value={formData.qtdAlunos}
-              onChange={(e) => handleChange("qtdAlunos", e.target.value)}
-              label="Quantidade Matriculados"
-            />
+            <NumeroCompacto value={formData.qtdAlunos} onChange={(e) => handleChange("qtdAlunos", e.target.value)} label="Quantidade Matriculados" />
           </div>
 
           <div className="form-right">
             <div className="radio-container">
-              <RadioGroup
-                label="Ativo"
-                options={["SIM", "NÃO"]}
-                value={formData.ativo}
-                onChange={(value) => handleChange("ativo", value)}
-              />
+              <RadioGroup label="Ativo" options={["SIM", "NÃO"]} value={formData.ativo} onChange={(value) => handleChange("ativo", value)} />
             </div>
 
             <div className="form-actions">
