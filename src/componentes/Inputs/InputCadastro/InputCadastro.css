@@ -2,14 +2,14 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
-    width: 100%;
-    margin-bottom: 18px;
-    max-width: 28rem;
+    width: 80%;
+    margin-bottom: 10px;
+    max-width: 30rem;
   }
   
   .input-cadastro-label {
     font-size: 14px;
-    color: #456650; /* Verde conforme o design */
+    color: #456650; 
     font-weight: bold;
     text-transform: uppercase;
   }
@@ -18,8 +18,8 @@
     width: 100%;
     height: 2.4rem;
     padding: 12px;
-    border: 2px solid #6BA07D; /* Verde mais suave */
-    border-radius: 10px; /* Bordas arredondadas */
+    border: 2px solid #6BA07D; 
+    border-radius: 10px;
     font-size: 16px;
     color: #333;
     outline: none;
@@ -28,11 +28,28 @@
   }
   
   .input-cadastro-field::placeholder {
-    color: #6BA07D; /* Placeholder verde */
+    color: #6BA07D; 
     font-size: 14px;
   }
   
   .input-cadastro-field:focus {
-    border-color: #6BA07D; /* Cor mais escura ao focar */
+    border-color: #6BA07D; 
   }
+
+.input-cadastro-visual {
+  width: 120px;
+  height: 2.4rem;
+  padding: 12px;
+  border: 2px solid #6BA07D;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #333;
+  background-color: #d6d6d6;
+  outline: none;
+  user-select: none;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+}
   

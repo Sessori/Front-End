@@ -12,7 +12,7 @@
 
 .cadastro-card {
   background-color: #E6E6E6;
-  padding: 2.5rem;
+  padding: 2rem;
   border-radius: 8px;
   width: 80%;      
   height: 100%; 
@@ -28,20 +28,19 @@
   height: 100%;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 50px;
 }
 
 .foto-container {
   display: flex;
   flex-direction: column;
   align-items: left;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .botao-remover-foto {
-  width: 10rem;
+  width: 15rem;
   margin-top: 8px;
-  background-color: #ff4d4f;
+  background-color: #ff7875;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -70,11 +69,12 @@
   align-items: flex-end;
   height: 100%;
   padding-top: 20px;
+  padding-right: 30px;
 }
 
 .foto-placeholder {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   background: #ddd;
   display: flex;
@@ -86,8 +86,8 @@
 }
 
 .foto-preview {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
 }

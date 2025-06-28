@@ -1,3 +1,4 @@
+// Importações principais
 import React, { useState, useEffect } from "react";
 import InputCadastro from "../../../../componentes/Inputs/InputCadastro/InputCadastro";
 import RadioGroup from "../../../../componentes/RadioGroup/RadioGroup";
@@ -5,10 +6,13 @@ import ButtonSalvar from "../../../../componentes/Buttons/ButtonSalvar/ButtonSal
 import ButtonExcluir from "../../../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
 import "./CadastroUsuario.css";
 
+// Integrações com Supabase e serviços de usuário
 import { supabase } from '../../../../Services/supabaseClient';
 import { criarUsuario, atualizarUsuario, excluirUsuario } from '../../../../Services/usuarioService';
 
+// Componente de formulário para cadastrar ou editar usuários
 const CadastroUsuario = ({ onClose, onSave, usuarioSelecionado }) => {
+  // Estado do formulário
   const [formData, setFormData] = useState({
     codigo: "",
     nome: "",
@@ -22,10 +26,12 @@ const CadastroUsuario = ({ onClose, onSave, usuarioSelecionado }) => {
     fotoPath: null
   });
 
-  const [previewFoto, setPreviewFoto] = useState(null);
-  const [loadingFoto, setLoadingFoto] = useState(false);
-  const [fotoFile, setFotoFile] = useState(null);
+  // Estados auxiliares para manipulação de imagem
+  const [previewFoto, setPreviewFoto] = useState(null); // preview exibido no formulário
+  const [loadingFoto, setLoadingFoto] = useState(false); // indicador de upload
+  const [fotoFile, setFotoFile] = useState(null); // arquivo da foto selecionada
 
+  // Preenche o formulário com os dados do usuário selecionado (em caso de edição)
   useEffect(() => {
     if (usuarioSelecionado) {
       setFormData({
@@ -43,10 +49,12 @@ const CadastroUsuario = ({ onClose, onSave, usuarioSelecionado }) => {
     }
   }, [usuarioSelecionado]);
 
+  // Atualiza os campos do formulário dinamicamente
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  // Manipula seleção de nova foto
   const handleFotoChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -63,6 +71,7 @@ const CadastroUsuario = ({ onClose, onSave, usuarioSelecionado }) => {
     }
   };
 
+  // Remove a foto atual do perfil
   const handleRemoverFoto = async () => {
     if (!formData.fotoPath) {
       setFormData(prev => ({ ...prev, foto: null, fotoPath: null }));
@@ -87,25 +96,19 @@ const CadastroUsuario = ({ onClose, onSave, usuarioSelecionado }) => {
     alert("Foto removida com sucesso.");
   };
 
+  // Salva as alterações ou cria novo usuário
   const handleSalvar = async () => {
     const dados = {
       ...formData,
       fotoFile
     };
 
-    if (usuarioSelecionado) {
-      console.log("🔄 Atualizando usuário:");
-      console.log("Código do usuário:", formData.codigo);
-      console.log("Dados enviados:", dados);
-    } else {
-      console.log("🆕 Criando novo usuário:");
-      console.log("Dados enviados:", dados);
-    }
-
     let res;
     if (usuarioSelecionado) {
+      console.log("🔄 Atualizando usuário:");
       res = await atualizarUsuario(formData.codigo, dados);
     } else {
+      console.log("🆕 Criando novo usuário:");
       res = await criarUsuario(dados);
     }
 
@@ -119,6 +122,7 @@ const CadastroUsuario = ({ onClose, onSave, usuarioSelecionado }) => {
     }
   };
 
+  // Exclui o usuário atual
   const handleExcluir = async () => {
     if (!usuarioSelecionado) return;
 
@@ -135,6 +139,7 @@ const CadastroUsuario = ({ onClose, onSave, usuarioSelecionado }) => {
     }
   };
 
+  // Fecha o modal se clicar fora do cartão
   const handleOutsideClick = (e) => {
     if (e.target.classList.contains("cadastro-modal")) {
       onClose();
@@ -147,6 +152,7 @@ const CadastroUsuario = ({ onClose, onSave, usuarioSelecionado }) => {
         <h2>{usuarioSelecionado ? "Editar Usuário" : "Cadastro de Usuário"}</h2>
 
         <div className="cadastro-form">
+          {/* Lado esquerdo: campos e foto */}
           <div className="form-left">
             <div className="foto-container">
               <label htmlFor="fotoUpload">
@@ -182,57 +188,22 @@ const CadastroUsuario = ({ onClose, onSave, usuarioSelecionado }) => {
               )}
             </div>
 
-            <InputCadastro
-              label="Código"
-              value={formData.codigo}
-              disabled
-            />
-            <InputCadastro
-              label="Nome"
-              value={formData.nome}
-              onChange={(e) => handleChange("nome", e.target.value)}
-            />
-            <InputCadastro
-              label="Sobrenome"
-              value={formData.sobrenome}
-              onChange={(e) => handleChange("sobrenome", e.target.value)}
-            />
-            <InputCadastro
-              label="E-mail"
-              type="email"
-              value={formData.email}
-              onChange={(e) => handleChange("email", e.target.value)}
-            />
+            {/* Campos de entrada de dados */}
+            <InputCadastro label="Código" value={formData.codigo} visualOnly />
+            <InputCadastro label="Nome" value={formData.nome} onChange={(e) => handleChange("nome", e.target.value)} />
+            <InputCadastro label="Sobrenome" value={formData.sobrenome} onChange={(e) => handleChange("sobrenome", e.target.value)} />
+            <InputCadastro label="E-mail" type="email" value={formData.email} onChange={(e) => handleChange("email", e.target.value)} />
             {!usuarioSelecionado && (
-              <InputCadastro
-                label="Senha"
-                type="password"
-                value={formData.senha}
-                onChange={(e) => handleChange("senha", e.target.value)}
-              />
+              <InputCadastro label="Senha" type="password" value={formData.senha} onChange={(e) => handleChange("senha", e.target.value)} />
             )}
           </div>
 
+          {/* Lado direito: opções e botões */}
           <div className="form-right">
             <div className="radio-container">
-              <RadioGroup
-                label="Administrador"
-                options={["SIM", "NÃO"]}
-                value={formData.administrador}
-                onChange={(value) => handleChange("administrador", value)}
-              />
-              <RadioGroup
-                label="Pode realizar reservas fixas?"
-                options={["SIM", "NÃO"]}
-                value={formData.reservasFixas}
-                onChange={(value) => handleChange("reservasFixas", value)}
-              />
-              <RadioGroup
-                label="Ativo"
-                options={["SIM", "NÃO"]}
-                value={formData.ativo}
-                onChange={(value) => handleChange("ativo", value)}
-              />
+              <RadioGroup label="Administrador" options={["SIM", "NÃO"]} value={formData.administrador} onChange={(value) => handleChange("administrador", value)} />
+              <RadioGroup label="Pode realizar reservas fixas?" options={["SIM", "NÃO"]} value={formData.reservasFixas} onChange={(value) => handleChange("reservasFixas", value)} />
+              <RadioGroup label="Ativo" options={["SIM", "NÃO"]} value={formData.ativo} onChange={(value) => handleChange("ativo", value)} />
             </div>
 
             <div className="form-actions">
