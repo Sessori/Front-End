@@ -1,47 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Agenda from "../../../componentes/Agenda/Agenda";
 import HorarioSeletor from "../../../componentes/HorarioSeletor/HorarioSeletor";
 import SalaCard from "../../../componentes/SalaCard/SalaCard";
-import FiltroLateral from "../../../componentes/FiltroLateral/FiltroLateral"; // Importa o novo componente
+import FiltroLateral from "../../../componentes/FiltroLateral/FiltroLateral";
+import { parse, format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { buscarEspacosDisponiveis } from "../../../Services/agendarService";
 import "./Agendar.css";
-
-const salasDisponiveis = [
-  {
-    nome: "Laboratório 4",
-    capacidade: "35 PESSOAS",
-    localizacao: "3º ANDAR",
-    dataReserva: "QUINTA-FEIRA",
-    horario: "10:20 - 12:10",
-  },
-  {
-    nome: "Laboratório 2",
-    capacidade: "35 PESSOAS",
-    localizacao: "3º ANDAR",
-    dataReserva: "QUINTA-FEIRA",
-    horario: "10:20 - 12:10",
-  },
-];
+import { Link } from "react-router-dom";
 
 const Agendar = () => {
-  const [horarioSelecionado, setHorarioSelecionado] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [periodoSelecionado, setPeriodoSelecionado] = useState(null);
+  const [horariosSelecionados, setHorariosSelecionados] = useState([]);
+  const [espacosDisponiveis, setEspacosDisponiveis] = useState([]);
+
+  const horariosConvertidos = horariosSelecionados.map(h =>
+    parse(h.split(" - ")[0], "HH:mm", new Date()).toTimeString().split(" ")[0]
+  );
+
+  useEffect(() => {
+    async function buscar() {
+      if (!selectedDate || horariosSelecionados.length === 0) {
+        setEspacosDisponiveis([]);
+        return;
+      }
+
+      const data = selectedDate.toISOString().split("T")[0];
+      const espacos = await buscarEspacosDisponiveis(data, horariosConvertidos);
+      setEspacosDisponiveis(espacos);
+    }
+
+    buscar();
+  }, [selectedDate, horariosSelecionados]);
 
   return (
     <div className="agendar-container">
-      {/* Sidebar com calendário e seleção de horário */}
       <div className="sidebar">
-        <Agenda />
-        <HorarioSeletor onHorarioSelecionado={setHorarioSelecionado} />
+        <Agenda onDateSelect={setSelectedDate} />
+        <HorarioSeletor
+          selectedDate={selectedDate}
+          onPeriodoSelect={setPeriodoSelecionado}
+          onHorariosSelect={setHorariosSelecionados}
+        />
       </div>
 
-      {/* Área principal com as salas disponíveis */}
       <div className="salas-container">
         <h2>SALAS DISPONÍVEIS</h2>
-        {salasDisponiveis.map((sala, index) => (
-          <SalaCard key={index} {...sala} />
+        {espacosDisponiveis.map((espaco) => (
+          <SalaCard
+            key={espaco.codigo}
+            nome={espaco.nome}
+            capacidade={`${espaco.capacidade} PESSOAS`}
+            localizacao={`${espaco.andar}° ANDAR`}
+            dataReserva={selectedDate ? format(selectedDate, "EEEE", { locale: ptBR }).toUpperCase() : ""}
+            horario={horariosSelecionados.join(", ")}
+          />
         ))}
       </div>
 
-      {/* Filtro lateral fixo no lado direito */}
       <FiltroLateral />
     </div>
   );

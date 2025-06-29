@@ -36,16 +36,18 @@ const HorarioSeletor = ({ onHorarioSelecionado }) => {
   };
 
   const handleHorarioClick = (horario) => {
+    let novaSelecao;
+
     if (horariosSelecionados.includes(horario)) {
-      // Se já estiver selecionado, remove da lista
-      setHorariosSelecionados((prev) => prev.filter((h) => h !== horario));
+      novaSelecao = horariosSelecionados.filter((h) => h !== horario);
     } else {
-      // Caso contrário, adiciona à lista
-      setHorariosSelecionados((prev) => [...prev, horario]);
+      novaSelecao = [...horariosSelecionados, horario];
     }
 
-    // Envia os horários selecionados para o pai
-    onHorarioSelecionado && onHorarioSelecionado(horariosSelecionados);
+    setHorariosSelecionados(novaSelecao);
+
+    // Envia os horários atualizados para o pai
+    onHorarioSelecionado && onHorarioSelecionado(novaSelecao);
   };
 
   return (
