@@ -17,8 +17,8 @@ const CadastroEspacoModal = ({ onClose, espacoSelecionado }) => {
     reservasFixas: "SIM",
     ativo: "SIM",
     tv: 0,
-    quadro: 1,
-    computador: 20
+    quadro: 0,
+    computador: 0
   });
 
   const [todosRecursos, setTodosRecursos] = useState([]);
@@ -94,14 +94,18 @@ const CadastroEspacoModal = ({ onClose, espacoSelecionado }) => {
     };
 
     const recursosComQuantidade = [...recursosSelecionados];
+
+    // Adiciona recurso físico apenas se quantidade > 0
     const adicionarQtd = (nome, qtd) => {
       const recurso = todosRecursos.find(r => r.nome.toLowerCase().includes(nome.toLowerCase()));
-      if (recurso) recursosComQuantidade.push({ codigo: recurso.codigo, qtd });
+      if (recurso && qtd > 0) {
+        recursosComQuantidade.push({ codigo: recurso.codigo, qtd });
+      }
     };
 
-    adicionarQtd("Televisor", parseInt(formData.tv));
-    adicionarQtd("Quadro", parseInt(formData.quadro));
-    adicionarQtd("Computadores", parseInt(formData.computador));
+    adicionarQtd("Televisor", Number(formData.tv));
+    adicionarQtd("Quadro", Number(formData.quadro));
+    adicionarQtd("Computadores", Number(formData.computador));
 
     const resultado = formData.codigo
       ? await atualizarEspaco(formData.codigo, espaco, recursosComQuantidade)
