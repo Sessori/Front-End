@@ -19,7 +19,10 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+  }
+
+  .form-grid{
+    height: 100%;
   }
   
   .form-group {

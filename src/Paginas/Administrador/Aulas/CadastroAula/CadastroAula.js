@@ -111,7 +111,6 @@ const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="header">
           <h2>{formData.codigo ? "Editar Aula" : "Cadastro de Aula"}</h2>
-          <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
         <div className="form-grid">
