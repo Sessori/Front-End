@@ -60,9 +60,9 @@ const Agenda = ({ onDateSelect }) => {
 
       {/* Dias da Semana */}
       <div className="agenda-weekdays">
-        {["D", "S", "T", "Q", "Q", "S", "S"].map((day) => (
-          <div key={day} className="weekday">{day}</div>
-        ))}
+        {["D", "S", "T", "Q", "Q", "S", "S"].map((day, idx) => (
+        <div key={`${day}-${idx}`} className="weekday">{day}</div>
+      ))}
       </div>
 
       {/* Dias do Mês */}

@@ -1,22 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./FiltroLateral.css";
 import SelectPadrao from "../../componentes/SelectPadrao/SelectPadrao";
+import {
+  buscarTipos,
+  buscarCapacidades,
+  buscarAulas,
+  buscarFerramentas
+} from "../../Services/filtroService";
 
-const FiltroLateral = () => {
+const FiltroLateral = ({ onChangeFilters }) => {
+  // Estado para controle de visibilidade da barra lateral
   const [aberto, setAberto] = useState(false);
+
+  // Filtros aplicados
   const [selecionados, setSelecionados] = useState({
     tipo: "",
     capacidade: "",
     aulas: "",
-    cursor: "",
+    ferramentas: [] // Agora múltiplas ferramentas
   });
 
-  const handleChange = (filtro, valor) => {
-    setSelecionados((prev) => ({ ...prev, [filtro]: valor }));
+  // Lista de sugestões
+  const [tipos, setTipos] = useState([]);
+  const [capacidades, setCapacidades] = useState([]);
+  const [aulas, setAulas] = useState([]);
+  const [ferramentas, setFerramentas] = useState([]);
+  const [ferramentaInput, setFerramentaInput] = useState(""); // controle de texto digitado
+
+  // Carrega as opções ao montar
+  useEffect(() => { buscarTipos().then(setTipos); }, []);
+  useEffect(() => { buscarCapacidades().then(setCapacidades); }, []);
+  useEffect(() => { buscarAulas().then(setAulas); }, []);
+  useEffect(() => { buscarFerramentas().then(setFerramentas); }, []);
+
+  // Atualiza filtros e informa o pai
+  const update = (chave, valor) => {
+    const next = { ...selecionados, [chave]: valor };
+    setSelecionados(next);
+    onChangeFilters(next);
   };
 
-  const removerFiltro = (chave) => {
-    setSelecionados((prev) => ({ ...prev, [chave]: "" }));
+  // Adiciona ferramenta selecionada da lista
+  const adicionarFerramenta = (f) => {
+    if (!selecionados.ferramentas.includes(f)) {
+      const novas = [...selecionados.ferramentas, f];
+      update("ferramentas", novas);
+    }
+    setFerramentaInput("");
+  };
+
+  // Remove uma ferramenta
+  const removerFerramenta = (f) => {
+    const novas = selecionados.ferramentas.filter(x => x !== f);
+    update("ferramentas", novas);
   };
 
   return (
@@ -44,8 +80,8 @@ const FiltroLateral = () => {
             <SelectPadrao
               label="Tipo"
               value={selecionados.tipo}
-              options={["SALAS", "LABORATÓRIOS", "AUDITÓRIOS"]}
-              onChange={(val) => handleChange("tipo", val)}
+              options={tipos}
+              onChange={(val) => update("tipo", val)}
             />
           </div>
 
@@ -53,8 +89,8 @@ const FiltroLateral = () => {
             <SelectPadrao
               label="Capacidade Máx."
               value={selecionados.capacidade}
-              options={["30 PESSOAS", "40 PESSOAS", "100 PESSOAS"]}
-              onChange={(val) => handleChange("capacidade", val)}
+              options={capacidades}
+              onChange={(val) => update("capacidade", val)}
             />
           </div>
 
@@ -62,29 +98,61 @@ const FiltroLateral = () => {
             <SelectPadrao
               label="Aulas Disponíveis"
               value={selecionados.aulas}
-              options={["1 AULA", "2 AULAS", "4 AULAS"]}
-              onChange={(val) => handleChange("aulas", val)}
+              options={aulas}
+              onChange={(val) => update("aulas", val)}
             />
           </div>
 
           <div className="filtro">
             <div className="search-input-wrapper">
-              <input type="text" placeholder="Ferramenta" className="search-input" />
+              <input
+                type="text"
+                placeholder="Ferramenta"
+                value={ferramentaInput}
+                onChange={(e) => setFerramentaInput(e.target.value)}
+              />
+              {ferramentaInput && (
+                <ul className="sugestoes-ferramentas">
+                  {ferramentas
+                    .filter(f => f.toLowerCase().includes(ferramentaInput.toLowerCase()))
+                    .map((f, i) => (
+                      <li key={i} onClick={() => adicionarFerramenta(f)}>
+                        {f}
+                      </li>
+                    ))}
+                </ul>
+              )}
               <img src="/icones/pesquisar.svg" alt="Buscar" className="search-icon" />
             </div>
           </div>
 
           <div className="linha-separadora"></div>
 
-          {(selecionados.tipo || selecionados.capacidade || selecionados.aulas || selecionados.cursor) && (
+          {(selecionados.tipo || selecionados.capacidade || selecionados.aulas || selecionados.ferramentas.length > 0) && (
             <div className="filtros-selecionados">
-              {Object.entries(selecionados).map(([chave, valor]) => (
-                valor && (
-                  <div key={chave} className="filtro-tag">
-                    {valor}
-                    <span className="filtro-remove" onClick={() => removerFiltro(chave)}>×</span>
-                  </div>
-                )
+              {selecionados.tipo && (
+                <div className="filtro-tag">
+                  {selecionados.tipo}
+                  <span className="filtro-remove" onClick={() => update("tipo", "")}>×</span>
+                </div>
+              )}
+              {selecionados.capacidade && (
+                <div className="filtro-tag">
+                  {selecionados.capacidade}
+                  <span className="filtro-remove" onClick={() => update("capacidade", "")}>×</span>
+                </div>
+              )}
+              {selecionados.aulas && (
+                <div className="filtro-tag">
+                  {selecionados.aulas}
+                  <span className="filtro-remove" onClick={() => update("aulas", "")}>×</span>
+                </div>
+              )}
+              {selecionados.ferramentas.map((f, i) => (
+                <div className="filtro-tag" key={i}>
+                  {f}
+                  <span className="filtro-remove" onClick={() => removerFerramenta(f)}>×</span>
+                </div>
               ))}
             </div>
           )}

@@ -1,63 +1,27 @@
-// agendarService.js
 import { supabase } from "./supabaseClient";
 
-/**
- * Busca os códigos dos espaços que já estão reservados para determinada data e horários.
- */
-export const buscarReservasPorDataHorario = async (data, horarios) => {
-  const { data: reservas, error } = await supabase
+export const buscarEspacosDisponiveis = async (dataReserva, horarios, filtros = {}) => {
+  const horariosFormatados = horarios.map(h =>
+    `${h.split(":")[0].padStart(2, "0")}:${h.split(":")[1].padStart(2, "0")}:00`
+  );
+
+  const { data: reservas } = await supabase
     .from("reserva")
     .select("espaco_codigo")
-    .eq("data_reserva", data)
-    .in("horario", horarios);
+    .eq("data", dataReserva)
+    .in("horario", horariosFormatados);
 
-  if (error) {
-    console.error("Erro ao buscar reservas:", error);
-    return [];
+  const ocupados = reservas.map(r => r.espaco_codigo);
+  let query = supabase.from("espaco").select("*").not("codigo","in", ocupados.length ? `(${ocupados})` : "(0)").eq("ativo", true);
+
+  if (filtros.tipo) query = query.eq("tipo", filtros.tipo);
+  if (filtros.capacidade) query = query.lte("capacidade", parseInt(filtros.capacidade));
+  if (filtros.ferramenta) {
+    query = query
+      .select(`*, espaco_recurso!inner(recurso!inner(nome))`)
+      .ilike("recurso.nome", `%${filtros.ferramenta}%`);
   }
 
-  return reservas.map(r => r.espaco_codigo);
+  const { data, error } = await query;
+  return error ? [] : data;
 };
-
-/**
- * Retorna os espaços que não estão reservados nos horários selecionados da data informada.
- */
-export const buscarEspacosDisponiveis = async (data, horarios) => {
-  const ocupados = await buscarReservasPorDataHorario(data, horarios);
-
-  const { data: espacos, error } = await supabase
-    .from("espaco")
-    .select("*")
-    .not("codigo", "in", `(${ocupados.join(",") || 0})`)
-    .eq("ativo", true);
-
-  if (error) {
-    console.error("Erro ao buscar espaços disponíveis:", error);
-    return [];
-  }
-
-  return espacos;
-};
-
-/**
- * Cria uma nova reserva no banco.
- */
-export async function criarReserva(data, horarios, espacoCodigo, usuarioCodigo) {
-  const reservas = horarios.map(horario => ({
-    data_reserva: data,
-    horario: horario,
-    espaco_codigo: espacoCodigo,
-    usuario_codigo: usuarioCodigo,
-    status: "Ativa",
-  }));
-
-  const { error } = await supabase.from("reserva").insert(reservas);
-  if (error) {
-    console.error("Erro ao criar reserva:", error);
-    return { success: false, error };
-  }
-
-  return { success: true };
-}
-
-
