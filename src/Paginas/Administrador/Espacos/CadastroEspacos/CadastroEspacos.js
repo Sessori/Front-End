@@ -26,18 +26,53 @@ const CadastroEspacoModal = ({ onClose, espacoSelecionado }) => {
   const [recursosSelecionados, setRecursosSelecionados] = useState([]);
 
   useEffect(() => {
-    if (espacoSelecionado) {
-      setFormData({
-        codigo: espacoSelecionado.codigo || "",
-        nome: espacoSelecionado.nome || "",
-        tipo: espacoSelecionado.tipo || "Laboratório",
-        andar: espacoSelecionado.andar || 1,
-        comporta: espacoSelecionado.capacidade || "",
-        reservasFixas: espacoSelecionado.disponibilidade_reserva_fixa ? "SIM" : "NÃO",
-        ativo: espacoSelecionado.ativo ? "SIM" : "NÃO",
-        tv: 0, quadro: 0, computador: 0,
-      });
+    async function carregarDadosEspaco() {
+      if (espacoSelecionado) {
+        setFormData({
+          codigo: espacoSelecionado.codigo || "",
+          nome: espacoSelecionado.nome || "",
+          tipo: espacoSelecionado.tipo || "Laboratório",
+          andar: espacoSelecionado.andar || 1,
+          comporta: espacoSelecionado.capacidade || "",
+          reservasFixas: espacoSelecionado.disponibilidade_reserva_fixa ? "SIM" : "NÃO",
+          ativo: espacoSelecionado.ativo ? "SIM" : "NÃO",
+          tv: 0, quadro: 0, computador: 0,
+        });
+
+        const { data: recursosVinculados, error } = await supabase
+          .from("espaco_recurso")
+          .select("recurso_codigo, qtd_recurso, recurso (nome)")
+          .eq("espaco_codigo", espacoSelecionado.codigo);
+
+        if (!error && recursosVinculados) {
+          const recursosTratados = recursosVinculados.map(({ recurso_codigo, qtd_recurso, recurso }) => ({
+            codigo: recurso_codigo,
+            nome: recurso?.nome,
+            qtd: qtd_recurso,
+          }));
+
+          const recursoPorNome = (nome) => {
+          const recurso = recursosTratados.find(r => r.nome?.toLowerCase().includes(nome.toLowerCase()));
+          return recurso && typeof recurso.qtd === "number" ? recurso.qtd : 0;
+          };
+
+          setFormData(prev => ({
+            ...prev,
+            tv: recursoPorNome("televisor"),
+            quadro: recursoPorNome("quadro"),
+            computador: recursoPorNome("computador"),
+          }));
+
+          const fisicos = ["televisor", "quadro", "computador"];
+          const outrosRecursos = recursosTratados.filter(r =>
+            !fisicos.some(nome => r.nome?.toLowerCase().includes(nome))
+          );
+          setRecursosSelecionados(outrosRecursos);
+        }
+      }
     }
+
+    carregarDadosEspaco();
   }, [espacoSelecionado]);
 
   useEffect(() => {
@@ -119,7 +154,7 @@ const CadastroEspacoModal = ({ onClose, espacoSelecionado }) => {
               <NumeroCompacto value={formData.andar} onChange={(e) => handleChange("andar", e.target.value)} label="ANDAR" />
               <NumeroCompacto value={formData.comporta} onChange={(e) => handleChange("comporta", e.target.value)} label="COMPORTA" />
               <div className="dropdown-tipo">
-                <label htmlFor="tipo">Tipo do Espaço:</label>
+                <label htmlFor="tipo">TIPO DE ESPAÇO:</label>
                 <select id="tipo" value={formData.tipo} onChange={(e) => handleChange("tipo", e.target.value)}>
                   <option value="Laboratório">Laboratório</option>
                   <option value="Sala">Sala</option>
@@ -175,7 +210,7 @@ const CadastroEspacoModal = ({ onClose, espacoSelecionado }) => {
                 <ul>
                   {recursosSelecionados.map((r) => (
                     <li key={r.codigo} className="recurso-item">
-                      + {r.nome} <span className="remove-recurso" onClick={() => removerRecurso(r.codigo)}>\u00d7</span>
+                      + {r.nome} <span className="remove-recurso" onClick={() => removerRecurso(r.codigo)}>×</span>
                     </li>
                   ))}
                 </ul>
