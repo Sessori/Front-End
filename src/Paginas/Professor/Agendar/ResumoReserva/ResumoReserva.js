@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { criarReserva } from "../../../Services/agendarService";
+import { criarReserva } from "../../../../Services/agendarService";
 import "./ResumoReserva.css";
 
 const ResumoReserva = () => {
@@ -18,7 +18,6 @@ const ResumoReserva = () => {
   }
 
   const dataFormatada = format(new Date(selectedDate), "dd/MM/yyyy", { locale: ptBR });
-  const diaSemana = format(new Date(selectedDate), "EEEE", { locale: ptBR });
   const horarios = horariosSelecionados.join(" - ");
   const quantidadePeriodos = horariosSelecionados.length;
 

@@ -20,6 +20,7 @@ import Aulas from "./Paginas/Administrador/Aulas/Aulas";
 
 // Páginas do Professor
 import Agendar from "./Paginas/Professor/Agendar/Agendar";
+import ResumoReserva from "./Paginas/Professor/Agendar/ResumoReserva/ResumoReserva";
 
 // Página de atualização de senha
 import AtualizarSenha from "./Paginas/AtualizarSenha/AtualizarSenha";
@@ -48,6 +49,7 @@ const AppRoutes = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/atualizar-senha" element={<AtualizarSenha />} />
+      <Route path="/professor/resumo" element={<ResumoReserva />} />
 
       {/* Rotas protegidas para administrador */}
       <Route

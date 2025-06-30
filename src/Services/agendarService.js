@@ -39,3 +39,19 @@ export const buscarEspacosDisponiveis = async (dataReserva, horarios, filtros = 
   const { data, error } = await query;
   return error ? [] : data;
 };
+
+export const criarReserva = async ({ data, horario, espaco_codigo, usuario_codigo }) => {
+  const { error } = await supabase.from("reserva").insert([
+    {
+      data,
+      horario,
+      espaco_codigo,
+      usuario_codigo,
+    },
+  ]);
+
+  if (error) {
+    console.error("❌ Erro ao criar reserva:", error);
+    throw error;
+  }
+};
