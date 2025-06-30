@@ -16,8 +16,6 @@ const Agenda = ({ onDateSelect }) => {
   const today = new Date(); // Data de hoje
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
-  const [horariosSelecionados, setHorariosSelecionados] = useState([]);
-  const [espacosDisponiveis, setEspacosDisponiveis] = useState([]);
 
   // Impede voltar para meses anteriores ao atual
   const handlePrevMonth = () => {
@@ -73,7 +71,12 @@ const Agenda = ({ onDateSelect }) => {
           return (
             <button
               key={index}
-               onClick={() => !isPast && (setSelectedDate(day), onDateSelect(day))}
+                onClick={() => {
+                  if (!isPast) {
+                    setSelectedDate(day);
+                    onDateSelect(day);
+                  }
+                }}
               className={`agenda-day ${isSameDay(day, selectedDate) ? "selected" : ""} ${isPast ? "disabled-day" : ""}`}
               disabled={isPast} // Impede seleção de dias passados
             >

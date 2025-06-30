@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./HorarioSeletor.css"; // Importa o CSS externo
+import "./HorarioSeletor.css";
 
 const horariosPorPeriodo = {
   manhã: [
@@ -26,13 +26,14 @@ const horariosPorPeriodo = {
   ],
 };
 
-const HorarioSeletor = ({ onHorarioSelecionado }) => {
+const HorarioSeletor = ({ onHorariosSelect }) => {
   const [periodo, setPeriodo] = useState("manhã");
-  const [horariosSelecionados, setHorariosSelecionados] = useState([]); // Agora permite múltiplos horários
+  const [horariosSelecionados, setHorariosSelecionados] = useState([]);
 
   const handlePeriodoChange = (event) => {
     setPeriodo(event.target.value);
     setHorariosSelecionados([]); // Reseta a seleção ao mudar de período
+    onHorariosSelect && onHorariosSelect([]); // limpa no pai também
   };
 
   const handleHorarioClick = (horario) => {
@@ -45,21 +46,17 @@ const HorarioSeletor = ({ onHorarioSelecionado }) => {
     }
 
     setHorariosSelecionados(novaSelecao);
-
-    // Envia os horários atualizados para o pai
-    onHorarioSelecionado && onHorarioSelecionado(novaSelecao);
+    onHorariosSelect && onHorariosSelect(novaSelecao);
   };
 
   return (
     <div className="horario-container">
-      {/* Dropdown de períodos */}
       <select className="horario-select" value={periodo} onChange={handlePeriodoChange}>
         <option value="manhã">MANHÃ</option>
         <option value="tarde">TARDE</option>
         <option value="noite">NOITE</option>
       </select>
 
-      {/* Lista de horários */}
       <div className="horario-lista">
         {horariosPorPeriodo[periodo].map((horario) => (
           <button

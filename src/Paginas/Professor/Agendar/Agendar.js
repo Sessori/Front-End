@@ -12,7 +12,6 @@ import React, { useState, useEffect } from "react";
 
 const Agendar = () => {
   const [selectedDate, setSelectedDate] = useState(null);
-  const [periodoSelecionado, setPeriodoSelecionado] = useState(null);
   const [horariosSelecionados, setHorariosSelecionados] = useState([]);
   const [espacosDisponiveis, setEspacosDisponiveis] = useState([]);
   const [filtros, setFiltros] = useState({
@@ -23,6 +22,7 @@ const Agendar = () => {
   });
 
   const [usuarioCodigo, setUsuarioCodigo] = useState(null);
+
   useEffect(() => {
     const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -33,25 +33,28 @@ const Agendar = () => {
     fetchUser();
   }, []);
 
-  
-
   useEffect(() => {
-    const buscar = async () => {
-      if (!selectedDate || horariosSelecionados.length === 0) {
-        setEspacosDisponiveis([]);
-        return;
-      }
+  console.log("📌 selectedDate:", selectedDate);
+  console.log("📌 horariosSelecionados:", horariosSelecionados);
 
-      const data = selectedDate.toISOString().split("T")[0];
-      const horariosConvertidos = horariosSelecionados.map(h =>
-        parse(h.split(" - ")[0], "HH:mm", new Date()).toTimeString().split(" ")[0]
-      );
+  const buscar = async () => {
+    if (!selectedDate || horariosSelecionados.length === 0) {
+      console.log("⚠️ Data ou horários não definidos");
+      setEspacosDisponiveis([]);
+      return;
+    }
 
-      console.log("📅 Chamando buscarEspacosDisponiveis com:", data, horariosConvertidos, filtros);
-      const espacos = await buscarEspacosDisponiveis(data, horariosConvertidos, filtros);
-      console.log("✅ Espaços recebidos:", espacos);
-      setEspacosDisponiveis(espacos);
-    };
+    const data = selectedDate.toISOString().split("T")[0];
+    
+    const horariosConvertidos = horariosSelecionados.map(h =>
+      parse(h.split(" - ")[0], "HH:mm", new Date()).toTimeString().split(" ")[0]
+    );
+
+    console.log("📅 Chamando buscarEspacosDisponiveis com:", data, horariosConvertidos, filtros);
+    const espacos = await buscarEspacosDisponiveis(data, horariosConvertidos, filtros);
+    console.log("✅ Espaços recebidos:", espacos);
+    setEspacosDisponiveis(espacos);
+  };
 
     buscar();
   }, [selectedDate, horariosSelecionados, filtros]);
@@ -62,7 +65,6 @@ const Agendar = () => {
         <Agenda onDateSelect={setSelectedDate} />
         <HorarioSeletor
           selectedDate={selectedDate}
-          onPeriodoSelect={setPeriodoSelecionado}
           onHorariosSelect={setHorariosSelecionados}
         />
       </div>
@@ -70,29 +72,47 @@ const Agendar = () => {
       <div className="salas-container">
         <h2>SALAS DISPONÍVEIS</h2>
         {espacosDisponiveis.length === 0 ? (
-          <p style={{ color: "#888", fontStyle: "italic" }}>Nenhum espaço disponível no período selecionado.</p>
+          <p style={{ color: "#888", fontStyle: "italic" }}>
+            Nenhum espaço disponível no período selecionado.
+          </p>
         ) : (
-          espacosDisponiveis.map((espaco) => (
-            <Link
-              to="/professor/resumo"
-              state={{
-                espaco,
-                selectedDate,
-                horariosSelecionados,
-                usuarioCodigo
-              }}
-              key={espaco.codigo}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <SalaCard
-                nome={espaco.nome}
-                capacidade={`${espaco.capacidade} PESSOAS`}
-                localizacao={`${espaco.andar}° ANDAR`}
-                dataReserva={selectedDate ? format(selectedDate, "EEEE", { locale: ptBR }).toUpperCase() : ""}
-                horario={horariosSelecionados.join(", ")}
-              />
-            </Link>
-          ))
+          espacosDisponiveis.map((espaco) => {
+            console.log("🔍 Dados do espaço para renderizar:", espaco);
+
+            const nome = espaco.nome || "Sem nome";
+            const capacidade = espaco.capacidade
+              ? `${espaco.capacidade} PESSOAS`
+              : "Capacidade não informada";
+            const localizacao = espaco.andar
+              ? `${espaco.andar}° ANDAR`
+              : "Localização não informada";
+            const dataReserva = selectedDate
+              ? format(selectedDate, "EEEE", { locale: ptBR }).toUpperCase()
+              : "";
+            const horario = horariosSelecionados.join(", ");
+
+            return (
+              <Link
+                to="/professor/resumo"
+                state={{
+                  espaco,
+                  selectedDate,
+                  horariosSelecionados,
+                  usuarioCodigo
+                }}
+                key={espaco.codigo}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <SalaCard
+                  nome={nome}
+                  capacidade={capacidade}
+                  localizacao={localizacao}
+                  dataReserva={dataReserva}
+                  horario={horario}
+                />
+              </Link>
+            );
+          })
         )}
       </div>
 
