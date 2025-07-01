@@ -1,14 +1,17 @@
 import React from "react";
-import "./SalaCard.css"; // Importa o CSS
+import "./SalaCard.css"; // Estilos do card
 
-const SalaCard = ({ nome, capacidade, localizacao, dataReserva, horario }) => {
+const SalaCard = ({ nome, capacidade, localizacao, dataReserva, horario, onClick }) => {
   return (
-    <div className="sala-card">
+    <div
+      className="sala-card"
+      onClick={onClick}
+      style={{ cursor: onClick ? "pointer" : "default" }}
+    >
       <div className="sala-header">
         <h3>{nome}</h3>
       </div>
 
-      {/* Informações da sala */}
       <div className="sala-info">
         <div className="info-coluna">
           <p className="info-label">COMPORTA</p>

@@ -1,8 +1,6 @@
 /* Estilização principal da página */
 .resumo-container {
-  min-height: 100vh; /* Ocupa pelo menos toda a altura da janela */
-  width: 100%;
-  padding: 2rem 4rem;
+  padding: 2rem;
   box-sizing: border-box;
   font-family: 'Segoe UI', sans-serif;
   color: #2f4f4f;
@@ -148,3 +146,4 @@ hr {
   background-color: #4f7c4f;
   color: white;
 }
+

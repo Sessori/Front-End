@@ -1,14 +1,14 @@
+import React, { useState, useEffect } from "react";
 import Agenda from "../../../componentes/Agenda/Agenda";
 import HorarioSeletor from "../../../componentes/HorarioSeletor/HorarioSeletor";
 import SalaCard from "../../../componentes/SalaCard/SalaCard";
 import FiltroLateral from "../../../componentes/FiltroLateral/FiltroLateral";
+import ResumoReserva from "./ResumoReserva/ResumoReserva";
 import { parse, format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { buscarEspacosDisponiveis } from "../../../Services/agendarService";
-import "./Agendar.css";
-import { Link } from "react-router-dom";
 import { supabase } from "../../../Services/supabaseClient";
-import React, { useState, useEffect } from "react";
+import "./Agendar.css";
 
 const Agendar = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -22,6 +22,8 @@ const Agendar = () => {
   });
 
   const [usuarioCodigo, setUsuarioCodigo] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [espacoSelecionado, setEspacoSelecionado] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -34,27 +36,20 @@ const Agendar = () => {
   }, []);
 
   useEffect(() => {
-  console.log("📌 selectedDate:", selectedDate);
-  console.log("📌 horariosSelecionados:", horariosSelecionados);
+    const buscar = async () => {
+      if (!selectedDate || horariosSelecionados.length === 0) {
+        setEspacosDisponiveis([]);
+        return;
+      }
 
-  const buscar = async () => {
-    if (!selectedDate || horariosSelecionados.length === 0) {
-      console.log("⚠️ Data ou horários não definidos");
-      setEspacosDisponiveis([]);
-      return;
-    }
+      const data = selectedDate.toISOString().split("T")[0];
+      const horariosConvertidos = horariosSelecionados.map(h =>
+        parse(h.split(" - ")[0], "HH:mm", new Date()).toTimeString().split(" ")[0]
+      );
 
-    const data = selectedDate.toISOString().split("T")[0];
-    
-    const horariosConvertidos = horariosSelecionados.map(h =>
-      parse(h.split(" - ")[0], "HH:mm", new Date()).toTimeString().split(" ")[0]
-    );
-
-    console.log("📅 Chamando buscarEspacosDisponiveis com:", data, horariosConvertidos, filtros);
-    const espacos = await buscarEspacosDisponiveis(data, horariosConvertidos, filtros);
-    console.log("✅ Espaços recebidos:", espacos);
-    setEspacosDisponiveis(espacos);
-  };
+      const espacos = await buscarEspacosDisponiveis(data, horariosConvertidos, filtros);
+      setEspacosDisponiveis(espacos);
+    };
 
     buscar();
   }, [selectedDate, horariosSelecionados, filtros]);
@@ -77,8 +72,6 @@ const Agendar = () => {
           </p>
         ) : (
           espacosDisponiveis.map((espaco) => {
-            console.log("🔍 Dados do espaço para renderizar:", espaco);
-
             const nome = espaco.nome || "Sem nome";
             const capacidade = espaco.capacidade
               ? `${espaco.capacidade} PESSOAS`
@@ -92,31 +85,53 @@ const Agendar = () => {
             const horario = horariosSelecionados.join(", ");
 
             return (
-              <Link
-                to="/professor/resumo"
-                state={{
-                  espaco,
-                  selectedDate,
-                  horariosSelecionados,
-                  usuarioCodigo
-                }}
+              <SalaCard
                 key={espaco.codigo}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <SalaCard
-                  nome={nome}
-                  capacidade={capacidade}
-                  localizacao={localizacao}
-                  dataReserva={dataReserva}
-                  horario={horario}
-                />
-              </Link>
+                nome={nome}
+                capacidade={capacidade}
+                localizacao={localizacao}
+                dataReserva={dataReserva}
+                horario={horario}
+                onClick={() => {
+                  setEspacoSelecionado(espaco);
+                  setShowModal(true);
+                }}
+              />
             );
           })
         )}
       </div>
 
-      <FiltroLateral onChangeFilters={setFiltros} />
+      {/* Filtro Lateral com bloqueio de interação quando modal aberto */}
+      <div className="filtro-wrapper">
+        <FiltroLateral onChangeFilters={setFiltros} />
+        {showModal && <div className="filtro-overlay" />}
+      </div>
+
+      {/* Modal Overlay estilo CadastroAula */}
+      {showModal && espacoSelecionado && (
+        <div
+          className="modal-overlay"
+          onClick={(e) => {
+            if (e.target.classList.contains("modal-overlay")) {
+              setShowModal(false);
+            }
+          }}
+        >
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <ResumoReserva
+              espaco={espacoSelecionado}
+              selectedDate={selectedDate}
+              horariosSelecionados={horariosSelecionados}
+              usuarioCodigo={usuarioCodigo}
+              onClose={() => setShowModal(false)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

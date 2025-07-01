@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { criarReserva } from "../../../../Services/agendarService";
 import "./ResumoReserva.css";
 
-const ResumoReserva = () => {
-  const location = useLocation();
+const ResumoReserva = ({ espaco, selectedDate, horariosSelecionados, usuarioCodigo, onClose }) => {
   const navigate = useNavigate();
-  const { espaco, selectedDate, horariosSelecionados, usuarioCodigo } = location.state || {};
-
   const [mensagem, setMensagem] = useState("");
   const [confirmando, setConfirmando] = useState(false);
 
@@ -96,7 +93,7 @@ const ResumoReserva = () => {
       </div>
 
       <div className="botoes">
-        <button className="btn-voltar" onClick={() => navigate(-1)}>VOLTAR</button>
+        <button className="btn-voltar" onClick={onClose}>FECHAR</button>
         <button className="btn-confirmar" onClick={handleConfirmar} disabled={confirmando}>
           {confirmando ? "SALVANDO..." : "CONFIRMAR"}
         </button>
