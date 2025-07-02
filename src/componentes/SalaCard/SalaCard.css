@@ -8,7 +8,7 @@
   max-width: 800px;
   background: white;
   height: 8rem;
-  padding: 20px;
+  padding: 10px;
 }
 
 /* Estiliza o cabeçalho da sala */
@@ -17,14 +17,12 @@
   align-items: center;
   font-size: 16px;
   color: #324939;
-  margin-bottom: 12px;
 }
 
 /* Layout das informações em colunas */
 .sala-info {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
 }
 
 .info-coluna {

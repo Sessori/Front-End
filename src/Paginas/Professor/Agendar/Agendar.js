@@ -29,11 +29,25 @@ const Agendar = () => {
     const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        setUsuarioCodigo(user.user_metadata?.codigo);
+        const email = user.email;
+
+        const { data: usuarioData, error } = await supabase
+          .from("usuario")
+          .select("codigo")
+          .eq("email", email)
+          .single();
+
+        if (!error && usuarioData) {
+          setUsuarioCodigo(usuarioData.codigo);
+        } else {
+          console.error("Erro ao buscar dados do usuário:", error);
+        }
       }
     };
+
     fetchUser();
   }, []);
+
 
   useEffect(() => {
     const buscar = async () => {

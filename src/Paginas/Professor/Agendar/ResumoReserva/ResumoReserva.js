@@ -1,29 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { criarReserva } from "../../../../Services/agendarService";
+import { supabase } from "../../../../Services/supabaseClient";
 import "./ResumoReserva.css";
 
-const ResumoReserva = ({ espaco, selectedDate, horariosSelecionados, usuarioCodigo, onClose }) => {
+const ResumoReserva = ({
+  espaco,
+  selectedDate,
+  horariosSelecionados,
+  usuarioCodigo,
+  onClose,
+}) => {
   const navigate = useNavigate();
+
   const [mensagem, setMensagem] = useState("");
   const [confirmando, setConfirmando] = useState(false);
+  const [buscaRecurso, setBuscaRecurso] = useState("");
+  const [resultadosRecursos, setResultadosRecursos] = useState([]);
 
+  // 🔍 Buscar recursos disponíveis do espaço com base na busca
+  useEffect(() => {
+    const buscarRecursosDoEspaco = async () => {
+      if (!buscaRecurso || !espaco?.codigo) {
+        setResultadosRecursos([]);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("espaco_recurso")
+        .select("recurso:recurso_codigo (codigo, nome)")
+        .eq("espaco_codigo", espaco.codigo)
+        .ilike("recurso.nome", `%${buscaRecurso}%`);
+
+      if (error) {
+        console.error("Erro ao buscar recursos:", error);
+        setResultadosRecursos([]);
+        return;
+      }
+
+      const recursos = data
+        .filter((item) => item.recurso !== null)
+        .map((item) => item.recurso);
+
+      setResultadosRecursos(recursos);
+    };
+
+    buscarRecursosDoEspaco();
+  }, [buscaRecurso, espaco]);
+
+  // 🔁 Se dados obrigatórios não existirem, renderizar mensagem
   if (!espaco || !selectedDate || !horariosSelecionados) {
     return <p>Informações da reserva não encontradas.</p>;
   }
 
-  const dataFormatada = format(new Date(selectedDate), "dd/MM/yyyy", { locale: ptBR });
+  const dataFormatada = format(new Date(selectedDate), "dd/MM/yyyy", {
+    locale: ptBR,
+  });
   const horarios = horariosSelecionados.join(" - ");
   const quantidadePeriodos = horariosSelecionados.length;
 
+  // ✅ Confirmar reserva
   const handleConfirmar = async () => {
+    if (!usuarioCodigo) {
+      alert("Usuário não identificado. Faça login novamente.");
+      return;
+    }
+
     try {
       setConfirmando(true);
+
       const promises = horariosSelecionados.map(async (horario) => {
         const horaInicio = horario.split(" - ")[0];
         const horaFormatada = `${horaInicio}:00`;
+
         return await criarReserva({
           data: selectedDate,
           horario: horaFormatada,
@@ -75,9 +126,26 @@ const ResumoReserva = ({ espaco, selectedDate, horariosSelecionados, usuarioCodi
           <h5 className="verde">SOFTWARES</h5>
           <div className="software-search">
             <img src="/icones/Icon-Espacos/Software.svg" alt="Software" />
-            <input type="text" placeholder="Buscar Recurso" />
-            <img src="/icones/pesquisar.svg" alt="Buscar" className="icone-pesquisar" />
+            <input
+              type="text"
+              placeholder="Buscar Recurso"
+              value={buscaRecurso}
+              onChange={(e) => setBuscaRecurso(e.target.value)}
+            />
+            <img
+              src="/icones/pesquisar.svg"
+              alt="Buscar"
+              className="icone-pesquisar"
+            />
           </div>
+
+          {resultadosRecursos.length > 0 && (
+            <ul className="resultados-recursos">
+              {resultadosRecursos.map((recurso) => (
+                <li key={recurso.codigo}>✅ {recurso.nome}</li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
 
@@ -93,8 +161,11 @@ const ResumoReserva = ({ espaco, selectedDate, horariosSelecionados, usuarioCodi
       </div>
 
       <div className="botoes">
-        <button className="btn-voltar" onClick={onClose}>FECHAR</button>
-        <button className="btn-confirmar" onClick={handleConfirmar} disabled={confirmando}>
+        <button
+          className="btn-confirmar"
+          onClick={handleConfirmar}
+          disabled={confirmando}
+        >
           {confirmando ? "SALVANDO..." : "CONFIRMAR"}
         </button>
       </div>
