@@ -4,7 +4,7 @@ import SelectPadrao from "../../componentes/SelectPadrao/SelectPadrao";
 import {
   buscarTipos,
   buscarCapacidades,
-  buscarAulas,
+  buscarAndares,
   buscarFerramentas
 } from "../../Services/filtroService";
 
@@ -14,23 +14,23 @@ const FiltroLateral = ({ onChangeFilters }) => {
 
   // Filtros aplicados
   const [selecionados, setSelecionados] = useState({
-    tipo: "",
-    capacidade: "",
-    aulas: "",
-    ferramentas: [] // Agora múltiplas ferramentas
+      tipo: "",
+      capacidade: "",
+      andar: "",
+      ferramentas: []
   });
 
   // Lista de sugestões
   const [tipos, setTipos] = useState([]);
   const [capacidades, setCapacidades] = useState([]);
-  const [aulas, setAulas] = useState([]);
+  const [andares, setAndares] = useState([]);
   const [ferramentas, setFerramentas] = useState([]);
   const [ferramentaInput, setFerramentaInput] = useState(""); // controle de texto digitado
 
   // Carrega as opções ao montar
   useEffect(() => { buscarTipos().then(setTipos); }, []);
   useEffect(() => { buscarCapacidades().then(setCapacidades); }, []);
-  useEffect(() => { buscarAulas().then(setAulas); }, []);
+  useEffect(() => { buscarAndares().then(setAndares); }, []);
   useEffect(() => { buscarFerramentas().then(setFerramentas); }, []);
 
   // Atualiza filtros e informa o pai
@@ -95,12 +95,12 @@ const FiltroLateral = ({ onChangeFilters }) => {
           </div>
 
           <div className="filtro">
-            <SelectPadrao
-              label="Aulas Disponíveis"
-              value={selecionados.aulas}
-              options={aulas}
-              onChange={(val) => update("aulas", val)}
-            />
+              <SelectPadrao
+                label="Andar"
+                value={selecionados.andar}
+                options={andares}
+                onChange={(val) => update("andar", val)}
+              />
           </div>
 
           <div className="filtro">
@@ -142,10 +142,10 @@ const FiltroLateral = ({ onChangeFilters }) => {
                   <span className="filtro-remove" onClick={() => update("capacidade", "")}>×</span>
                 </div>
               )}
-              {selecionados.aulas && (
+              {selecionados.andar && (
                 <div className="filtro-tag">
-                  {selecionados.aulas}
-                  <span className="filtro-remove" onClick={() => update("aulas", "")}>×</span>
+                  {selecionados.andar}
+                  <span className="filtro-remove" onClick={() => update("andar", "")}>×</span>
                 </div>
               )}
               {selecionados.ferramentas.map((f, i) => (
