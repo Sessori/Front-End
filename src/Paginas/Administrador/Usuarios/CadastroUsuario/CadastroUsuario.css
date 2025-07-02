@@ -8,20 +8,21 @@
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
 }
 
 .cadastro-card {
   background-color: #E6E6E6;
   padding: 2rem;
   border-radius: 8px;
-  width: 80%;      
-  height: 100%; 
+  width: 80%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
 }
 
-.cadastro-form {
+.cadastro-card .cadastro-form {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -30,14 +31,14 @@
   align-items: flex-start;
 }
 
-.foto-container {
+.cadastro-card .foto-container {
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: flex-start;
   margin-bottom: 10px;
 }
 
-.botao-remover-foto {
+.cadastro-card .botao-remover-foto {
   width: 15rem;
   margin-top: 8px;
   background-color: #ff7875;
@@ -50,18 +51,18 @@
   transition: background-color 0.3s ease;
 }
 
-.botao-remover-foto:hover {
-  background-color: #ff7875;
+.cadastro-card .botao-remover-foto:hover {
+  background-color: #ff5a55;
 }
 
-.form-left{
+.cadastro-card .form-left {
   width: 50%;
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: flex-start;
 }
 
-.form-right {
+.cadastro-card .form-right {
   width: 50%;
   display: flex;
   flex-direction: column;
@@ -72,7 +73,7 @@
   padding-right: 30px;
 }
 
-.foto-placeholder {
+.cadastro-card .foto-placeholder {
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -85,38 +86,31 @@
   cursor: pointer;
 }
 
-.foto-preview {
+.cadastro-card .foto-preview {
   width: 150px;
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-input[type="file"] {
+.cadastro-card input[type="file"] {
   display: none;
 }
 
-.form-fields {
+.cadastro-card .form-fields {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.form-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: auto;
-}
-
-/* Posicionamento dos botões */
-.form-actions {
+.cadastro-card .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 20px;
 }
 
-.radio-container {
+.cadastro-card .radio-container {
   display: flex;
   flex-direction: column;
   gap: 15px;

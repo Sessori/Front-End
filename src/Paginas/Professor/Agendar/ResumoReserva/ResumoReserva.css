@@ -1,4 +1,3 @@
-/* Estilização principal da página */
 .resumo-container {
   padding: 2rem;
   box-sizing: border-box;
@@ -9,38 +8,35 @@
   flex-direction: column;
 }
 
-/* Títulos */
-h2 {
+.resumo-container h2 {
   color: #2f4f4f;
   margin-bottom: 0.5rem;
 }
 
-h3 {
+.resumo-container h3 {
   color: #2f4f4f;
   margin-bottom: 2rem;
   font-weight: normal;
 }
 
-/* Detalhes da reserva */
-.resumo-detalhes {
+.resumo-container .resumo-detalhes {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   margin-bottom: 1rem;
 }
 
-.resumo-detalhes > div {
+.resumo-container .resumo-detalhes > div {
   flex: 1 1 200px;
 }
 
-.resumo-detalhes p {
+.resumo-container .resumo-detalhes p {
   margin: 0.2rem 0 1rem;
   color: #007766;
   font-weight: bold;
 }
 
-/* Status visual */
-.resumo-status {
+.resumo-container .resumo-status {
   text-align: right;
   background-color: #2e7d32;
   color: white;
@@ -51,64 +47,62 @@ h3 {
   font-weight: bold;
 }
 
-hr {
+.resumo-container hr {
   border: 0;
   border-top: 1px solid #ccc;
   margin: 2rem 0;
 }
 
-/* Recursos */
-.recursos {
+.resumo-container .recursos {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 2rem;
 }
 
-.recursos ul {
+.resumo-container .recursos ul {
   list-style: none;
   padding: 0;
 }
 
-.recursos li {
+.resumo-container .recursos li {
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
   font-size: 1rem;
 }
 
-.recursos li img {
+.resumo-container .recursos li img {
   margin-right: 0.5rem;
   height: 24px;
 }
 
-.software-search {
+.resumo-container .software-search {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.5rem;
 }
 
-.software-search input {
+.resumo-container .software-search input {
   padding: 0.4rem;
   border-radius: 4px;
   border: 1px solid #ccc;
   width: 180px;
 }
 
-.icone-pesquisar {
+.resumo-container .icone-pesquisar {
   height: 20px;
   cursor: pointer;
 }
 
-.verde {
+.resumo-container .verde {
   color: #2e7d32;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
 
-/* Campo de notificação */
-.notificacao textarea {
+.resumo-container .notificacao textarea {
   width: 100%;
   height: 100px;
   padding: 1rem;
@@ -119,16 +113,15 @@ hr {
   font-size: 1rem;
 }
 
-/* Botões */
-.botoes {
+.resumo-container .botoes {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 2rem;
 }
 
-.btn-voltar,
-.btn-confirmar {
+.resumo-container .btn-voltar,
+.resumo-container .btn-confirmar {
   padding: 0.6rem 1.5rem;
   border: none;
   border-radius: 6px;
@@ -137,13 +130,12 @@ hr {
   cursor: pointer;
 }
 
-.btn-voltar {
+.resumo-container .btn-voltar {
   background-color: #00a0a0;
   color: white;
 }
 
-.btn-confirmar {
+.resumo-container .btn-confirmar {
   background-color: #4f7c4f;
   color: white;
 }
-

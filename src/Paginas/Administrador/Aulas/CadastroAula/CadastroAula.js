@@ -107,8 +107,8 @@ const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
   };
 
   return (
-    <div className="modal-overlay" onClick={handleOutsideClick}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    <div className="modal-overlay aula-modal" onClick={handleOutsideClick}>
+      <div className="modal-content-aula" onClick={(e) => e.stopPropagation()}>
         <div className="header">
           <h2>{formData.codigo ? "Editar Aula" : "Cadastro de Aula"}</h2>
         </div>
@@ -117,15 +117,36 @@ const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
           <div className="form-left">
             <InputCadastro label="Código" value={formData.codigo} visualOnly />
             <InputCadastro label="Nome da Disciplina" value={formData.nome} onChange={(e) => handleChange("nome", e.target.value)} />
-            <SelectPadrao label="Período" value={formData.periodo} options={["MANHÃ", "TARDE", "NOITE"].map(p => ({ label: p, value: p }))} onChange={(valor) => handleChange("periodo", valor)} />
+            <div className="dropdown-aula">
             <SelectPadrao
-              label="Professor"
+              label="PERÍODO"
+              value={formData.periodo}
+              onChange={(valor) => handleChange("periodo", valor)}
+              placeholder="Selecione o período"
+              options={["MANHÃ", "TARDE", "NOITE"].map(p => ({ label: p, value: p }))}
+              wrapperClassName="dropdown-aula"
+              labelClassName="dropdown-label-aula"
+              buttonClassName="dropdown-select-aula"
+            />
+          </div>
+
+          <div className="dropdown-aula">
+            <SelectPadrao
+              label="PROFESSOR(A)"
               value={formData.professor}
-              options={professores.map(p => ({ label: `${p.nome} ${p.sobrenome}`, value: String(p.codigo) }))}
+              options={professores.map(p => ({
+                label: `${p.nome} ${p.sobrenome}`,
+                value: String(p.codigo),
+              }))}
               onChange={(valor) => handleChange("professor", valor)}
               placeholder="Selecione o professor"
+              wrapperClassName="dropdown-aula"
+              labelClassName="dropdown-label-aula"
+              buttonClassName="dropdown-select-aula"
             />
-            <NumeroCompacto value={formData.qtdAlunos} onChange={(e) => handleChange("qtdAlunos", e.target.value)} label="Quantidade Matriculados" />
+          </div>
+
+            <NumeroCompacto value={formData.qtdAlunos} onChange={(e) => handleChange("qtdAlunos", e.target.value)} label="QUANTIDADE DE ALUNOS MATRICULADOS" />
           </div>
 
           <div className="form-right">
@@ -135,7 +156,6 @@ const CadastroAula = ({ onClose, aulaSelecionada = null, onSave }) => {
 
             <div className="form-actions">
               <ButtonSalvar onClick={handleSalvar} />
-              {formData.codigo && <ButtonExcluir onClick={handleExcluir} />}
             </div>
           </div>
         </div>

@@ -1,75 +1,158 @@
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-  }
-  
-  .modal-content {
-    background: #f0f0f0;
-    padding: 30px;
-    width: 80vw;
-    height: 100vh;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-  }
+.aula-modal.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
 
-  .form-grid{
-    height: 100%;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .input-codigo {
-    width: 80px;
-    padding: 5px;
-    text-align: center;
-    border-radius: 6px;
-    border: 1px solid green;
-  }
-  
-  .inline-group {
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .status-group {
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .form-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-    margin-top: 20px;
-  }
-  
-  .btn-salvar {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-  }
-  
-  .btn-excluir {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-  }
-  
+.aula-modal .modal-content-aula {
+  background: #f0f0f0;
+  padding: 2rem 4rem;
+  width: 80vw;
+  height: 99vh;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.aula-modal .form-grid {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  height: 100%;
+}
+
+.aula-modal .form-left{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 50%;
+}
+
+.aula-modal .form-right {
+  flex: 1 1 45%;
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 10px;
+}
+
+.aula-modal .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.aula-modal .input-codigo {
+  padding: 5px;
+  text-align: center;
+  border-radius: 6px;
+  border: 1px solid green;
+}
+
+.aula-modal .dropdown-aula {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.aula-modal .dropdown-label-aula {
+  font-weight: 600;
+  color: #456650;
+  font-size: 14px;
+}
+
+
+.select-padrao-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.dropdown-button {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border: 1px solid #66a086;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dropdown-icon {
+  margin-left: 10px;
+  width: 16px;
+  height: 16px;
+}
+
+.opcoes {
+  position: absolute;
+  top: 100%;
+  left: 5%;
+  width: 100%;
+  margin-top: 4px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.opcoes p {
+  margin: 0;
+  padding: 6px 10px;
+  cursor: pointer;
+  color: black;
+  font-weight: 500;
+}
+
+.opcoes p:hover {
+  background-color: #66a086;
+}
+
+
+.aula-modal .inline-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  display: flex;
+}
+
+.aula-modal .status-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  display: flex;
+}
+
+.aula-modal .form-actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+}
+
+.aula-modal .btn-salvar {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+}

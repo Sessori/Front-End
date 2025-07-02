@@ -1,3 +1,4 @@
+/* Modal geral */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -8,55 +9,54 @@
   z-index: 999;
 }
 
-.modal-content {
+.cadastro-espaco-modal {
   background-color: #eeeeee;
-  width: 80wh;
-  max-height: 100vh;
+  width: 80vw;
+  height: 99vh;
   border-radius: 12px;
   padding: 24px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  padding: 30px 40px;
 }
 
-.header h2 {
+/* Header */
+.cadastro-espaco-modal .header h2 {
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 16px;
   color: #2c4638;
 }
 
-.form-body {
+/* Formulário */
+.cadastro-espaco-modal .form-body {
   flex: 1;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
 
-.form-grid {
+.cadastro-espaco-modal .form-grid {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 20px;
 }
 
-.form-left, .form-right {
-  flex: 1 1 45%;
+.cadastro-espaco-modal .form-left,
+.cadastro-espaco-modal .form-right {
+  flex: 1;
   min-width: 300px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.dropdown-tipo label {
-  font-weight: bold;
-  width: 30%;
-  font-weight: 600;
-  color: #1f3b35;
-  font-size: 14px;
+.cadastro-espaco-modal .form-right {
+  align-items: self-end;
 }
 
-.dropdown-tipo{
+.cadastro-espaco-modal .dropdown-tipo {
   margin-top: 8px;
   width: 80%;
   display: flex;
@@ -64,7 +64,14 @@
   align-items: center;
 }
 
-.dropdown-tipo select {
+.cadastro-espaco-modal .dropdown-tipo label {
+  font-weight: 600;
+  color: #1f3b35;
+  font-size: 14px;
+  width: 30%;
+}
+
+.cadastro-espaco-modal .dropdown-tipo select {
   width: 40%;
   padding: 6px 10px;
   border: 1px solid #66a086;
@@ -73,48 +80,50 @@
   font-size: 14px;
 }
 
-.radio-container {
+.cadastro-espaco-modal .radio-container {
   gap: 20px;
   display: flex;
   flex-direction: column;
 }
 
-.recursos {
+/* Recursos */
+.cadastro-espaco-modal .recursos {
   margin-top: 30px;
   border-top: 2px solid #395E4B;
   padding-top: 24px;
 }
 
-.recursos h3 {
+.cadastro-espaco-modal .recursos h3 {
   margin-bottom: 10px;
   color: #395E4B;
 }
 
-.recursos-columns {
+.cadastro-espaco-modal .recursos-columns {
   display: flex;
   justify-content: space-between;
   gap: 40px;
   flex-wrap: wrap;
 }
 
-.recursos-fisicos, .recursos-softwares {
+.cadastro-espaco-modal .recursos-fisicos,
+.cadastro-espaco-modal .recursos-softwares {
   flex: 1;
   min-width: 300px;
 }
 
-.recurso {
+.cadastro-espaco-modal .recurso {
   display: flex;
   align-items: center;
   gap: 12px;
   margin: 12px 0;
 }
 
-.icone {
+.cadastro-espaco-modal .icone {
   width: 28px;
   height: 28px;
 }
 
-.software-search {
+.cadastro-espaco-modal .software-search {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -122,37 +131,42 @@
   width: 80%;
 }
 
-.software-search input {
+.cadastro-espaco-modal .software-search input {
   flex: 1;
   padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
 }
 
-.recursos-softwares ul {
+.cadastro-espaco-modal .recursos-softwares ul {
   list-style: none;
   padding-left: 0;
   margin-top: 12px;
 }
 
-.recurso-item {
+.cadastro-espaco-modal .dropdown-recursos li {
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.cadastro-espaco-modal .recurso-item {
   display: flex;
   gap: 6px;
   width: 50%;
 }
 
-.remove-recurso {
+.cadastro-espaco-modal .remove-recurso {
   cursor: pointer;
   font-weight: bold;
   color: rgb(163, 93, 93);
   margin-left: 4px;
 }
 
-.remove-recurso:hover {
+.cadastro-espaco-modal .remove-recurso:hover {
   color: #f00;
 }
 
-.form-footer {
+.cadastro-espaco-modal .form-footer {
   display: flex;
   justify-content: flex-end;
 }

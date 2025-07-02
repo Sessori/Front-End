@@ -145,7 +145,7 @@ const CadastroEspacoModal = ({ onClose, espacoSelecionado }) => {
 
   return (
     <div className="modal-overlay" onClick={handleOutsideClick}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="cadastro-espaco-modal" onClick={(e) => e.stopPropagation()}>
         <div className="header">
           <h2>{formData.codigo ? "Editar Espaço" : "Cadastro de Espaço"}</h2>
         </div>
