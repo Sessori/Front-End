@@ -66,3 +66,4 @@ export const atualizarStatusSolicitacao = async (codigo, novoStatus) => {
 
   return true;
 };
+

@@ -3,42 +3,41 @@ import { supabase } from "../../../Services/supabaseClient";
 import CampoBusca from "../../../componentes/Inputs/CampoBusca/CampoBusca";
 import debounce from "lodash.debounce";
 import "./Solicitacoes.css";
+import { atualizarStatusSolicitacao } from "../../../Services/solicitacaoService";
 
 const Solicitacoes = () => {
   const [solicitacoes, setSolicitacoes] = useState([]);
   const [busca, setBusca] = useState("");
 
-  // Buscar todas as solicitações com filtro
   const fetchSolicitacoes = async () => {
-  const { data, error } = await supabase
-    .from("solicitacao_recurso")
-    .select(`
-      codigo,
-      status,
-      recurso:recurso_codigo (nome),
-      usuario:usuario_codigo (nome, sobrenome),
-      espaco:espaco_codigo (nome)
-    `);
+    const { data, error } = await supabase
+      .from("solicitacao_recurso")
+      .select(`
+        codigo,
+        status,
+        recurso:recurso_codigo (nome),
+        usuario:usuario_codigo (nome, sobrenome),
+        espaco:espaco_codigo (nome)
+      `);
 
-  if (error) {
-    console.error("Erro ao buscar solicitações:", error);
-  } else {
-    // Filtra no front-end
-    const filtro = busca.toLowerCase();
-    const filtradas = data.filter((s) => {
-      const nome = s.usuario?.nome?.toLowerCase() || "";
-      const sobrenome = s.usuario?.sobrenome?.toLowerCase() || "";
-      const status = s.status?.toLowerCase() || "";
-      return (
-        nome.includes(filtro) ||
-        sobrenome.includes(filtro) ||
-        status.includes(filtro)
-      );
-    });
+    if (error) {
+      console.error("Erro ao buscar solicitações:", error);
+    } else {
+      const filtro = busca.toLowerCase();
+      const filtradas = data.filter((s) => {
+        const nome = s.usuario?.nome?.toLowerCase() || "";
+        const sobrenome = s.usuario?.sobrenome?.toLowerCase() || "";
+        const status = s.status?.toLowerCase() || "";
+        return (
+          nome.includes(filtro) ||
+          sobrenome.includes(filtro) ||
+          status.includes(filtro)
+        );
+      });
 
-    setSolicitacoes(filtradas);
-  }
-};
+      setSolicitacoes(filtradas);
+    }
+  };
 
   useEffect(() => {
     fetchSolicitacoes();
@@ -54,16 +53,15 @@ const Solicitacoes = () => {
     debouncedSearch(valor);
   };
 
-  // Atualizar status da solicitação
   const alterarStatus = async (codigo) => {
-    const confirmar = window.confirm("Marcar esta solicitação como ATENDIDA?");
+  const confirmar = window.confirm("Marcar esta solicitação como CONCLUÍDA?");
     if (!confirmar) return;
 
     const { data, error } = await supabase
       .from("solicitacao_recurso")
-      .update({ status: "ATENDIDA" })
+      .update({ status: "Concluída" }) // ✅ agora válido
       .eq("codigo", codigo)
-      .select(); // opcional: retorna o dado atualizado
+      .select();
 
     if (error) {
       console.error("Erro ao atualizar status:", error);
@@ -73,6 +71,7 @@ const Solicitacoes = () => {
       fetchSolicitacoes();
     }
   };
+
 
   return (
     <div className="solicitacoes-container">
