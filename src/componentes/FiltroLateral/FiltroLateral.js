@@ -25,7 +25,7 @@ const FiltroLateral = ({ onChangeFilters }) => {
   const [capacidades, setCapacidades] = useState([]);
   const [andares, setAndares] = useState([]);
   const [ferramentas, setFerramentas] = useState([]);
-  const [ferramentaInput, setFerramentaInput] = useState(""); // controle de texto digitado
+  const [ferramentaInput, setFerramentaInput] = useState("");
 
   // Carrega as opções ao montar
   useEffect(() => { buscarTipos().then(setTipos); }, []);

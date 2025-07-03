@@ -37,7 +37,7 @@ export const buscarAndares = async () => {
 
   return [...new Set(data.map(d => d.andar).filter(Boolean))].map(andar => ({
     label: `${andar}º ANDAR`,
-    value: `${andar}º ANDAR`
+    value: andar 
   }));
 };
 
@@ -64,9 +64,7 @@ export const buscarEspacosDisponiveis = async (data, horarios, filtros) => {
     const capacidadeOk =
       !filtros.capacidade || espaco.capacidade >= parseInt(filtros.capacidade);
 
-    const andarOk =
-      !filtros.andar ||
-      Number(espaco.andar) === Number(filtros.andar.replace("º ANDAR", "").trim());
+    const andarOk = !filtros.andar || espaco.andar === filtros.andar;
 
     return tipoOk && capacidadeOk && andarOk;
   });

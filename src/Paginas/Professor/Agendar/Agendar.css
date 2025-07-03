@@ -39,18 +39,6 @@
   z-index: 999;
 }
 
-.modal-content {
-  background: #f8f9f8;
-  width: 80vw;
-  height: 100vh;
-  border-radius: 0;
-  padding: 0;
-  overflow-y: auto;
-  box-shadow: none;
-  display: flex;
-  flex-direction: column;
-}
-
 .filtro-wrapper {
   position: relative;
   z-index: 1;

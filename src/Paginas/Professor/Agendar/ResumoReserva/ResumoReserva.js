@@ -19,20 +19,57 @@ const ResumoReserva = ({
   const [confirmando, setConfirmando] = useState(false);
   const [buscaRecurso, setBuscaRecurso] = useState("");
   const [resultadosRecursos, setResultadosRecursos] = useState([]);
+  const [focado, setFocado] = useState(false);
+  const [recursosFisicos, setRecursosFisicos] = useState([]);
 
-  // 🔍 Buscar recursos disponíveis do espaço com base na busca
+  // 🔍 Buscar recursos FÍSICOS com quantidade
+  useEffect(() => {
+    const buscarRecursosFisicos = async () => {
+      if (!espaco?.codigo) return;
+
+      const { data, error } = await supabase
+        .from("espaco_recurso")
+        .select(`
+          qtd_recurso,
+          recurso (
+            nome
+          )
+        `)
+        .eq("espaco_codigo", espaco.codigo);
+
+      if (error) {
+        console.error("Erro ao buscar recursos físicos:", error);
+        setRecursosFisicos([]);
+        return;
+      }
+
+      console.log("Recursos físicos:", data); // 👈 Verificação útil
+
+      setRecursosFisicos(data || []);
+    };
+
+    buscarRecursosFisicos();
+  }, [espaco]);
+
+
+  // 🔍 Buscar SOFTWARES com filtro
   useEffect(() => {
     const buscarRecursosDoEspaco = async () => {
-      if (!buscaRecurso || !espaco?.codigo) {
+      if (!espaco?.codigo) {
         setResultadosRecursos([]);
         return;
       }
 
-      const { data, error } = await supabase
+      const query = supabase
         .from("espaco_recurso")
         .select("recurso:recurso_codigo (codigo, nome)")
-        .eq("espaco_codigo", espaco.codigo)
-        .ilike("recurso.nome", `%${buscaRecurso}%`);
+        .eq("espaco_codigo", espaco.codigo);
+
+      if (buscaRecurso) {
+        query.ilike("recurso.nome", `%${buscaRecurso}%`);
+      }
+
+      const { data, error } = await query;
 
       if (error) {
         console.error("Erro ao buscar recursos:", error);
@@ -50,7 +87,15 @@ const ResumoReserva = ({
     buscarRecursosDoEspaco();
   }, [buscaRecurso, espaco]);
 
-  // 🔁 Se dados obrigatórios não existirem, renderizar mensagem
+  // 👉 Pega a quantidade de um recurso físico pelo nome
+  const getQuantidadeRecurso = (nomeAlvo) => {
+    const recursoEncontrado = recursosFisicos.find((item) =>
+      item.recurso?.nome.toLowerCase().includes(nomeAlvo.toLowerCase())
+    );
+    return recursoEncontrado?.qtd_recurso || 0;
+  };
+
+  // 🚫 Dados obrigatórios ausentes
   if (!espaco || !selectedDate || !horariosSelecionados) {
     return <p>Informações da reserva não encontradas.</p>;
   }
@@ -61,7 +106,7 @@ const ResumoReserva = ({
   const horarios = horariosSelecionados.join(" - ");
   const quantidadePeriodos = horariosSelecionados.length;
 
-  // ✅ Confirmar reserva
+  // ✅ Confirma a reserva
   const handleConfirmar = async () => {
     if (!usuarioCodigo) {
       alert("Usuário não identificado. Faça login novamente.");
@@ -97,6 +142,7 @@ const ResumoReserva = ({
   return (
     <div className="resumo-container">
       <h2>RESUMO DA RESERVA</h2>
+      <div className="resumo-status">LIVRE PARA FIXAR</div>
       <h3>{espaco.nome}</h3>
 
       <div className="resumo-detalhes">
@@ -107,22 +153,29 @@ const ResumoReserva = ({
         <div><strong>PERÍODOS</strong><p>{quantidadePeriodos}</p></div>
       </div>
 
-      <div className="resumo-status">LIVRE PARA FIXAR</div>
-
       <hr />
 
       <div className="recursos">
-        <div>
+        <div className="recursos-fisicos">
           <h4>RECURSOS DISPONÍVEIS</h4>
           <h5 className="verde">FÍSICOS</h5>
           <ul>
-            <li><img src="/icones/Icon-Espacos/TV.svg" alt="TV" /> Televisor</li>
-            <li><img src="/icones/Icon-Espacos/QuadroNegro.svg" alt="Quadro" /> Quadro</li>
-            <li><img src="/icones/Icon-Espacos/Computador.svg" alt="Computadores" /> Computadores</li>
+            <li>
+              <img src="/icones/Icon-Espacos/TV.svg" alt="TV" />
+              Televisor ({getQuantidadeRecurso("Televisor")})
+            </li>
+            <li>
+              <img src="/icones/Icon-Espacos/QuadroNegro.svg" alt="Quadro" />
+              Quadro ({getQuantidadeRecurso("Quadro")})
+            </li>
+            <li>
+              <img src="/icones/Icon-Espacos/Computador.svg" alt="Computadores" />
+              Computadores ({getQuantidadeRecurso("Computador")})
+            </li>
           </ul>
         </div>
 
-        <div>
+        <div className="recursos-software">
           <h5 className="verde">SOFTWARES</h5>
           <div className="software-search">
             <img src="/icones/Icon-Espacos/Software.svg" alt="Software" />
@@ -131,18 +184,16 @@ const ResumoReserva = ({
               placeholder="Buscar Recurso"
               value={buscaRecurso}
               onChange={(e) => setBuscaRecurso(e.target.value)}
+              onFocus={() => setFocado(true)}
+              onBlur={() => setTimeout(() => setFocado(false), 150)}
             />
-            <img
-              src="/icones/pesquisar.svg"
-              alt="Buscar"
-              className="icone-pesquisar"
-            />
+            <img src="/icones/pesquisar.svg" alt="Buscar" className="icone-pesquisar" />
           </div>
 
-          {resultadosRecursos.length > 0 && (
+          {focado && resultadosRecursos.length > 0 && (
             <ul className="resultados-recursos">
               {resultadosRecursos.map((recurso) => (
-                <li key={recurso.codigo}>✅ {recurso.nome}</li>
+                <li key={recurso.codigo}>{recurso.nome}</li>
               ))}
             </ul>
           )}
@@ -151,23 +202,25 @@ const ResumoReserva = ({
 
       <hr />
 
-      <div className="notificacao">
-        <h4>NOTIFICAR ALUNOS</h4>
-        <textarea
-          placeholder="Digite a mensagem para os alunos..."
-          value={mensagem}
-          onChange={(e) => setMensagem(e.target.value)}
-        ></textarea>
-      </div>
+      <div className="notificarConfirmar">
+        <div className="notificacao">
+          <h4>NOTIFICAR ALUNOS</h4>
+          <textarea
+            placeholder="Digite a mensagem para os alunos..."
+            value={mensagem}
+            onChange={(e) => setMensagem(e.target.value)}
+          ></textarea>
+        </div>
 
-      <div className="botoes">
-        <button
-          className="btn-confirmar"
-          onClick={handleConfirmar}
-          disabled={confirmando}
-        >
-          {confirmando ? "SALVANDO..." : "CONFIRMAR"}
-        </button>
+        <div className="botoes">
+          <button
+            className="btn-confirmar"
+            onClick={handleConfirmar}
+            disabled={confirmando}
+          >
+            {confirmando ? "SALVANDO..." : "CONFIRMAR"}
+          </button>
+        </div>
       </div>
     </div>
   );

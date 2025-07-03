@@ -1,9 +1,9 @@
 .resumo-container {
-  padding: 2rem;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
-  color: #2f4f4f;
-  background-color: #f8f9f8;
+  background: #f0f0f0;
+  padding: 2rem 4rem;
+  width: 80vw;
+  height: 99vh;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -16,14 +16,14 @@
 .resumo-container h3 {
   color: #2f4f4f;
   margin-bottom: 2rem;
-  font-weight: normal;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .resumo-container .resumo-detalhes {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
-  margin-bottom: 1rem;
+  gap: 1rem;
 }
 
 .resumo-container .resumo-detalhes > div {
@@ -50,14 +50,16 @@
 .resumo-container hr {
   border: 0;
   border-top: 1px solid #ccc;
-  margin: 2rem 0;
+  margin: 1.5rem 0;
 }
 
 .resumo-container .recursos {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 2rem;
+  flex-direction: row;
+}
+
+.resumo-container .recursos > div {
+  flex: 1;
 }
 
 .resumo-container .recursos ul {
@@ -81,7 +83,6 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 0.5rem;
 }
 
 .resumo-container .software-search input {
@@ -96,10 +97,49 @@
   cursor: pointer;
 }
 
+.resultados-recursos {
+  margin-top: 5px;
+  padding: 0;
+  list-style: none;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+  position: absolute;
+  z-index: 10;
+  width: 250px;
+}
+
+.resultados-recursos li {
+  padding: 8px 12px;
+  cursor: default;
+}
+
+.resultados-recursos li:hover {
+  background-color: #f0f0f0;
+}
+
+.software-search {
+  position: relative;
+}
+
 .resumo-container .verde {
   color: #2e7d32;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
+}
+
+.resumo-container .notificarConfirmar {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.resumo-container .notificacao {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .resumo-container .notificacao textarea {
@@ -116,11 +156,11 @@
 .resumo-container .botoes {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
+  flex: 1;
+  align-items: flex-end;
 }
 
-.resumo-container .btn-voltar,
 .resumo-container .btn-confirmar {
   padding: 0.6rem 1.5rem;
   border: none;
@@ -128,14 +168,7 @@
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
-}
-
-.resumo-container .btn-voltar {
-  background-color: #00a0a0;
-  color: white;
-}
-
-.resumo-container .btn-confirmar {
   background-color: #4f7c4f;
   color: white;
+  height: 40px;
 }
