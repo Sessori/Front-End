@@ -3,14 +3,19 @@ import "./Home.css";
 
 const Home = () => {
   return (
-    <div className="home">
+    <div className="home-container">
       <div className="home-content">
-        <header>
-          <h1>Bem-vindo ao Sessori!</h1>
-        </header>
-        <main>
-          <p>Aqui você pode gerenciar reservas de espaços educacionais.</p>
-        </main>
+        <div className="home-text">
+          <h1>Bem-vindo ao Sistema de Reservas</h1>
+          <h1>Sessori</h1>
+          <p>
+            Organize seus agendamentos de forma rápida e intuitiva.
+            Escolha salas, horários e recursos com facilidade.
+          </p>
+        </div>
+        <div className="home-image">
+          <img src="/imagens/boas-vindas.svg" alt="Boas-vindas" />
+        </div>
       </div>
     </div>
   );

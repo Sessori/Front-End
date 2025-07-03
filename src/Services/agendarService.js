@@ -42,36 +42,58 @@ export const buscarEspacosDisponiveis = async (dataReserva, horarios, filtros = 
   );
 
   // 🎯 Aplicar filtros extras
+
   if (filtros.tipo) {
     espacosFiltrados = espacosFiltrados.filter(e => e.tipo === filtros.tipo);
   }
 
-  if (filtros.capacidade) {
+  if (filtros.andar) {
     espacosFiltrados = espacosFiltrados.filter(
-      e => e.capacidade <= parseInt(filtros.capacidade)
+      e => String(e.andar) === filtros.andar
     );
   }
 
-  if (filtros.ferramenta) {
+  if (filtros.capacidade) {
+    espacosFiltrados = espacosFiltrados.filter(
+      e => e.capacidade >= parseInt(filtros.capacidade)
+    );
+  }
+
+  if (filtros.ferramentas && filtros.ferramentas.length > 0) {
     const { data: recursosData, error: erroRecurso } = await supabase
       .from("espaco_recurso")
-      .select("espaco_codigo, recurso!inner(nome)")
-      .ilike("recurso.nome", `%${filtros.ferramenta}%`);
+      .select("espaco_codigo, recurso!inner(nome)");
 
     if (erroRecurso) {
       console.error("Erro ao buscar recursos:", erroRecurso);
       return [];
     }
 
-    const espacosComFerramenta = new Set(
-      recursosData.map(item => item.espaco_codigo)
-    );
+    // Mapear ferramentas por espaço
+    const ferramentasPorEspaco = {};
+
+    recursosData.forEach(({ espaco_codigo, recurso }) => {
+      if (!ferramentasPorEspaco[espaco_codigo]) {
+        ferramentasPorEspaco[espaco_codigo] = new Set();
+      }
+      ferramentasPorEspaco[espaco_codigo].add(recurso.nome);
+    });
+
+    // Verificar se o espaço possui todas as ferramentas desejadas
+    const espacosQueAtendem = Object.entries(ferramentasPorEspaco)
+      .filter(([_, ferramentasDisponiveis]) =>
+        filtros.ferramentas.every(f =>
+          ferramentasDisponiveis.has(f)
+        )
+      )
+      .map(([codigo]) => parseInt(codigo));
 
     espacosFiltrados = espacosFiltrados.filter(e =>
-      espacosComFerramenta.has(e.codigo)
+      espacosQueAtendem.includes(e.codigo)
     );
   }
 
+  // ✅ Retornar os espaços filtrados
   return espacosFiltrados;
 };
 

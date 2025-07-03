@@ -1,7 +1,8 @@
-.Btt-Entrar{
-   background-color: #4da91b;
+.bttn-Entrar{
+   background-color: #12656F;
    display: flex;
    align-items: center;
+   justify-content: center;
    width: 100%;
    max-width: 400px;
    padding: 12px;

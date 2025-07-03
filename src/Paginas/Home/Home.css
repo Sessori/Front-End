@@ -1,39 +1,58 @@
-.home {
-    display: flex; /* Garante que os elementos filhos fiquem lado a lado */
-    height: 100vh; /* Altura total da tela */
-    overflow: hidden; /* Evita barra de rolagem desnecessária */
-  }
-  
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  padding: 2rem;
+  background: linear-gradient(to right, #f0f4f8, #ffffff);
+}
+
+.home-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 1000px;
+  width: 100%;
+  gap: 3rem;
+}
+
+.home-text {
+  flex: 1;
+}
+
+.home-text h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.home-text p {
+  font-size: 1.25rem;
+  color: #34495e;
+  line-height: 1.6;
+}
+
+.home-image {
+  flex: 1;
+  text-align: center;
+}
+
+.home-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
   .home-content {
-    flex: 1; /* O conteúdo principal ocupa o espaço restante */
-    padding: 20px; /* Espaçamento interno */
-    background-color: #f2f2f2; /* Cor de fundo do conteúdo principal */
-  }
-  
-  header {
-    background-color: #e6e6e6; /* Cor de fundo do cabeçalho */
-    padding: 20px;
+    flex-direction: column;
     text-align: center;
-    border-bottom: 1px solid #ccc;
   }
-  
-  main {
-    padding: 20px;
-    font-size: 18px;
-    color: #333;
+
+  .home-text h1 {
+    font-size: 2rem;
   }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #12656F;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+
+  .home-text p {
+    font-size: 1.1rem;
   }
-  
-  button:hover {
-    background-color: #0e5059; /* Cor ao passar o mouse */
-  }
-  
+}

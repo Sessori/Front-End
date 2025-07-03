@@ -58,7 +58,7 @@ const Login = () => {
       return;
     }
 
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    const {error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: 'http://localhost:3000/AtualizarSenha'
     });
 
@@ -98,6 +98,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          
           <ButtonEntrar />
           <p className="forgot-password" onClick={handleForgotPassword}>Esqueceu a senha?</p>
         </form>
