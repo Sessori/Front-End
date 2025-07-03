@@ -103,16 +103,24 @@ const FiltroLateral = ({ onChangeFilters }) => {
               />
           </div>
 
-          <div className="filtro">
-            <div className="search-input-wrapper">
+          <div className="filtro ferramenta-filtro">
+            <label htmlFor="ferramenta-input" className="ferramenta-label">Ferramenta</label>
+            <div className="ferramenta-input-wrapper">
               <input
+                id="ferramenta-input"
                 type="text"
-                placeholder="Ferramenta"
+                className="ferramenta-input"
+                placeholder="Digite uma ferramenta"
                 value={ferramentaInput}
                 onChange={(e) => setFerramentaInput(e.target.value)}
               />
+              <img
+                src="/icones/pesquisar.svg"
+                alt="Buscar"
+                className="ferramenta-icon"
+              />
               {ferramentaInput && (
-                <ul className="sugestoes-ferramentas">
+                <ul className="ferramenta-sugestoes">
                   {ferramentas
                     .filter(f => f.toLowerCase().includes(ferramentaInput.toLowerCase()))
                     .map((f, i) => (
@@ -122,7 +130,6 @@ const FiltroLateral = ({ onChangeFilters }) => {
                     ))}
                 </ul>
               )}
-              <img src="/icones/pesquisar.svg" alt="Buscar" className="search-icon" />
             </div>
           </div>
 

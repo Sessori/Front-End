@@ -1,58 +1,89 @@
-.home-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 90vh;
-  padding: 2rem;
-  background: linear-gradient(to right, #f0f4f8, #ffffff);
+/* Reset e configuração global */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+  background-color: #f0f4f8;
 }
 
-.home-content {
+/* Wrapper principal */
+.home-wrapper {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  max-width: 1000px;
-  width: 100%;
-  gap: 3rem;
+  justify-content: space-between;
+  box-sizing: border-box;
 }
 
+/* Faixa de fundo */
+.hero-section {
+  background-color: #12656F;
+  padding: 60px 5%;
+  border-radius: 0 0 32px 32px;
+  color: white;
+  height: 60vh;
+}
+
+.hero-section .home-text h1 {
+  color: #ffffff;
+}
+
+.hero-section .home-text p {
+  color: #e0e0e0;
+}
+
+/* Topo com texto e imagem */
 .home-text {
-  flex: 1;
+  max-width: 60%;
 }
 
 .home-text h1 {
-  font-size: 2.5rem;
-  color: #2c3e50;
-  margin-bottom: 1rem;
+  font-size: 3rem;
+  color: #12656F;
+  margin-bottom: 20px;
 }
 
 .home-text p {
-  font-size: 1.25rem;
-  color: #34495e;
-  line-height: 1.6;
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
 }
 
-.home-image {
-  flex: 1;
-  text-align: center;
-}
-
-.home-image img {
+/* Imagem */
+.home-banner {
   max-width: 100%;
   height: auto;
+  border-radius: 12px;
 }
 
-@media (max-width: 768px) {
-  .home-content {
-    flex-direction: column;
-    text-align: center;
-  }
+/* Container principal da página */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-  .home-text h1 {
-    font-size: 2rem;
-  }
+/* Rodapé no final da página */
+.home-footer {
+  font-size: 0.9rem;
+  color: #555;
+  padding: 2.5rem 1%;
+  margin-top: auto;
+}
 
-  .home-text p {
-    font-size: 1.1rem;
-  }
+.home-footer h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.home-footer ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.home-footer li {
+  margin-bottom: 0.3rem;
 }

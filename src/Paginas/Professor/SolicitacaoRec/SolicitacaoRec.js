@@ -1,12 +1,12 @@
 import React from "react";
-import "./Configuracoes.css";
+import "./SolicitacaoRec.css";
 import { motion } from "framer-motion";
 
-const Configuracoes = () => {
+const SolicitacaoRec = () => {
   return (
-    <div className="config-page-container">
-      <div className="config-wrapper">
-        <div className="config-text">
+    <div className="solrec-page-container">
+      <div className="solrec-wrapper">
+        <div className="solrec-text">
           <motion.h1
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -24,11 +24,11 @@ const Configuracoes = () => {
           </motion.p>
         </div>
 
-        <div className="config-image">
+        <div className="solrec-image">
           <img
             src="/imagens/logoemconstrucao.png"
             alt="Imagem ilustrativa"
-            className="config-banner"
+            className="solrec-banner"
           />
         </div>
       </div>
@@ -36,4 +36,4 @@ const Configuracoes = () => {
   );
 };
 
-export default Configuracoes;
+export default SolicitacaoRec;

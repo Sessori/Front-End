@@ -21,10 +21,11 @@ import Aulas from "./Paginas/Administrador/Aulas/Aulas";
 // Páginas do Professor
 import Agendar from "./Paginas/Professor/Agendar/Agendar";
 import ResumoReserva from "./Paginas/Professor/Agendar/ResumoReserva/ResumoReserva";
+import SolicitacaoRec from "./Paginas/Professor/SolicitacaoRec/SolicitacaoRec";
+import NotificarAlunos from "./Paginas/Professor/NotificarAlunos/NotificarAlunos";
 
 // Página de atualização de senha
 import AtualizarSenha from "./Paginas/AtualizarSenha/AtualizarSenha";
-
 import PrivateRoute from "./auth/privateRoute";
 
 const Layout = ({ children }) => {
@@ -50,6 +51,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/atualizar-senha" element={<AtualizarSenha />} />
       <Route path="/professor/resumo" element={<ResumoReserva />} />
+      <Route path="/suporte" element={<Suporte/>} />
 
       {/* Rotas protegidas para administrador */}
       <Route
@@ -107,6 +109,24 @@ const AppRoutes = () => {
         element={
           <PrivateRoute requiredPerfil="professor">
             <Agendar />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/solicitacaorec"
+        element={
+          <PrivateRoute requiredPerfil="professor">
+            <SolicitacaoRec/>
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/notificar-alunos"
+        element={
+          <PrivateRoute requiredPerfil="professor">
+            <NotificarAlunos/>
           </PrivateRoute>
         }
       />

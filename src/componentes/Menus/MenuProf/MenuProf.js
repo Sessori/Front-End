@@ -21,15 +21,15 @@ const MenuProf = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove o token da autenticação
-    navigate("/login"); // Redireciona para a página de login
+    localStorage.removeItem("token");
+    navigate("/login"); 
   };
 
   const menuItems = [
     { name: "Home", icon: "/icones/Icon-menu/home.svg", route: "/" },
     { name: "Agendar", icon: "/icones/Icon-menu/agendar.svg", route: "/agendar" },
-    { name: "Solicitar Recurso", icon: "/icones/Icon-menu/recurso.svg", route: "/recurso" },
-    { name: "Notificar Alunos", icon: "/icones/Icon-menu/notificar.svg", route: "/notificar" },
+    { name: "Solicitar Recurso", icon: "/icones/Icon-menu/recurso.svg", route: "/solicitacaorec" },
+    { name: "Notificar Alunos", icon: "/icones/Icon-menu/notificar.svg", route: "/notificar-alunos"},
   ];
 
   const rodapeItems = [

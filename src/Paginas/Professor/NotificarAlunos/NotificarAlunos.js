@@ -1,12 +1,12 @@
 import React from "react";
-import "./Configuracoes.css";
+import "./NotificarAlunos.css";
 import { motion } from "framer-motion";
 
-const Configuracoes = () => {
+const NotificarAlunos = () => {
   return (
-    <div className="config-page-container">
-      <div className="config-wrapper">
-        <div className="config-text">
+    <div className="notificar-page-container">
+      <div className="notificar-wrapper">
+        <div className="notificar-text">
           <motion.h1
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -24,11 +24,11 @@ const Configuracoes = () => {
           </motion.p>
         </div>
 
-        <div className="config-image">
+        <div className="notificar-image">
           <img
             src="/imagens/logoemconstrucao.png"
             alt="Imagem ilustrativa"
-            className="config-banner"
+            className="notificar-banner"
           />
         </div>
       </div>
@@ -36,4 +36,4 @@ const Configuracoes = () => {
   );
 };
 
-export default Configuracoes;
+export default NotificarAlunos;

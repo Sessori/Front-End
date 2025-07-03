@@ -99,21 +99,76 @@
   height: 16px;
 }
 
-.search-input-wrapper {
+.ferramenta-filtro {
+  width: 100%;
+}
+
+/* Label clara e visível */
+.ferramenta-label {
+  font-size: 14px;
+  color: #9CA3AF;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Wrapper do input + ícone */
+.ferramenta-input-wrapper {
   position: relative;
-  width: 90%;
+  width: 100%;
+  max-width: 95%;
   margin: 0 auto;
 }
 
-.search-input {
+/* Campo de texto com altura maior e espaçamento correto */
+.ferramenta-input {
   width: 100%;
-  padding: 10px 36px 10px 10px;
+  height: 44px; /* Aumenta a altura */
+  padding: 10px 40px 10px 12px;
+  font-size: 14px;
   border: 1px solid #E6E6E6;
   border-radius: 4px;
-  font-size: 14px;
-  background: #FFFFFF;
-  color: #646E7A;
+  color: #333;
+  background-color: #fff;
   box-sizing: border-box;
+}
+
+/* Ícone alinhado verticalmente no centro do input */
+.ferramenta-icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+/* Lista de sugestões */
+.ferramenta-sugestoes {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  z-index: 10;
+  list-style: none;
+  padding: 0;
+  margin: 2px 0 0 0;
+  border-radius: 0 0 4px 4px;
+}
+
+.ferramenta-sugestoes li {
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ferramenta-sugestoes li:hover {
+  background-color: #f0f0f0;
 }
 
 .search-icon {

@@ -1,4 +1,4 @@
-.config-page-container {
+.notificar-page-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,7 +7,7 @@
   background-color: #f4f9f9;
 }
 
-.config-wrapper {
+.notificar-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -19,28 +19,28 @@
   border-radius: 16px;
 }
 
-.config-text {
+.notificar-text {
   flex: 1;
 }
 
-.config-text h1 {
+.notificar-text h1 {
   font-size: 2.5rem;
   color: #ffffff;
   margin-bottom: 1rem;
 }
 
-.config-text p {
+.notificar-text p {
   font-size: 1.25rem;
   color: #d0e8ea;
   line-height: 1.6;
 }
 
-.config-image {
+.notificar-image {
   flex: 1;
   text-align: center;
 }
 
-.config-image img {
+.notificar-image img {
   max-width: 100%;
   height: auto;
 }
