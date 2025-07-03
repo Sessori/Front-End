@@ -152,6 +152,44 @@
   margin-top: 0.5rem;
   font-size: 1rem;
 }
+.botoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-solicitar {
+  background-color: #00acc1;
+  color: #ffffff;
+  border: none;
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.btn-solicitar:hover {
+  background-color: #008da1;
+}
+
+.btn-confirmar {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.btn-confirmar:hover {
+  background-color: #3d8b40;
+}
 
 .resumo-container .botoes {
   display: flex;

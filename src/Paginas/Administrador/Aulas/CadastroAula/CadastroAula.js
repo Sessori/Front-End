@@ -5,7 +5,6 @@ import NumeroCompacto from '../../../../componentes/Inputs/NumeroCompacto/Numero
 import InputCadastro from "../../../../componentes/Inputs/InputCadastro/InputCadastro";
 import RadioGroup from "../../../../componentes/RadioGroup/RadioGroup";
 import ButtonSalvar from "../../../../componentes/Buttons/ButtonSalvar/ButtonSalvar";
-import ButtonExcluir from "../../../../componentes/Buttons/ButtonExcluir/ButtonExcluir";
 import SelectPadrao from "../../../../componentes/SelectPadrao/SelectPadrao";
 import { supabase } from '../../../../Services/supabaseClient';
 

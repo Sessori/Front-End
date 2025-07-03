@@ -28,7 +28,7 @@ const MenuProf = () => {
   const menuItems = [
     { name: "Home", icon: "/icones/Icon-menu/home.svg", route: "/" },
     { name: "Agendar", icon: "/icones/Icon-menu/agendar.svg", route: "/agendar" },
-    { name: "Solicitar Recurso", icon: "/icones/Icon-menu/recurso.svg", route: "/solicitacaorec" },
+    { name: "Minhas Solicitações", icon: "/icones/Icon-menu/recurso.svg", route: "/solicitacaorec" },
     { name: "Notificar Alunos", icon: "/icones/Icon-menu/notificar.svg", route: "/notificar-alunos"},
   ];
 

@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { criarReserva } from "../../../../Services/agendarService";
 import { supabase } from "../../../../Services/supabaseClient";
+import ModalSolicitarRecurso from "../SolicitarRec/ModalSolicitarRecurso";
 import "./ResumoReserva.css";
 
 const ResumoReserva = ({
@@ -21,6 +22,7 @@ const ResumoReserva = ({
   const [resultadosRecursos, setResultadosRecursos] = useState([]);
   const [focado, setFocado] = useState(false);
   const [recursosFisicos, setRecursosFisicos] = useState([]);
+  const [abrirModalSolicitar, setAbrirModalSolicitar] = useState(false);
 
   // 🔍 Buscar recursos FÍSICOS com quantidade
   useEffect(() => {
@@ -105,6 +107,7 @@ const ResumoReserva = ({
   });
   const horarios = horariosSelecionados.join(" - ");
   const quantidadePeriodos = horariosSelecionados.length;
+
 
   // ✅ Confirma a reserva
   const handleConfirmar = async () => {
@@ -214,6 +217,13 @@ const ResumoReserva = ({
 
         <div className="botoes">
           <button
+            className="btn-solicitar"
+            onClick={() => setAbrirModalSolicitar(true)}
+          >
+            SOLICITAR RECURSO
+          </button>
+
+          <button
             className="btn-confirmar"
             onClick={handleConfirmar}
             disabled={confirmando}
@@ -222,6 +232,14 @@ const ResumoReserva = ({
           </button>
         </div>
       </div>
+
+      {abrirModalSolicitar && (
+        <ModalSolicitarRecurso
+          espacoCodigo={espaco.codigo}
+          usuarioCodigo={usuarioCodigo}
+          onClose={() => setAbrirModalSolicitar(false)}
+        />
+      )}
     </div>
   );
 };

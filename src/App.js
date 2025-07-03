@@ -21,7 +21,6 @@ import Aulas from "./Paginas/Administrador/Aulas/Aulas";
 // Páginas do Professor
 import Agendar from "./Paginas/Professor/Agendar/Agendar";
 import ResumoReserva from "./Paginas/Professor/Agendar/ResumoReserva/ResumoReserva";
-import SolicitacaoRec from "./Paginas/Professor/SolicitacaoRec/SolicitacaoRec";
 import NotificarAlunos from "./Paginas/Professor/NotificarAlunos/NotificarAlunos";
 
 // Página de atualização de senha
@@ -109,15 +108,6 @@ const AppRoutes = () => {
         element={
           <PrivateRoute requiredPerfil="professor">
             <Agendar />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/solicitacaorec"
-        element={
-          <PrivateRoute requiredPerfil="professor">
-            <SolicitacaoRec/>
           </PrivateRoute>
         }
       />

@@ -1,0 +1,82 @@
+/* Solicitacoes.css */
+
+.solicitacoes-container {
+  padding: 20px;
+}
+
+.solicitacoes-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.solicitacoes-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.solicitacoes-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.solicitacoes-table th,
+.solicitacoes-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.solicitacoes-table th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #333;
+}
+
+.solicitacoes-table td {
+  font-size: 14px;
+  color: #2d2d2d;
+}
+
+.solicitacoes-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.solicitacoes-btn:hover {
+  background-color: #45a049;
+}
+
+.solicitacoes-status-atualizado {
+  font-weight: bold;
+  color: green;
+  font-size: 13px;
+  margin-left: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .solicitacoes-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .solicitacoes-table th,
+  .solicitacoes-table td {
+    padding: 8px;
+  }
+
+  .solicitacoes-btn {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+  }
+}
